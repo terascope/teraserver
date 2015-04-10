@@ -1,6 +1,12 @@
 var config = {};
 
 /*
+ Application environment.
+ */
+
+config.environment = 'development';
+
+/*
  ***********************
  MongoDB Configuration
  ***********************
@@ -64,8 +70,6 @@ config.api.plugins_path = '/app/api/plugins';
 // Location of static HTTP assets. 
 config.api.static_assets = '/app/api/public';
 
-
-config.api.log_access = '/app/logs/api_access.log';
-config.api.log_error = '/app/logs/api_error.log';
+config.api.log = '/app/logs/api.log';
 
 module.exports = config;
