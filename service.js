@@ -6,7 +6,15 @@ var logger = require('./lib/logging').logger;
 
 // Domain emits 'error' when it's given an unhandled error
 primary.on('error', function(err) {
-    logger.error(err.stack);
+    logger.error("Worker crashed");
+    if (err.message) {
+        logger.error(err.message);    
+    }
+    
+    if (err.stack) {
+        logger.error(err.stack);    
+    }
+    
     process.exit(-1);
 });
 
@@ -18,7 +26,7 @@ primary.run(function() {
         // There is difficulty in getting these messages to reflect in the log file. The callback 
         // here works in dev but may not be 100% reliable.
         logger.error(err.stack, function() {
-            process.exit(1);    
+            process.exit(-1);    
         });
     })
 
