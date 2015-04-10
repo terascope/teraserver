@@ -62,7 +62,12 @@ config.api.ssl_path = '/app/config/ssl';
 
 config.api.redis_ip = '127.0.0.1';
 
-config.api.plugins = ['agrinaut', 'agrilogs'];
+//config.api.plugins = ['agrinaut', 'agrilogs'];
+// TODO: the ordering here is critical. Anything that defines 
+// baucis routes needs to come at the end. The problem is that if you 
+// have multiple plugins defining endpoints under the same namespace 
+// baucis can end up shadowing other routes. 
+config.api.plugins = ['agrinaut', 'veracity', 'agrilogs', 'ui' ];
 
 // Location of service plugins
 config.api.plugins_path = '/app/api/plugins';
