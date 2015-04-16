@@ -13,6 +13,7 @@
     "express-bunyan-logger": "^1.1.1",
     "express-session": "^1.11.1",
     "lodash": "~2.2.1",
-    "method-override": "^2.3.2"
+    "method-override": "^2.3.2",
+    "agrifoundation": "ndagri/agrifoundation"
   }
 }

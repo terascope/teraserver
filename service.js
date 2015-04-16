@@ -1,4 +1,4 @@
-var foundation = require('AgriFoundation');
+var foundation = require('agrifoundation');
 var worker = require('./lib/worker');
 
 foundation.init({
