@@ -1,11 +1,10 @@
-var foundation = require('agrifoundation');
 var worker = require('./lib/worker');
 
-foundation.init({
+var foundation = require('agrifoundation')({
+    name: 'AgriServer',
     elasticsearch: ['default'],
     mongodb: ['default'],
+    statsd: ['default'],
     baucis: true,
     worker: worker
 });
-
-foundation.run();
