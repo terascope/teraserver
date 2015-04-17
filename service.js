@@ -1,7 +1,7 @@
 var worker = require('./lib/worker');
 
-var foundation = require('agrifoundation')({
-    name: 'AgriServer',
+var foundation = require('terafoundation')({
+    name: 'TeraServer',
     elasticsearch: ['default'],
     mongodb: ['default'],
     statsd: ['default'],

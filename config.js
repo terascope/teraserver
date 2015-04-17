@@ -70,7 +70,7 @@ config.api.ssl_path = '/app/config/ssl';
 config.api.redis_ip = '127.0.0.1';
 
 //config.api.plugins = ['agrinaut', 'agrilogs'];
-config.api.plugins = ['agrinaut', 'veracity', 'agrilogs', 'ui' ];
+config.api.plugins = ['teranaut', 'veracity', 'logscope', 'ui' ];
 
 // Location of service plugins
 config.api.plugins_path = '/app/api/plugins';
