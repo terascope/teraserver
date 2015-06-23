@@ -1,0 +1,61 @@
+<div>
+    <div ng-repeat="filter in filters" class="form-inline form-filter">      
+      
+        <select ng-model="filter.name" ng-change="setFilterType(filter)" ng-options="field.name as field.label for field in fields">
+            <option value="">No field selected</option>
+        </select>
+
+        <span ng-show="filter.type == 'string'" >
+            <select ng-model="filter.operator" ng-options="key as value for (key, value) in operators['string']" ng-change="updateFilter(filter)">
+            </select> 
+            <input type="text" ng-model="filter.value" ng-change="updateFilter(filter)" placeholder="Text">
+        </span>
+
+        <span ng-show="filter.type == 'list'" >
+            <select ng-model="filter.operator" ng-options="key as value for (key, value) in operators['list']" ng-change="updateFilter(filter)">
+            </select> 
+            <input type="text" ng-model="filter.value" ng-change="updateFilter(filter)" placeholder="Text in list">
+        </span>
+
+        <span ng-show="filter.type == 'number'">
+            <select ng-model="filter.operator" ng-options="key as value for (key, value) in operators['number']" ng-change="updateFilter(filter)">
+            </select> 
+            
+            <span ng-show="filter.operator != 'range'">
+                <input class="input-small" type="text" ng-model="filter.value" ng-change="updateFilter(filter)" placeholder="Number">
+            </span>
+
+            <span ng-show="filter.operator == 'range'">
+                <input class="input-small" type="text" ng-model="filter.value" ng-change="updateFilter(filter)" placeholder="Number">
+                to
+                <input class="input-small" type="text" ng-model="filter.value2" ng-change="updateFilter(filter)" placeholder="Number">
+            </span>
+        </span>
+
+        <span ng-show="filter.type == 'date'">
+            <select ng-model="filter.operator" ng-options="key as value for (key, value) in operators['date']" ng-change="updateFilter(filter)">
+            </select> 
+            
+            <span ng-show="filter.operator != 'range'">
+                <input class="input-medium" type="text" datepicker-popup="MMMM dd yyyy hh:mm a"  ng-model="filter.dateValue" ng-change="updateFilter(filter)">
+            </span>
+
+            <span ng-show="filter.operator == 'range'">
+                <input class="input-medium" type="text" ng-model="filter.dateValue" datepicker-popup="MMMM dd yyyy hh:mm a" ng-change="updateFilter(filter)">
+                to
+                <input class="input-medium" type="text" ng-model="filter.dateValue2" datepicker-popup="MMMM dd yyyy hh:mm a" ng-change="updateFilter(filter)">
+            </span>
+        </span>
+        
+        <span ng-show="filter.type == 'enum'">
+            <select ng-model="filter.operator" ng-options="key as value for (key, value) in operators['enum']" ng-change="updateFilter(filter)">
+            </select> 
+
+            <select ng-model="filter.value" ng-options="key as value for (key, value) in filter.options" ng-change="updateFilter(filter)">
+            </select> 
+        </span>
+        
+        <a ng-click='addFilter()' class="badge"><i class='icon-plus icon-white'></i></a>
+        <a ng-click='removeFilter($index)' ng-show='! ($first && $last)' class="badge badge-important"><i class='icon-minus icon-white'></i></a>
+    </div>
+</div>

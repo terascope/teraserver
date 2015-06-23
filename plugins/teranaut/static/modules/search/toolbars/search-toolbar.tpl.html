@@ -1,0 +1,31 @@
+<div class="alert alert-info query-toolbar" ng-show="searchui.isInteractive()">
+    
+    <div class="pull-right">
+        <span class="label label-important" ng-show="searchui.loadingInProgress()">
+        <!--span class="label label-important" ng-show="search.uiLoading"-->
+            Loading
+        </span>
+        <span ng-show="search.uiShowFilters">
+            <a ng-click="searchui.expandFilters()"><i class="icon-edit"></i> <b>Filter</b></a> | 
+            <a ng-click="searchui.resetContext()"><b><i class="icon-remove"></i> Reset</b></a> | 
+        </span>
+        <a ng-click="searchui.reloadData()">
+            <b>
+                <i class="icon-refresh"></i> <span ng-show="search.uiCollapseFilters">Reload</span>
+                <span ng-show="! search.uiCollapseFilters">Apply</span>
+            </b>
+        </a>
+    </div>
+    &nbsp;
+
+    <!-- TODO: this will be datatype specific -->
+    <span ng-show="search.criteria"><b>Query:</b> <i>{{ search.criteria }}</i></span>    
+</div>
+
+<div ng-show="! search.uiCollapseFilters || ! searchui.isInteractive()">
+    <div class="panel panel-default">
+        <form name="search_form" ng-submit="searchui.performSearch(true)" class="form-inline search-filters" novalidate>
+            <ng-include src="searchConfig.searchView"></ng-include>    
+        </form>
+    </div>
+</div>

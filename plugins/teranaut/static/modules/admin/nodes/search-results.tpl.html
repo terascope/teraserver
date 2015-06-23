@@ -1,0 +1,7 @@
+<tr ng-repeat="node in searchResults">            
+    <td>{{ node.node_id }}</td>
+    <td>{{ node.friendly_name }}</td>            
+    <td>{{ node.updated | wt_date }}</td>            
+    <td><button class="btn" ng-click="uictrl.edit(node.node_id)">Edit</button>                 
+        <button class="btn" ng-click="uictrl.remove(node.node_id)">Remove</button></td>                
+</tr>

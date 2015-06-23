@@ -1,0 +1,12 @@
+{
+  "name": "teranaut",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node service.js"
+  },
+  "dependencies": {
+    "passport-local-mongoose": "^0.3.0",
+    "passport-local": "~0.1.6"
+  }
+}

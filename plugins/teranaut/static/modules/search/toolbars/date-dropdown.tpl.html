@@ -1,0 +1,58 @@
+<div ng-controller="DateRangeController" class="date-dropdown">
+    <form name="date_form" class="form-inline" novalidate>
+        <div class="row-fluid">         
+            <div ng-show="message" class="span12 alert alert-error">        
+                Error: {{ message }}
+            </div> 
+        </div>
+        <div class="row-fluid">               
+            <span class="span6">                
+                <div class="well center">                                            
+                    <fieldset>
+                        <label>Start: </label>
+                        <input type="text" name="startDate" ng-model="startDate" min="minDate" max="maxDate" ng-required="false" placeholder="Start of Date Range" date-format ng-blur="dateUpdated()"/> 
+                    </fieldset>
+
+                    <br/>
+                    <small class="help-block error" ng-show="date_form.startDate.$invalid">
+                        Must be a valid date.
+                    </small>
+
+                    <div ng-model="startDate">
+                        <datepicker show-weeks="false"></datepicker>                            
+                    </div>
+
+                    <!--div class="center">
+                        <label class="radio inline"><input type="radio" ng-model="startField" value="first_e"><small>First Encounter</small></label>
+                        <label class="radio inline"><input type="radio" ng-model="startField" value="last_e"><small>Last Encounter</small></label>
+                    </div-->                                        
+                </div>        
+            </span>    
+            <span class="span6">                  
+                <div class="well center">                        
+                    <fieldset>
+                        <label>End: </label>
+                    
+                        <input type="text" name="endDate" ng-model="endDate" min="minDate" max="maxDate" ng-required="false" placeholder="End of Date Range" date-format ng-blur="dateUpdated()"/> 
+                    </fieldset>
+
+                    <!--input type="text" name="endDate" is-open="false" datepicker-popup="dd-MMMM-yyyy hh:mm a" ng-model="search.endDate" min="minDate" max="maxDate" ng-required="false" placeholder="End of Date Range" show-weeks="false" /--> 
+                    <br/>
+                    <small class="help-block error" ng-show="date_form.EndDate.$invalid">
+                        Must be a valid date.
+                    </small>
+                    <div ng-model="endDate">
+                        <datepicker name="EndDatepicker" show-weeks="false"></datepicker>                            
+                    </div>
+                    <!--div class="center">
+                        <label class="radio inline"><input type="radio" ng-model="endField" value="first_e"><small>First Encounter</small></label>
+                        <label class="radio inline"><input type="radio" ng-model="endField" value="last_e"><small>Last Encounter</small></label>
+                    </div-->                  
+                </div>        
+            </span> 
+        </div>
+        <div class="clearfix pull-right">
+            <button class="btn btn-small btn-custom" ng-click="applyDateRange()" ><i class="icon-refresh icon-white"></i>  Apply</button>
+        </div>
+    </form>
+</div>

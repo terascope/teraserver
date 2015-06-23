@@ -1,0 +1,46 @@
+<div class="btn-toolbar" style="height: 30px">
+    <div class="btn-group">
+          <button class="btn btn-small" ng-csv="searchui.exportCSV()" filename="export.csv">Export CSV</button>                  
+    </div>    
+
+    <div class="btn-group pull-right">
+        <div class="btn-group" ng-if="historyFields.length > 0">
+            
+            <button class="btn btn-small dropdown-toggle" >History to search: {{ search.uiHistory }} days <span class="caret"></span>            
+            </button>  
+            <ul class="dropdown-menu">
+                <li ng-repeat="history in historyFields">
+                    <a ng-click="searchui.setHistory(history)">{{ history }} days</a>
+                </li>                                            
+            </ul>
+        </div>
+
+        <div class="btn-group" ng-if="! searchui.isInteractive()">
+            <button class="btn btn-small dropdown-toggle" >Sorting: {{ searchui.sortDescription() }} <span class="caret"></span>            
+            </button>  
+            <ul class="dropdown-menu">
+                <li> <a ng-click="searchui.setSort(null)">No sorting</a></li>
+                <li ng-repeat="field in sortableFields">
+                    <a ng-click="searchui.setSort(field)">{{ field.description }}</a>
+                </li>                
+            </ul>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-small dropdown-toggle" >Results per page: {{ search.uiPageSize }} <span class="caret"></span>            
+            </button>  
+            <ul class="dropdown-menu">
+                <li><a ng-click="searchui.setPageSize(10)">10 results per page</a></li>
+                <li><a ng-click="searchui.setPageSize(25)">25 results per page</a></li>
+                <li><a ng-click="searchui.setPageSize(50)">50 results per page</a></li>
+                <li><a ng-click="searchui.setPageSize(100)">100 results per page</a></li>
+                <li><a ng-click="searchui.setPageSize(250)">250 results per page</a></li>                            
+            </ul>
+        </div>
+        
+        <div class="btn-group">
+            <button class="btn btn-small btn-primary" ng-show="! searchui.isInteractive()" ng-click="searchui.performSearch(true)"><i class=" icon-search icon-white"></i> Search</button> 
+        </div>
+    </div>
+    
+</div>   

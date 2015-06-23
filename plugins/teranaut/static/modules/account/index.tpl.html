@@ -1,0 +1,37 @@
+<div class="content-area" ng-controller="AccountUpdateController">
+    <h3>Account</h3>
+    
+    <div>
+        <form name="accountform" class="css-form" novalidate>
+            <fieldset>
+                <label>First Name*</label>
+                <input type="text" ng-model="user.firstname" placeholder="The users first name" >
+            </fieldset>
+            <fieldset>
+                <label>Last Name*</label>
+                <input type="text" ng-model="user.lastname" placeholder="The users last name" >
+            </fieldset>
+            <fieldset>
+                <label>Email</label>
+                <input type="text" ng-model="user.email" placeholder="Your email address" >
+            </fieldset>        
+            <fieldset>
+                <label>Change Password</label>
+                <input type="password" ng-model="user.password" placeholder="New password" >
+                <input type="password" ng-model="user.password2" placeholder="Repeat the new password" >
+            </fieldset>      
+            <fieldset ng-show="user.api_token">
+                <label>API Token</label>
+                <div>                    
+                    <a ng-click="show_api_token = !show_api_token" ng-show="! show_api_token"><i class=" icon-chevron-right"></i>Show API Token</a>
+                    <a ng-click="show_api_token = !show_api_token" ng-show="show_api_token"><i class=" icon-chevron-down"></i>Hide API Token</a>                    
+                </div>
+                <div ng-show="show_api_token" class="well well-small">{{ user.api_token }}</div>
+            </fieldset>               
+        </form> 
+        <i>* Required fields</i>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="update()">Update</button>
+    </div>
+</div>

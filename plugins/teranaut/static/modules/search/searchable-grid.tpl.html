@@ -1,0 +1,41 @@
+<div>
+    <search-app-toolbar ng-show="searchConfig.toolbarView"></search-app-toolbar>
+
+    <search-date-toolbar ng-show="searchConfig.dateToolbar"></search-date-toolbar>
+          
+    <search-query-toolbar ng-show="searchConfig.filterToolbar"></search-query-toolbar>
+
+    <search-grid-toolbar ng-show="searchConfig.gridToolbar"></search-grid-toolbar>
+
+    <table class="table table-bordered" >        
+        <thead class="header-blue">
+            <tr>
+                <th ng:class="searchui.sortClass(field)" ng:click="searchui.toggleSort(field)" ng-repeat="field in headers">
+                    {{ field.human_name }}
+                    <timezone ng-show="field.type == 'date'"></timezone>
+                </th>
+                
+            </tr>        
+        </thead>
+
+        <!-- Table body content display is delegated to the application if there are results -->
+        <tbody ng-include="searchResultView"></tbody>
+
+    </table>
+
+    <search-pagination></search-pagination>
+
+    <div ng-show="! searchui.loadingInProgress()">
+        <div class="clearfix">
+            <a ng-click="showAPI = true" ng-show="showAPI === false" class="pull-right">
+                <i class=" icon-chevron-right"></i> Show API URL
+            </a>
+            <a ng-click="showAPI = false" ng-show="showAPI === true" class="pull-right">
+                <i class=" icon-chevron-down"></i> Hide API URL
+            </a>
+        </div>
+        <div ng-if="showAPI" class="panel panel-default">                        
+            {{ ::searchui.activeUrl() }}
+        </div>    
+    </div>
+</div>

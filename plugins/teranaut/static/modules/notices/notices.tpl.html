@@ -1,0 +1,15 @@
+
+<div ng-show="systemError" class="alert alert-error alert-block system-notice">
+    <h4 class="alert-heading">System Error</h4>
+    {{ systemError }}
+</div> 
+
+<div ng-repeat="message in messages track by $index" class="alert alert-success system-notice" ng-if="messages[$index]">
+    <button type="button" class="close" data-dismiss="alert" ng-click="clearMessage($index)">&times;</button>
+    {{ message }}
+</div>
+
+<div ng-repeat="error in errors track by $index" class="alert alert-error system-notice" ng-if="errors[$index]">
+    <button type="button" class="close" data-dismiss="alert" ng-click="clearError($index)">&times;</button>
+    {{ error }}
+</div>

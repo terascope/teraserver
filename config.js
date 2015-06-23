@@ -14,6 +14,8 @@ var config = {};
 
 config.environment = 'development';
 
+config.log_path = '/Users/kstaken/projects/data/logs'
+
 /*
  ***********************
  MongoDB Configuration
@@ -53,6 +55,11 @@ config.statsd.default = {
     host: '127.0.0.1',
     mock: false
 };
+
+config.teranaut = {};
+config.teranaut.auth = {};
+config.teranaut.auth.open_signup = true;
+config.teranaut.auth.require_email = true;
 
 /*
  ***********************
