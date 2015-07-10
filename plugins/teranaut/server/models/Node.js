@@ -28,7 +28,7 @@ module.exports = function(config) {
                     enum:       ['Point', 'LineString', 'Polygon'],
                     default:    'Point'
                 },
-                coordinates: [],
+                coordinates: []
             }
         });
 
@@ -37,4 +37,4 @@ module.exports = function(config) {
     }
 
     return model;
-}
+};
