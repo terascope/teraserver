@@ -31,7 +31,7 @@ module.exports = function(config) {
         }
 
         next();
-    }
+    };
 
     node.query('collection', 'get', extensions);
     
@@ -44,7 +44,7 @@ module.exports = function(config) {
         else {
             return res.json(403, { error: 'Access Denied - You don\'t have permission to this data' });
         }
-    }
+    };
 
     // Only admin is allowed to update these data types
     node.request('post put delete', requireAdmin);
@@ -64,7 +64,7 @@ module.exports = function(config) {
             return res.json(403, { error: 'Access Denied - You don\'t have permission to this data' });
         }
 
-    }
+    };
 
     // Admin can update and a user can update their own record, but not change their role
     user.request('get head post put delete', requireUser);
@@ -77,4 +77,4 @@ module.exports = function(config) {
 
         next();
     }
-}
+};
