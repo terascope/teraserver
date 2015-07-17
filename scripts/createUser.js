@@ -2,7 +2,7 @@
 
 var argv = require('yargs')
     .usage('Usage: $0 -a API token -u username -p password -f firstname -l lastname -s [API server URL] -r [role] ')
-    .demand(['u','p','f','l'])
+    .demand(['u', 'p', 'f', 'l'])
     .alias('u', 'username')
     .alias('p', 'password')
     .alias('f', 'firstname')
@@ -22,7 +22,7 @@ var record = {
     client_id: 0,
     role: argv.role,
     firstname: argv.firstname,
-    lastname: argv.lastname,    
+    lastname: argv.lastname,
     username: argv.username,
     hash: argv.password
 };
@@ -33,7 +33,7 @@ var options = {
         'content-type': 'application/json'
     },
     body: JSON.stringify(record)
-}
+};
 
 request.post(options, function (error, response, body) {
 
@@ -45,20 +45,20 @@ request.post(options, function (error, response, body) {
         console.log(response.body);
     }
 
-    if (! error && response.statusCode == 201) {
+    if (!error && response.statusCode == 201) {
         //console.log('Account created');    
 
         var account = JSON.parse(response.body);
 
         var options = {
-            url: api + '/token?username=' + argv.username + '&password=' + argv.password            
-        }
+            url: api + '/token?username=' + argv.username + '&password=' + argv.password
+        };
 
         request.post(options, function (error, response, body) {
-            if (! error && response.statusCode == 200) {
+            if (!error && response.statusCode == 200) {
                 var record = JSON.parse(response.body);
 
-                console.log(argv.username + " | " + argv.password + " | " +  account._id + " | " + record.token)
+                console.log(argv.username + " | " + argv.password + " | " + account._id + " | " + record.token);
                 process.exit();
             }
         });
