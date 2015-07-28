@@ -61,6 +61,9 @@ config.teranaut.auth = {};
 config.teranaut.auth.open_signup = true;
 config.teranaut.auth.require_email = true;
 
+config.teraserver = {};
+config.teraserver.shutdown_timeout = 65;
+
 /*
  ***********************
  API Service Configuration
