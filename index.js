@@ -12,9 +12,9 @@ module.exports = function(customConfig) {
         name: 'TeraServer',
         baucis: true,
         worker: worker    
-    }
+    };
 
     _.merge(config, customConfig);
 
     var foundation = require('terafoundation')(config);
-}
+};

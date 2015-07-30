@@ -61,6 +61,9 @@ config.teranaut.auth = {};
 config.teranaut.auth.open_signup = true;
 config.teranaut.auth.require_email = true;
 
+config.teraserver = {};
+config.teraserver.shutdown_timeout = 65;
+
 /*
  ***********************
  API Service Configuration
@@ -76,7 +79,7 @@ config.api.ssl_path = '/app/config/ssl';
 
 config.api.redis_ip = '127.0.0.1';
 
-config.api.plugins = ['teranaut', 'veracity', 'logscope', 'ui' ];
+config.api.plugins = ['teranaut'];
 
 // Location of service plugins
 config.api.plugins_path = '/app/api/plugins';
