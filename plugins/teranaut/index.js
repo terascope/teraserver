@@ -2,13 +2,19 @@
 
 var fs = require('fs');
 var crypto = require("crypto");
+var teranaut_schema = require('./schema');
 
 var logger, models, baucis, config, passport, userModel;
+
 
 var api = {
     _config: undefined,
 
-    config: function (pluginConfig) {
+    schema: function() {
+        return teranaut_schema;
+    },
+
+    config: function(pluginConfig) {
         this._config = pluginConfig;
         logger = pluginConfig.logger;
         baucis = pluginConfig.baucis;
@@ -24,6 +30,8 @@ var api = {
             models = require(config.teranaut.models)(modelConfig);
         }
         else {
+            // console.log('im here', pluginConfig)
+
             models = require('./server/models')(modelConfig);
         }
 
@@ -36,11 +44,11 @@ var api = {
 
     },
 
-    static: function () {
+    static: function() {
         return __dirname + '/static';
     },
 
-    init: function () {
+    init: function() {
 
         if (!(config.teranaut && config.teranaut.models)) {
             // Configure Baucis to know about the application models
@@ -53,12 +61,12 @@ var api = {
         passport.deserializeUser(userModel.deserializeUser());
     },
 
-    pre: function () {
+    pre: function() {
         this._config.app.use(passport.initialize());
         this._config.app.use(passport.session());
     },
 
-    routes: function (deferred) {
+    routes: function(deferred) {
         // Login function to generate an API token
         this._config.app.use('/api/v1/token', login);
         this._config.app.use('/api/v1/login', login);
@@ -68,28 +76,28 @@ var api = {
 
         // THIS needs to be deferred until after all plugins have had a chance to load
         var config = this._config;
-        deferred.push(function () {
+        deferred.push(function() {
             config.app.use('/api/v1', baucis());
         });
 
-        this._config.app.post('/login', passport.authenticate('local'), function (req, res) {
+        this._config.app.post('/login', passport.authenticate('local'), function(req, res) {
             //res.redirect('/');
             res.status(200).send('login successful');
         });
 
-        this._config.app.get('/logout', function (req, res) {
+        this._config.app.get('/logout', function(req, res) {
             req.logout();
             //res.redirect('/');
             res.status(200).send('logout successful');
         });
     },
 
-    post: function () {
+    post: function() {
 
     }
 };
 
-var ensureAuthenticated = function (req, res, next) {
+var ensureAuthenticated = function(req, res, next) {
     // We allow creating new accounts without authentication.    
     if (config.teranaut.auth.open_signup) {
         // TODO: THIS URL should depend on the name of the model
@@ -102,7 +110,7 @@ var ensureAuthenticated = function (req, res, next) {
     }
     // API auth based on tokens
     else if (req.query.token) {
-        userModel.findOne({api_token: req.query.token}, function (err, account) {
+        userModel.findOne({api_token: req.query.token}, function(err, account) {
             if (err) {
                 throw err;
             }
@@ -112,7 +120,7 @@ var ensureAuthenticated = function (req, res, next) {
 
                 // If there's redis session storage available we add the login to the session.
                 if (config.teraserver && config.teraserver.redis_sessions) {
-                    req.logIn(account, function (err) {
+                    req.logIn(account, function(err) {
                         if (err) {
                             return next(err);
                         }
@@ -137,9 +145,9 @@ var ensureAuthenticated = function (req, res, next) {
     }
 };
 
-var login = function (req, res, next) {
+var login = function(req, res, next) {
 
-    passport.authenticate('local', {session: false}, function (err, user, info) {
+    passport.authenticate('local', {session: false}, function(err, user, info) {
 
         if (err) {
             return next(err);
@@ -153,14 +161,14 @@ var login = function (req, res, next) {
             return res.status(401).json({error: 'Account has not been activated'});
         }
 
-        req.logIn(user, function (err) {
+        req.logIn(user, function(err) {
             if (err) {
                 return next(err);
             }
 
             var shasum = crypto.createHash('sha1');
             var date = Date.now();
-            crypto.randomBytes(128, function (err, buf) {
+            crypto.randomBytes(128, function(err, buf) {
                 if (err) {
                     logger.error("Error generating randomBytes on User save.");
                     return next(err);

@@ -7,11 +7,14 @@ var _ = require('lodash');
 
 module.exports = function(customConfig) {
     var worker = require('./lib/worker');
+    var config_schema = require('./system_schema').config_schema;
+
 
     var config = {
         name: 'TeraServer',
         baucis: true,
-        worker: worker    
+        worker: worker,
+        config_schema: config_schema
     };
 
     _.merge(config, customConfig);

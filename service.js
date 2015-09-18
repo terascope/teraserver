@@ -1,10 +1,11 @@
 var worker = require('./lib/worker');
+var config_schema = require('./system_schema').config_schema;
 
 var foundation = require('terafoundation')({
     name: 'TeraServer',
-    elasticsearch: ['default'],
-    mongodb: ['default'],
-    statsd: ['default'],
     baucis: true,
-    worker: worker
+    worker: worker,
+    config_schema: config_schema,
+    start_workers: false
+
 });

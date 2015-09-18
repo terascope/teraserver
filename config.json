@@ -1,0 +1,32 @@
+{
+  "TeraServer": {
+    "shutdown_timeout": 5,
+    "plugins" : ["teranaut"],
+    "plugins_path": "/Users/jarednoble/Projects/terascope/teraserver/plugins"
+  },
+  "Terafoundation": {
+    "environment": "development",
+    "log_path": "/Users/jarednoble/Desktop/logs",
+    "elasticsearch": {
+      "default": {
+        "host": [
+          "127.0.0.1:9200"
+        ],
+        "keepAlive": false,
+        "maxRetries": 5,
+        "maxSockets": 20
+      }
+    },
+    "statsd": {
+      "default": {
+        "host": "127.0.0.1",
+        "mock": false
+      }
+    },
+    "mongodb": {
+      "default": {
+        "servers": "mongodb://localhost:27017/watchlist"
+      }
+    }
+  }
+}

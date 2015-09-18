@@ -5,22 +5,23 @@
  These can be overridden by a service local config.js
  ********************************************************
 */
+/*
 
 var config = {};
 
-/*
+/!*
  Application environment.
- */
+ *!/
 
 config.environment = 'development';
 
 config.log_path = '/Users/kstaken/projects/data/logs'
 
-/*
+/!*
  ***********************
  MongoDB Configuration
  ***********************
- */
+ *!/
 config.mongodb = {}
 
 config.mongodb.default = {
@@ -33,22 +34,22 @@ config.mongodb.default = {
 
 //config.mongodb.replicaSetTimeout = 30000;
 
-/*
+/!*
  ***********************
  Elastic Search Configuration
  ***********************
- */
+ *!/
 config.elasticsearch = {};
 
 config.elasticsearch.default = {
     host: ["127.0.0.1:9200"]
 };
 
-/*
+/!*
  ***********************
  StatsD Configuration
  ***********************
- */
+ *!/
 config.statsd = {};
 
 config.statsd.default = {
@@ -64,11 +65,11 @@ config.teranaut.auth.require_email = true;
 config.teraserver = {};
 config.teraserver.shutdown_timeout = 65;
 
-/*
+/!*
  ***********************
  API Service Configuration
  ***********************
- */
+ *!/
 config.api = {};
 
 config.api.workers = 1;
@@ -90,3 +91,4 @@ config.api.static_assets = '/app/api/public';
 config.api.log = '/app/logs/api.log';
 
 module.exports = config;
+*/
