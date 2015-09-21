@@ -26,16 +26,14 @@ var api = {
             logger: logger
         };
 
-        if (config.teranaut && config.teranaut.models) {
+        if (config.teranaut.models) {
             models = require(config.teranaut.models)(modelConfig);
         }
         else {
-            // console.log('im here', pluginConfig)
-
             models = require('./server/models')(modelConfig);
         }
 
-        if (config.teranaut && config.teranaut.auth && config.teranaut.auth.user_model) {
+        if (config.teranaut.auth.user_model) {
             userModel = models[config.teranaut.auth.user_model];
         }
         else {
@@ -54,7 +52,6 @@ var api = {
             // Configure Baucis to know about the application models
             require('./server/api/baucis')(this._config);
         }
-        //var user = models.User;
 
         passport.use(userModel.createStrategy());
         passport.serializeUser(userModel.serializeUser());
@@ -81,13 +78,11 @@ var api = {
         });
 
         this._config.app.post('/login', passport.authenticate('local'), function(req, res) {
-            //res.redirect('/');
             res.status(200).send('login successful');
         });
 
         this._config.app.get('/logout', function(req, res) {
             req.logout();
-            //res.redirect('/');
             res.status(200).send('logout successful');
         });
     },
@@ -119,7 +114,7 @@ var ensureAuthenticated = function(req, res, next) {
                 req.user = account;
 
                 // If there's redis session storage available we add the login to the session.
-                if (config.teraserver && config.teraserver.redis_sessions) {
+                if (config.TeraServer.redis_sessions) {
                     req.logIn(account, function(err) {
                         if (err) {
                             return next(err);
@@ -139,8 +134,6 @@ var ensureAuthenticated = function(req, res, next) {
     }
     else {
         // For session based auth
-
-        //res.redirect('/login')
         return res.status(401).json({error: 'Access Denied'});
     }
 };
@@ -157,7 +150,7 @@ var login = function(req, res, next) {
             return res.status(401).json({error: info.message});
         }
 
-        if (config.teranaut.auth && config.teranaut.auth.require_email && !user.email_validated) {
+        if (config.teranaut.auth.require_email && !user.email_validated) {
             return res.status(401).json({error: 'Account has not been activated'});
         }
 

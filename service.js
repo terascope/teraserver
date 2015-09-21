@@ -5,7 +5,7 @@ var foundation = require('terafoundation')({
     name: 'TeraServer',
     baucis: true,
     worker: worker,
-    config_schema: config_schema,
-    start_workers: false
+    config_schema: config_schema
+    //start_workers: false
 
 });

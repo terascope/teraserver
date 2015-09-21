@@ -1,10 +1,5 @@
 'use strict';
 var schema = {
-    /*   teranaut = {};
-     config.teranaut.auth = {};
-     config.teranaut.auth.open_signup = true;
-     config.teranaut.auth.require_email = true;*/
-
 
     shutdown_timeout: {
         doc: '',
@@ -26,7 +21,7 @@ var schema = {
         default: '/app/config/ssl'
     },
 
-    redis_ip: {
+    redis_sessions: {
         doc: '',
         default: '127.0.0.1'
     },
@@ -36,26 +31,24 @@ var schema = {
         default: ['teranaut']
     },
 
-// Location of service plugins
     plugins_path: {
-        doc: '',
+        doc: 'Location of service plugins',
         default: '/app/api/plugins'
     },
 
-// Location of static HTTP assets.
     static_assets: {
-        doc: '',
+        doc: 'Location of static HTTP assets',
         default: '/app/api/public'
     },
 
     log: {
         doc: '',
-        default: '/app/logs/api.log'
+        default: ''
     }
 
 };
 
-
+//redis_sessions
 
 function config_schema(config) {
     var config = config;

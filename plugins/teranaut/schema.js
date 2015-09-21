@@ -9,6 +9,14 @@ module.exports = {
         require_email: {
             doc: '',
             default: true
+        },
+        models: {
+            doc: '',
+            default: ''
+        },
+        user_model: {
+            doc: '',
+            default: ''
         }
     }
 };
