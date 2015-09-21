@@ -2,32 +2,27 @@
 var schema = {
 
     shutdown_timeout: {
-        doc: '',
+        doc: 'seconds util force shutdown will occur when exiting the app',
         default: 60
     },
 
-    workers: {
-        doc: "",
-        default: 1
-    },
-
     port: {
-        doc: '',
+        doc: 'port which the server will listen to',
         default: 8000
     },
 
     ssl_path: {
-        doc: '',
+        doc: 'path to directory where the ssl certs are located',
         default: '/app/config/ssl'
     },
 
     redis_sessions: {
-        doc: '',
+        doc: 'redis port',
         default: '127.0.0.1'
     },
 
     plugins: {
-        doc: '',
+        doc: 'list of plugins that will be uploaded into TeraServer',
         default: ['teranaut']
     },
 
@@ -39,16 +34,10 @@ var schema = {
     static_assets: {
         doc: 'Location of static HTTP assets',
         default: '/app/api/public'
-    },
-
-    log: {
-        doc: '',
-        default: ''
     }
 
 };
 
-//redis_sessions
 
 function config_schema(config) {
     var config = config;
