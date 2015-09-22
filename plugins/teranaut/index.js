@@ -4,7 +4,7 @@ var fs = require('fs');
 var crypto = require("crypto");
 var teranaut_schema = require('./schema');
 
-var logger, models, baucis, config, passport, userModel;
+var logger, models, baucis, config, passport, userModel, teranaut;
 
 
 var api = {
@@ -20,21 +20,22 @@ var api = {
         baucis = pluginConfig.baucis;
         passport = pluginConfig.passport;
         config = pluginConfig.server_config;
+        teranaut = pluginConfig.server_config.teraserver.plugins.teranaut;
 
         var modelConfig = {
             mongoose: pluginConfig.mongodb,
             logger: logger
         };
 
-        if (config.teranaut.models) {
-            models = require(config.teranaut.models)(modelConfig);
+        if (teranaut.models) {
+            models = require(teranaut.models)(modelConfig);
         }
         else {
             models = require('./server/models')(modelConfig);
         }
 
-        if (config.teranaut.auth.user_model) {
-            userModel = models[config.teranaut.auth.user_model];
+        if (teranaut.auth.user_model) {
+            userModel = models[teranaut.auth.user_model];
         }
         else {
             userModel = models.User;
@@ -48,7 +49,7 @@ var api = {
 
     init: function() {
 
-        if (!(config.teranaut && config.teranaut.models)) {
+        if (!(teranaut && teranaut.models)) {
             // Configure Baucis to know about the application models
             require('./server/api/baucis')(this._config);
         }
@@ -94,7 +95,7 @@ var api = {
 
 var ensureAuthenticated = function(req, res, next) {
     // We allow creating new accounts without authentication.    
-    if (config.teranaut.auth.open_signup) {
+    if (teranaut.auth.open_signup) {
         // TODO: THIS URL should depend on the name of the model
         if (req.url === '/accounts' && req.method === 'POST') return next();
     }
@@ -114,7 +115,7 @@ var ensureAuthenticated = function(req, res, next) {
                 req.user = account;
 
                 // If there's redis session storage available we add the login to the session.
-                if (config.TeraServer.redis_sessions) {
+                if (config.teraserver.redis_sessions) {
                     req.logIn(account, function(err) {
                         if (err) {
                             return next(err);
@@ -147,10 +148,11 @@ var login = function(req, res, next) {
         }
 
         if (!user) {
+
             return res.status(401).json({error: info.message});
         }
 
-        if (config.teranaut.auth.require_email && !user.email_validated) {
+        if (teranaut.auth.require_email && !user.email_validated) {
             return res.status(401).json({error: 'Account has not been activated'});
         }
 

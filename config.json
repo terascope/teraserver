@@ -1,10 +1,10 @@
 {
-  "TeraServer": {
+  "teraserver": {
     "shutdown_timeout": 5,
-    "plugins" : ["teranaut"],
+    "plugins" : ["teranaut", "teraserver-hdfs"],
     "plugins_path": "/Users/jarednoble/Projects/terascope/teraserver/plugins"
   },
-  "Terafoundation": {
+  "terafoundation": {
     "environment": "development",
     "log_path": "/Users/jarednoble/Desktop/logs",
     "elasticsearch": {
@@ -25,7 +25,7 @@
     },
     "mongodb": {
       "default": {
-        "servers": "mongodb://localhost:27017/watchlist"
+        "servers": "mongodb://localhost:27017/hdfs"
       }
     }
   }

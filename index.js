@@ -1,5 +1,5 @@
 /*
- If TeraServer is loaded as a module we can still initialize while giving the app
+ If teraserver is loaded as a module we can still initialize while giving the app
  finer control over what services are loaded.
  */
 
@@ -11,7 +11,7 @@ module.exports = function(customConfig) {
 
 
     var config = {
-        name: 'TeraServer',
+        name: 'teraserver',
         baucis: true,
         worker: worker,
         config_schema: config_schema
