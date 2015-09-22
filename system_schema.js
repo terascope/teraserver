@@ -17,8 +17,8 @@ var schema = {
     },
 
     redis_sessions: {
-        doc: 'redis port',
-        default: '127.0.0.1'
+        doc: 'enable redis sessions',
+        default: true
     },
 
     plugins: {
