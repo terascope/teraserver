@@ -20,7 +20,7 @@ var api = {
         baucis = pluginConfig.baucis;
         passport = pluginConfig.passport;
         config = pluginConfig.server_config;
-        teranaut = pluginConfig.server_config.teraserver.plugins.teranaut;
+        teranaut = pluginConfig.server_config.teranaut;
 
         var modelConfig = {
             mongoose: pluginConfig.mongodb,
