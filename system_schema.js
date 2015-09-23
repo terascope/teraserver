@@ -22,13 +22,14 @@ var schema = {
     },
 
     plugins: {
-        doc: 'list of plugins that will be uploaded into TeraServer',
-        default: ['teranaut']
-    },
-
-    plugins_path: {
-        doc: 'Location of service plugins',
-        default: '/app/api/plugins'
+        names: {
+            doc: 'list of plugins that will be uploaded into TeraServer',
+            default: ['teranaut']
+        },
+        path: {
+            doc: 'Location of service plugins',
+            default: '/app/api/plugins'
+        }
     },
 
     static_assets: {
