@@ -10,7 +10,7 @@ var logger, models, baucis, config, passport, userModel, teranaut;
 var api = {
     _config: undefined,
 
-    schema: function() {
+    config_schema: function() {
         return teranaut_schema;
     },
 
@@ -94,7 +94,7 @@ var api = {
 };
 
 var ensureAuthenticated = function(req, res, next) {
-    // We allow creating new accounts without authentication.    
+    // We allow creating new accounts without authentication.
     if (teranaut.auth.open_signup) {
         // TODO: THIS URL should depend on the name of the model
         if (req.url === '/accounts' && req.method === 'POST') return next();
