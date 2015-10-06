@@ -7,33 +7,42 @@
   },
   "teraserver": {
     "shutdown_timeout": 5,
-    "plugins" : {
-      "names": ["teranaut"],
+    "plugins": {
+      "names": [
+        "teranaut"
+      ],
       "path": "/Users/jarednoble/Projects/terascope/teraserver/plugins"
     }
   },
   "terafoundation": {
     "environment": "development",
     "log_path": "/Users/jarednoble/Desktop/logs",
-    "elasticsearch": {
-      "default": {
-        "host": [
-          "127.0.0.1:9200"
-        ],
-        "keepAlive": false,
-        "maxRetries": 5,
-        "maxSockets": 20
-      }
-    },
-    "statsd": {
-      "default": {
-        "host": "127.0.0.1",
-        "mock": false
-      }
-    },
-    "mongodb": {
-      "default": {
-        "servers": "mongodb://localhost:27017/hdfs"
+    "connectors": {
+      "elasticsearch": {
+        "default": {
+          "host": [
+            "127.0.0.1:9200"
+          ],
+          "keepAlive": false,
+          "maxRetries": 5,
+          "maxSockets": 20
+        }
+      },
+      "statsd": {
+        "default": {
+          "host": "127.0.0.1",
+          "mock": false
+        }
+      },
+      "mongodb": {
+        "default": {
+          "servers": "mongodb://localhost:27017/hdfs"
+        }
+      },
+      "redis": {
+        "default": {
+          "host": "127.0.0.1"
+        }
       }
     }
   }
