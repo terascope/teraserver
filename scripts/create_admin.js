@@ -5,7 +5,8 @@ var foundation = require('terafoundation')({
 });
 
 function script(context) {
-    var mongoose = context.mongodb.default;
+    var mongoose = context.foundation.getConnection({type: 'mongodb', cached: true}).client;
+
     var logger = context.logger;
 
     var models = require("../plugins/teranaut/server/models")({
