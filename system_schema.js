@@ -1,4 +1,7 @@
 'use strict';
+
+var fs = require('fs');
+
 var schema = {
 
     shutdown_timeout: {
@@ -39,15 +42,71 @@ var schema = {
 
 };
 
+function getPluginSchema(plugin) {
+    var pluginSchema = {};
+
+    if (plugin.config_schema) {
+        if (typeof plugin.config_schema === 'function') {
+            pluginSchema = plugin.config_schema();
+        }
+        else if (typeof plugin.config_schema === 'object') {
+            pluginSchema = plugin.config_schema;
+        }
+    }
+    return pluginSchema;
+}
+
+
+function getPlugin(name, configPath) {
+    var teraPluginPath = fs.readdirSync('./plugins');
+    var inPluginsDir = teraPluginPath.indexOf(name) !== -1;
+    var plugin;
+
+    if (inPluginsDir) {
+        try {
+            var plugin = require('./plugins/' + name);
+            return getPluginSchema(plugin);
+        }
+        catch (e) {
+            console.log('should not be in here')
+        }
+    }
+    else {
+        try {
+            var plugin = (configPath + '/' + name);
+            return getPluginSchema(plugin);
+
+        }
+        catch (e) {
+            console.log('def should not be in here');
+        }
+    }
+}
+
+
+function plugin_schema(config) {
+    var schema = {};
+
+    var plugins = config.teraserver.plugins;
+    var configPluginPath;
+
+    if (plugins && plugins.names.length > 0) {
+        configPluginPath = plugins.path;
+
+        plugins.names.forEach(function(name) {
+            schema[name] = getPlugin(name, configPluginPath)
+        });
+    }
+
+    return schema;
+}
 
 function config_schema(config) {
-    var config = config;
-    //TODO do something with config if needed
-
     return schema;
 }
 
 module.exports = {
     config_schema: config_schema,
+    plugin_schema: plugin_schema,
     schema: schema
 };
