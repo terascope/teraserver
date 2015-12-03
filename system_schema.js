@@ -58,17 +58,18 @@ function getPluginSchema(plugin) {
 
 
 function getPlugin(name, configPath) {
-    var teraPluginPath = fs.readdirSync('./plugins');
+    var localPluginPath = __dirname + '/plugins';
+    var teraPluginPath = fs.readdirSync(localPluginPath);
     var inPluginsDir = teraPluginPath.indexOf(name) !== -1;
     var plugin;
 
     if (inPluginsDir) {
         try {
-            var plugin = require('./plugins/' + name);
+            var plugin = require(localPluginPath + '/' + name);
             return getPluginSchema(plugin);
         }
         catch (e) {
-            console.log('should not be in here')
+            console.log('Error getting plugin from local plugin directory')
         }
     }
     else {
@@ -78,7 +79,7 @@ function getPlugin(name, configPath) {
 
         }
         catch (e) {
-            console.log('def should not be in here');
+            console.log('Error getting plugin from path specified in configs ');
         }
     }
 }
