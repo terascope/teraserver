@@ -69,7 +69,7 @@ function getPlugin(name, configPath) {
             return getPluginSchema(plugin);
         }
         catch (e) {
-            console.log('should not be in here')
+            console.log('Error getting plugin from local plugin directory')
         }
     }
     else {
@@ -79,7 +79,7 @@ function getPlugin(name, configPath) {
 
         }
         catch (e) {
-            console.log('def should not be in here');
+            console.log('Error getting plugin from path specified in configs ');
         }
     }
 }
