@@ -3,6 +3,8 @@
 var fs = require('fs');
 var crypto = require("crypto");
 var teranaut_schema = require('./schema');
+var getPlugin = require('../../lib/utils').getPlugin;
+
 
 var logger, models, baucis, config, passport, userModel, teranaut;
 
@@ -28,7 +30,7 @@ var api = {
         };
 
         if (teranaut.models) {
-            models = require(teranaut.models)(modelConfig);
+            models = getPlugin(teranaut.models, config)(modelConfig);
         }
         else {
             models = require('./server/models')(modelConfig);

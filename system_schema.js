@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var getPlugin = require('./lib/utils').getPlugin;
 
 var schema = {
 
@@ -56,46 +57,15 @@ function getPluginSchema(plugin) {
     return pluginSchema;
 }
 
-
-function getPlugin(name, configPath) {
-    var localPluginPath = __dirname + '/plugins';
-    var teraPluginPath = fs.readdirSync(localPluginPath);
-    var inPluginsDir = teraPluginPath.indexOf(name) !== -1;
-    var plugin;
-
-    if (inPluginsDir) {
-        try {
-            var plugin = require(localPluginPath + '/' + name);
-            return getPluginSchema(plugin);
-        }
-        catch (e) {
-            console.log('Error getting plugin from local plugin directory')
-        }
-    }
-    else {
-        try {
-            var plugin = (configPath + '/' + name);
-            return getPluginSchema(plugin);
-
-        }
-        catch (e) {
-            console.log('Error getting plugin from path specified in configs ');
-        }
-    }
-}
-
-
 function plugin_schema(config) {
     var schema = {};
-
     var plugins = config.teraserver.plugins;
-    var configPluginPath;
 
     if (plugins && plugins.names.length > 0) {
-        configPluginPath = plugins.path;
 
         plugins.names.forEach(function(name) {
-            schema[name] = getPlugin(name, configPluginPath)
+            var plugin =  getPlugin(name, config);
+            schema[name] = getPluginSchema(plugin);
         });
     }
 
