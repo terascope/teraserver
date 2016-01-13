@@ -15,8 +15,8 @@ li.divider-vertical {
     border-right: 1px solid rgb(250, 250, 250);
 }
 
-.caret-dropdown {    
-  margin-top: 5px; 
+.caret-dropdown {
+  margin-top: 5px;
 }
 
 .caret-menu {
@@ -90,8 +90,8 @@ li.divider-vertical {
 }
 /* Added clear both to table-bordered to clear the edit search button in the tabs*/
 .table-bordered {
-    clear: both; 
-} 
+    clear: both;
+}
 .header-blue {
     background: rgb(52, 152, 219);
     box-shadow: 0px 1px 2px 0px rgba(255, 255, 255, 0.3) inset, 0px 2px 2px 0px rgba(0, 0, 0, 0.2);
@@ -109,7 +109,7 @@ td.fixed_width {
     max-width: 175px;
     width: 175px;
     overflow: hidden;
-    text-overflow: ellipsis;    
+    text-overflow: ellipsis;
 }
 .custom {
     border-bottom: 1px solid rgb(221, 221, 221);
@@ -128,10 +128,10 @@ small.error {
   color: red;
 }
 
-.center { 
-  float: none; 
-  margin-left: auto; 
-  margin-right: auto; 
+.center {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn-custom {
@@ -147,7 +147,7 @@ small.error {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff006ccc', GradientType=0);
   border-color: #006ccc #006ccc #002a80;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  
+
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
@@ -188,19 +188,19 @@ table.table thead .sorting_desc_disabled {
     cursor: pointer;
     *cursor: hand;
 }
- 
-table.table thead .sorting { background: url('/pl/pfui/static/images/sort_both.png') no-repeat center right; padding: 8px 16px 8px 8px; word-wrap: normal; }
-table.table thead .sorting_asc { background: url('/pl/pfui/static/images/sort_asc.png') no-repeat center right; }
-table.table thead .sorting_desc { background: url('/pl/pfui/static/images/sort_desc.png') no-repeat center right; }
- 
-table.table thead .sorting_asc_disabled { background: url('/pl/pfui/static/images/sort_asc_disabled.png') no-repeat center right; }
-table.table thead .sorting_desc_disabled { background: url('/pl/pfui/static/images/sort_desc_disabled.png') no-repeat center right; }
+
+table.table thead .sorting { background: url('/pl/teranaut/static/images/sort_both.png') no-repeat center right; padding: 8px 16px 8px 8px; word-wrap: normal; }
+table.table thead .sorting_asc { background: url('/pl/teranaut/static/images/sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: url('/pl/teranaut/static/images/sort_desc.png') no-repeat center right; }
+
+table.table thead .sorting_asc_disabled { background: url('/pl/teranaut/static/images/sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: url('/pl/teranaut/static/images/sort_desc_disabled.png') no-repeat center right; }
 
 table .table-bordered {
-    line-height: 1.42857;  
+    line-height: 1.42857;
 }
 
-table.table td {      
+table.table td {
     vertical-align: middle;
 }
 td.time {
@@ -241,7 +241,7 @@ timezone {
 }
 
 .date-dropdown {
-    width: 620px; 
+    width: 620px;
     margin: 5px;
 }
 .placeholder {
@@ -257,7 +257,7 @@ timezone {
 
 #location-results {
     height: 410px;
-    overflow-y: scroll;    
+    overflow-y: scroll;
 }
 
 del {
@@ -334,7 +334,7 @@ del {
 
 .pivot-value {
     font-size: 14px;
-    font-weight: normal;    
+    font-weight: normal;
 }
 
 .pivot-menu {
