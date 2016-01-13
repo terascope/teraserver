@@ -9,19 +9,19 @@ angular.module('teranaut.data.mongodb', [])
         this.$get = ['$http', function($http) {
             var baseUrl = this.baseUrl;
             return {
-                getBaseUrl: function() {                    
+                getBaseUrl: function() {
                     return baseUrl;
                 },
-                
-                getData: function(collection, config) {                    
-                    return this.request(this.prepareUrl(collection, config));  
+
+                getData: function(collection, config) {
+                    return this.request(this.prepareUrl(collection, config));
                 },
 
                 prepareUrl: function(collection, config) {
                     var url = baseUrl + '/' + collection;
-                    
+
                     if (config) {
-                        url += '?';                    
+                        url += '?';
                         if (config.criteria) {
                             url += '&conditions=' + config.criteria;
                         }
@@ -29,11 +29,11 @@ angular.module('teranaut.data.mongodb', [])
                         if (config.sort) {
                             url += '&sort=' + config.sort;
                         }
-                        
+
                         if (config.limit) {
                             url += '&limit=' + config.limit;
                         }
-                        
+
                         if (config.skip) {
                             url += '&skip=' + config.skip;
                         }
@@ -50,19 +50,19 @@ angular.module('teranaut.data.mongodb', [])
                             url += '&distinct=' + config.distinct;
                         }
                     }
-                
-                    return url;              
+
+                    return url;
                 },
 
-                request: function(url, cache) {                    
+                request: function(url, cache) {
                     return $http({
                         method: 'GET',
                         url: url,
                         cache: cache
-                    }).then(function(result) {                                            
+                    }).then(function(result) {
                         return result.data;
                     }, function(error) {
-console.log(error);                        
+console.log(error);
                         //$rootScope.systemError = "Service unavailable."
                     });
                 }
@@ -75,10 +75,42 @@ console.log(error);
     })
 
     .service('mongodbSearch', ['mongodbData', function(mongodbData) {
-        return { 
+        function startsWith(str, prefix) {
+          if (str.length < prefix.length) return false;
+          for (var i = prefix.length - 1; (i >= 0) && (str[i] === prefix[i]); --i) continue;
+          return i < 0;
+        }
+
+        function apply_modifiers(criteria, context) {
+            function wildcard_query(fields, value) {
+                fields = fields.split('$');
+
+                if (! criteria.hasOwnProperty('$or')) {
+                    criteria['$or'] = [];
+                }
+
+                fields.forEach(function(field) {
+                    var regex = {};
+                    regex[field] = { $regex: value, $options: 'i' };
+                    criteria['$or'].push(regex);
+                })
+                //angular.forEach(fields, function(value, key) {
+                //  this.push(key + ': ' + value);
+                //}, log);
+            }
+
+            angular.forEach(context, function(value, key) {
+                if (startsWith(key, '_wildcard$')) {
+                    var fields = key.substring('_wildcard$'.length)
+                    wildcard_query(fields, value)
+                }
+            })
+        }
+
+        return {
             activeUrl: function(context) {
                 var config = this.prepare(context);
-                    
+
                 return mongodbData.prepareUrl(context.searchConfig.collection, config);
             },
 
@@ -88,7 +120,7 @@ console.log(error);
 // TODO: auto handling of date restriction
 
                 var fields = context.searchConfig.fields;
-                
+
                 for (var i = 0; i < fields.length; i++) {
                     var field = fields[i];
 
@@ -96,6 +128,9 @@ console.log(error);
                         criteria[field.name] = context[field.name]
                     }
                 }
+
+                // This looks for special fields that can do wildcard searches.
+                apply_modifiers(criteria, context);
 
                 var config = {
                     criteria: JSON.stringify(criteria),
@@ -108,27 +143,27 @@ console.log(error);
                 return config;
             },
 
-            search: function(context, done) {                
+            search: function(context, done) {
                 var config = this.prepare(context);
-                
+
                 var searchConfig = context.searchConfig;
                 mongodbData.getData(searchConfig.collection, config).then(function(records) {
-                    if (records) {   
+                    if (records) {
 
-                        // A second query is required to the get the count for paging. 
+                        // A second query is required to the get the count for paging.
                         // This is not ideal, especially since counting in mongo can be slow.
                         config.count = true;
                         // TODO: confirm this is the correct thing to be doing here
                         config.limit = null;
                         config.skip = null;
-                        mongodbData.getData(searchConfig.collection, config).then(function(count) {   
+                        mongodbData.getData(searchConfig.collection, config).then(function(count) {
                             return done(count, records);
                         });
                         return;
                     }
-                    
+
                     done(1, []); // No results
-                });           
+                });
             }
         }
     }]);
