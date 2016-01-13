@@ -153,6 +153,7 @@ console.log(error);
                         // A second query is required to the get the count for paging.
                         // This is not ideal, especially since counting in mongo can be slow.
                         config.count = true;
+                        delete config.sort;
                         // TODO: confirm this is the correct thing to be doing here
                         config.limit = null;
                         config.skip = null;

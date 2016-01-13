@@ -189,12 +189,12 @@ table.table thead .sorting_desc_disabled {
     *cursor: hand;
 }
 
-table.table thead .sorting { background: url('/pl/ui/static/images/sort_both.png') no-repeat center right; padding: 8px 16px 8px 8px; word-wrap: normal; }
-table.table thead .sorting_asc { background: url('/pl/ui/static/images/sort_asc.png') no-repeat center right; }
-table.table thead .sorting_desc { background: url('/pl/ui/static/images/sort_desc.png') no-repeat center right; }
+table.table thead .sorting { background: url('/pl/teranaut/static/images/sort_both.png') no-repeat center right; padding: 8px 16px 8px 8px; word-wrap: normal; }
+table.table thead .sorting_asc { background: url('/pl/teranaut/static/images/sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: url('/pl/teranaut/static/images/sort_desc.png') no-repeat center right; }
 
-table.table thead .sorting_asc_disabled { background: url('/pl/ui/static/images/sort_asc_disabled.png') no-repeat center right; }
-table.table thead .sorting_desc_disabled { background: url('/pl/ui/static/images/sort_desc_disabled.png') no-repeat center right; }
+table.table thead .sorting_asc_disabled { background: url('/pl/teranaut/static/images/sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { background: url('/pl/teranaut/static/images/sort_desc_disabled.png') no-repeat center right; }
 
 table .table-bordered {
     line-height: 1.42857;
