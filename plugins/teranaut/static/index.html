@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html ng-controller="ApplicationController" class="application-auth waiting-for-angular">
+    <head>
+        <title ng-bind="pageTitle.title()"></title>
+        <link rel='stylesheet' href='/pl/teranaut/static/stylesheets/bootstrap.min.css' />
+        <link rel='stylesheet' href='/pl/teranaut/static/stylesheets/select2.css' />
+        <link rel='stylesheet' href='/pl/teranaut/static/stylesheets/style.css' />
+
+        <link rel="icon" type="image/png" href="/pl/teranaut/static/images/favicon.png" />
+
+        <script src="/pl/teranaut/static/lib/jquery.min.js"></script>
+        <script src="/pl/teranaut/static/lib/angular.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/angular-route.js"></script>
+
+        <script src="/pl/teranaut/static/lib/primus.js"></script>
+
+        <script src="/pl/teranaut/static/lib/angular/angular-resource.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/angular-cookies.min.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/angular-cache-2.3.3.min.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/ui-bootstrap-tpls-0.6.0.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/moment.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/truncate.js"></script>
+
+        <script src="/pl/teranaut/static/lib/angular/http-auth-interceptor.js"></script>
+
+        <script src="/pl/teranaut/static/lib/angular/select2.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/angular-select2.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/angular-base64.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/angular-sanitize.js"></script>
+        <script src="/pl/teranaut/static/lib/angular/ng-csv.min.js"></script>
+
+        <script src="/pl/teranaut/static/modules/app.js"></script>
+
+        <script src="/pl/teranaut/static/modules/util/module.js"></script>
+        <script src="/pl/teranaut/static/modules/notices/module.js"></script>
+        <script src="/pl/teranaut/static/modules/search/module.js"></script>
+        <script src="/pl/teranaut/static/modules/search/directives.js"></script>
+        <script src="/pl/teranaut/static/modules/account/module.js"></script>
+        <script src="/pl/teranaut/static/modules/data/mongodb/module.js"></script>
+        <script src="/pl/teranaut/static/modules/data/elasticsearch/module.js"></script>
+        <script src="/pl/teranaut/static/modules/admin/users/module.js"></script>
+        <script src="/pl/teranaut/static/modules/admin/nodes/module.js"></script>
+
+        <script src="/pl/teranaut/static/modules/search/controllers.js"></script>
+        <script src="/pl/teranaut/static/modules/account/controllers.js"></script>
+        <script src="/pl/teranaut/static/modules/admin/users/controllers.js"></script>
+        <script src="/pl/teranaut/static/modules/admin/nodes/controllers.js"></script>
+
+        <base href="/pl/ui/">
+    </head>
+
+    <body>
+
+        <div ng-show="! appLoadingComplete">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span3">
+                    </div>
+                    <div class="span6 text-center" style="margin-top: 50px;">
+                        <h4>Loading application...</h4>
+                        <div class="progress progress-striped active">
+                          <div class="bar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-cloak id="main-content" >
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <a data-target=".navbar-responsive-collapse" data-toggle="collapse" class="btn btn-navbar">
+                        <span class="icon-bar"></span><span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a href="/pl/teranaut" class="brand"><img src="/pl/teranaut/static/images/logo.png"></a>
+
+                    <!--ng-click="$event.preventDefault()"-->
+                    <nav class="{{active}}"  ng-hide="! hideLogin" >
+                        <ul class="nav">
+                            <li class="divider-vertical" ng-show="activeUser.role == 'admin'" ng-class="{ active: isActive('admin/users') }">
+                                <a href="admin/users" class="details" ng-click="active='users'">Users</a>
+                            </li>
+
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li class="dropdown divider-vertical">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span>Tools</span>
+
+                                    <b class="caret caret-menu"></b>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                    <li class="nav-header" ng-show="activeUser.role == 'admin'">Site Admin</li>
+                                    <li ng-show="activeUser.role == 'admin'"><a tabindex="-1" href="admin/users">User Manager</a></li>
+                                    <!--li ng-show="activeUser.role == 'admin'"><a tabindex="-1" href="admin/nodes">Node Manager</a></li-->
+
+
+                                    <li class="nav-header">User Admin</li>
+                                    <li><a tabindex="-1" href="user/account">Edit Account</a></li>
+
+                                    <li class="nav-header">Logout</li>
+                                    <li><a href="account/logout" class="search" ng-click="active='logout'">Logout: {{ activeUser.username }}</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <ui-notices></ui-notices>
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <section ng-view>
+                                    <%-body -%>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr></hr>
+        <div ng-cloak id="footer">
+            <div class="modal-footer">
+                <div class="navbar">
+                    <ul class="nav muted">
+                        COPYRIGHT&copy; 2015 ALL RIGHTS RESERVED
+                    </ul>
+                    <ul class="nav muted pull-right" ng-hide="! hideLogin">
+                        Application version: <app-version></app-version>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

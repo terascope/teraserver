@@ -74,10 +74,34 @@ var api = {
         // All API endpoints require authentication
         this._config.app.use('/api/v1', ensureAuthenticated);
 
+        if (config.teranaut.ui) {
+            var url_base = this._config.url_base;
+
+            var index = function(req, res) {
+                res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+                res.header("Pragma", "no-cache");
+                res.header("X-Frame-Options", "Deny");
+
+                res.sendfile('index.html', {root: __dirname + '/static'});
+            }
+
+            this._config.app.get(url_base, function(req, res) {
+                res.redirect(url_base + '/_'); // redirecting to a path handled by /* path below
+            });
+
+            this._config.app.get(url_base + '/', index);
+            this._config.app.get(url_base + '/*', index);
+
+            // TODO: this is directly hooking to the alias which is making an assumption
+            // about the URL space. This ability probably should be moved into teraserver.
+            this._config.app.get('/pl/' + config.teranaut.ui + '/', index);
+            this._config.app.get('/pl/' + config.teranaut.ui + '/*', index);
+        }
+
         // THIS needs to be deferred until after all plugins have had a chance to load
-        var config = this._config;
+        var plugin_config = this._config;
         deferred.push(function() {
-            config.app.use('/api/v1', baucis());
+            plugin_config.app.use('/api/v1', baucis());
         });
 
         this._config.app.post('/login', passport.authenticate('local'), function(req, res) {
