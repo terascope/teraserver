@@ -3,7 +3,7 @@
 var config = angular.module('app.config', [])
     .constant('appTitle', 'Admin UI')
 
-    .constant('appModuleBase', '/pl/logscope/static/modules/')
+    .constant('appModuleBase', '/pl/teranaut/static/modules/')
 
     .constant('teranautModuleBase', '/pl/teranaut/static/modules/')
 
@@ -25,12 +25,6 @@ var app = angular.module('theApp', ['ngRoute', 'ngResource', 'ngCookies',
                     templateUrl: appModuleBase + '/root/index.tpl.html',
                     controller: 'StubController'
                     //,reloadOnSearch: false
-                }).
-                when('/search/logs/', {
-                    templateUrl: teranautModuleBase + '/search/grid.tpl.html',
-                    controller: 'LogsSearchController'
-                    //,
-                    //reloadOnSearch: false
                 }).
                 otherwise({
                     redirectTo: '/'
