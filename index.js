@@ -8,13 +8,15 @@ var _ = require('lodash');
 module.exports = function(customConfig) {
     var worker = require('./lib/worker');
     var config_schema = require('./system_schema').config_schema;
+    var plugin_schema = require('./system_schema').plugin_schema;
 
 
     var config = {
         name: 'teraserver',
         baucis: true,
         worker: worker,
-        config_schema: config_schema
+        config_schema: config_schema,
+        plugin_schema: plugin_schema
     };
 
     _.merge(config, customConfig);
