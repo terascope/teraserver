@@ -19,6 +19,8 @@
     "passport": "^0.2.1",
     "passport-local": "~0.1.6",
     "passport-local-mongoose": "^0.3.0",
-    "terafoundation": "terascope/terafoundation"
+    "request": "^2.78.0",
+    "terafoundation": "terascope/terafoundation",
+    "yargs": "^6.4.0"
   }
 }
