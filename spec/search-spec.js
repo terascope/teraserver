@@ -288,7 +288,7 @@ describe('teraserver search module', function() {
         expect(query).toEqual({size: 100, _sourceInclude: ['created']});
 
         performSearch({}, req11, res, config8);
-        expect(query).toEqual({size: 100, _sourceInclude: []});
+        expect(list.shift().error).toEqual('the request fields parameter contains fields that are not allowed to be queried');
     });
 
     it('lucene query', function() {
