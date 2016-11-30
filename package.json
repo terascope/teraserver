@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node service.js"
+    "start": "node service.js",
+    "test": "node node_modules/jasmine/bin/jasmine"
   },
   "dependencies": {
     "body-parser": "^1.12.2",
@@ -14,11 +15,14 @@
     "express": "^4.12.3",
     "express-bunyan-logger": "^1.1.1",
     "express-session": "^1.11.1",
-    "lodash": "~2.2.1",
+    "jasmine": "^2.5.2",
+    "lodash": "~4.17.2",
     "method-override": "^2.3.2",
     "passport": "^0.2.1",
     "passport-local": "~0.1.6",
     "passport-local-mongoose": "^0.3.0",
-    "terafoundation": "terascope/terafoundation"
+    "request": "^2.78.0",
+    "terafoundation": "terascope/terafoundation",
+    "yargs": "^6.4.0"
   }
 }
