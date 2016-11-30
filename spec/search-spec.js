@@ -165,8 +165,6 @@ describe('teraserver search module', function() {
         var dateStr = new Date(date.setDate(date.getDate() - 1)).toISOString();
         var dateStr2 = date.toISOString();
 
-        var context = {};
-
         var list = [];
         var res = {
             status: function() {
@@ -185,6 +183,7 @@ describe('teraserver search module', function() {
                 }
             }
         };
+
         var config2 = _.extend({query: 'some:Query'}, config);
         var config3 = _.extend({date_range: true}, config2);
         var config4 = _.extend({geo_field: 'location'}, config2);
@@ -211,14 +210,20 @@ describe('teraserver search module', function() {
 
         //default query
         performSearch({}, req2, res, config);
-        expect(query).toEqual({size: 100});
+        expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100});
 
         performSearch({}, req3, res, config);
-        expect(query).toEqual({size: 1000});
+        expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 1000});
 
         performSearch({}, req2, res, config2);
         expect(query).toEqual({size: 100, body: {query: {bool: {must: ['some:Query']}}}});
-
+        body: {
+            query: {
+                bool: {
+                    must: []
+                }
+            }
+        }
         performSearch({}, req4, res, config3);
         expect(query).toEqual({
             size: 100,
@@ -254,7 +259,7 @@ describe('teraserver search module', function() {
         });
 
         performSearch({}, req6, res, config);
-        expect(query).toEqual({size: 100, from: 12312412});
+        expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, from: 12312412});
 
         performSearch({}, req7, res, config2);
         expect(query).toEqual({
@@ -270,7 +275,7 @@ describe('teraserver search module', function() {
         });
 
         performSearch({}, req8, res, config5);
-        expect(query).toEqual({size: 100, sort: 'someDefault'});
+        expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, sort: 'someDefault'});
 
         performSearch({}, req8, res, config6);
         expect(list.shift().error).toEqual("Invalid sort parameter. Sorting currently available for the 'created' field only.");
@@ -279,16 +284,16 @@ describe('teraserver search module', function() {
         expect(list.shift().error).toEqual("Invalid sort parameter. Must be field_name:asc or field_name:desc.");
 
         performSearch({}, req10, res, config6);
-        expect(query).toEqual({size: 100, sort: 'created:asc'});
+        expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, sort: 'created:asc'});
 
         performSearch({}, req11, res, config6);
-        expect(query).toEqual({size: 100, _sourceInclude: ['created']});
+        expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, _sourceInclude: ['created']});
 
         performSearch({}, req11, res, config7);
-        expect(query).toEqual({size: 100, _sourceInclude: ['created']});
+        expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, _sourceInclude: ['created']});
 
         performSearch({}, req11, res, config8);
-        expect(query).toEqual({size: 100, _sourceInclude: []});
+        expect(list.shift().error).toEqual('the fields parameter does not contain any valid fields');
     });
 
     it('lucene query', function() {
