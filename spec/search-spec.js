@@ -203,7 +203,7 @@ describe('teraserver search module', function() {
         var req9 = {query: {sort: 'created:adsfasd'}};
         var req10 = {query: {sort: 'created:asc'}};
         var req11 = {query: {fields: 'created'}};
-
+        var req12 = {query: {size: 'some string'}};
 
         performSearch({}, req1, res, config);
         expect(list.shift().error).toEqual("Request size too large. Must be less than 100000.");
@@ -217,13 +217,7 @@ describe('teraserver search module', function() {
 
         performSearch({}, req2, res, config2);
         expect(query).toEqual({size: 100, body: {query: {bool: {must: ['some:Query']}}}});
-        body: {
-            query: {
-                bool: {
-                    must: []
-                }
-            }
-        }
+
         performSearch({}, req4, res, config3);
         expect(query).toEqual({
             size: 100,
@@ -294,6 +288,10 @@ describe('teraserver search module', function() {
 
         performSearch({}, req11, res, config8);
         expect(list.shift().error).toEqual('the fields parameter does not contain any valid fields');
+
+        performSearch({}, req12, res, config8);
+        expect(list.shift().error).toEqual('the size parameter must be a number, was given: some string');
+
     });
 
     it('lucene query', function() {
