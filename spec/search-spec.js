@@ -45,6 +45,36 @@ describe('teraserver search module', function() {
         expect(prepareDateRange(null, end)).toEqual(null);
     });
 
+    it('can verify if queries are ok', function() {
+        var properQuery = search_module.__test_context(config, 'created').properQuery;
+        var re = RegExp('[^\\s]*.*:[\\s]*[\\*\\?](.*)');
+
+        var query1 = 'url:https://*';
+        var query2 = 'url:https://d*';
+        var query3 = 'url:https:*';
+        var query4 = 'url:https://* AND something:else';
+        var query5 = 'ipv6:03d3*';
+        var query6 = 'ipv6:03d3:*';
+        var query7 = 'ipv6:03d3:sdg9::/28';
+        var query8 = 'ipv6:03d3:sdg9::/28 NOT url:https://*';
+
+        var badQuery1 = 'url:*asdfd';
+        var badQuery2 = 'url:?asdf';
+
+        expect(properQuery(query1, re)).toEqual(true);
+        expect(properQuery(query2, re)).toEqual(true);
+        expect(properQuery(query3, re)).toEqual(true);
+        expect(properQuery(query4, re)).toEqual(true);
+        expect(properQuery(query5, re)).toEqual(true);
+        expect(properQuery(query6, re)).toEqual(true);
+        expect(properQuery(query7, re)).toEqual(true);
+        expect(properQuery(query8, re)).toEqual(true);
+
+        expect(properQuery(badQuery1, re)).toEqual(false);
+        expect(properQuery(badQuery2, re)).toEqual(false);
+
+    });
+
     it('can validate date ranges', function() {
         var validateDateRange = search_module.__test_context(config, 'created').validateDateRange;
         var list = [];
@@ -290,7 +320,7 @@ describe('teraserver search module', function() {
         expect(list.shift().error).toEqual('the fields parameter does not contain any valid fields');
 
         performSearch({}, req12, res, config8);
-        expect(list.shift().error).toEqual('the size parameter must be a number, was given: some string');
+        expect(list.shift().error).toEqual('size parameter must be a valid number, was given some string');
 
     });
 
