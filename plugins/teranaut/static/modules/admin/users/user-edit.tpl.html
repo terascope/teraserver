@@ -1,15 +1,15 @@
 <!--div class="modal-header"-->
-    
-<!--/div-->  
+
+<!--/div-->
 <div class="content-area">
     <h3>{{ title }}</h3>
-        
-    <form name="userform" class="css-form" novalidate>        
-        <div class="row-fluid">        
+
+    <form name="userform" class="css-form" novalidate>
+        <div class="row-fluid">
             <fieldset class="span3">
                 <label>User Name*</label>
                 <input type="text" ng-model="user.username" placeholder="Minimum 4 characters" ng-disabled="updating">
-            </fieldset>        
+            </fieldset>
         </div>
         <div class="row-fluid">
             <fieldset class="span2">
@@ -19,7 +19,7 @@
             <fieldset class="span2">
                 <label>Last Name*</label>
                 <input type="text" ng-model="user.lastname" placeholder="The users last name" >
-            </fieldset>            
+            </fieldset>
         </div>
         <div class="row-fluid">
             <fieldset class="span3">
@@ -30,34 +30,35 @@
         <div class="row-fluid">
             <fieldset>
                 <label>Role*</label>
-                <select ng-model="user.role" ng-options="role for role in roles" >            
+                <select ng-model="user.role">
+                    <option ng-repeat="role in roles" value="{{ role.role }}">{{ role.name }}</option>
                 </select>
-            </fieldset>       
+            </fieldset>
         </div>
-        <div class="row-fluid">            
+        <div class="row-fluid">
             <fieldset class="span2">
                 <label>Password*</label>
-                <input type="password" ng-model="user.password" placeholder="The user's password" >            
+                <input type="password" ng-model="user.password" placeholder="The user's password" >
             </fieldset>
             <fieldset class="span2">
                 <label>Password Repeat*</label>
                 <input type="password" ng-model="user.password2" placeholder="Repeat the user's password" >
             </fieldset>
-            
+
         </div>
         <div class="row-fluid" ng-show="user.api_token">
             <fieldset>
                 <label>API Token</label>
-                <div>                    
+                <div>
                     <a ng-click="show_api_token = !show_api_token" ng-show="! show_api_token"><i class=" icon-chevron-right"></i>Show API Token</a>
-                    <a ng-click="show_api_token = !show_api_token" ng-show="show_api_token"><i class=" icon-chevron-down"></i>Hide API Token</a>                    
+                    <a ng-click="show_api_token = !show_api_token" ng-show="show_api_token"><i class=" icon-chevron-down"></i>Hide API Token</a>
                 </div>
                 <div ng-show="show_api_token" class="well well-small">{{ user.api_token }}</div>
-            </fieldset>       
+            </fieldset>
         </div>
         <input ng-model="user.role" type="hidden">
-    </form> 
-        
+    </form>
+
     <i>* Required fields</i>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="create()" ng-show="! updating">Create User</button>
