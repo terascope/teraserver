@@ -1,10 +1,10 @@
-<tr ng-repeat="user in searchResults">            
+<tr ng-repeat="user in searchResults">
     <td>{{ user.firstname }} {{ user.count }} </td>
-    <td>{{ user.lastname }}</td>            
+    <td>{{ user.lastname }}</td>
     <td>{{ user.username }}</td>
-    <td>{{ user.role }}</td>
+    <td>{{ user.role | role_name }}</td>
     <td>{{ user.created | wt_date }}</td>
-    <td><button class="btn" ng-click="uictrl.edit(user.username)">Edit</button> 
+    <td><button class="btn" ng-click="uictrl.edit(user.username)">Edit</button>
         <span ng-show="user.username != 'admin'">
             <button class="btn" ng-click="uictrl.remove(user.username)">Remove</button>
         </span>
