@@ -83,7 +83,7 @@ var api = {
                 res.header("X-Frame-Options", "Deny");
 
                 res.sendfile('index.html', {root: __dirname + '/static'});
-            }
+            };
 
             this._config.app.get(url_base, function(req, res) {
                 res.redirect(url_base + '/_'); // redirecting to a path handled by /* path below
