@@ -19,7 +19,7 @@ module.exports = function (config) {
             role: {
                 type: String,
                 required: true,
-                enum: ['admin', 'analyst', 'user', 'domains-user'],
+                enum: ['admin', 'analyst', 'user', 'domains-user', 'class-b-user'],
                 default: 'user'
             },
             username: {type: String, trim: true, required: true, unique: true},
