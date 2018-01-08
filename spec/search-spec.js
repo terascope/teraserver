@@ -83,29 +83,39 @@ describe('teraserver search module', function() {
                 return this
             },
             json: function(val) {
-                list.push(val)
-            }
+                list.push(val.message)
+            },
+            set: function(){}
         };
         var date = new Date();
         var start = date.toISOString();
         var end = new Date(date.getTime() + 100000).toISOString();
-
+        var req = {query: {date_start: null, date_end: null}};
         //null, null is valid
-        expect(validateDateRange(res, null, null)).toEqual(true);
+        expect(validateDateRange(res, req)).toEqual(true);
 
-        validateDateRange(res, 'something', null);
-        expect(list.shift().error).toEqual('date_start is not a valid ISO 8601 date');
+        req.query.date_start = 'something';
+        validateDateRange(res, req, null);
+        expect(list.shift()).toEqual('date_start is not a valid ISO 8601 date');
 
-        validateDateRange(res, null, 'something');
-        expect(list.shift().error).toEqual('date_end is not a valid ISO 8601 date');
+        req.query.date_start = null;
+        req.query.date_end = 'something';
+        validateDateRange(res, req);
+        expect(list.shift()).toEqual('date_end is not a valid ISO 8601 date');
 
-        validateDateRange(res, end, start);
-        expect(list.shift().error).toEqual('date_end is before date_start');
+        req.query.date_start = end;
+        req.query.date_end = start;
+        validateDateRange(res, req);
+        expect(list.shift()).toEqual('date_end is before date_start');
 
-        validateDateRange(res, null, end);
-        expect(list.shift().error).toEqual('date_end provided without a corresponding date_start');
+        req.query.date_start = null;
+        req.query.date_end = end;
+        validateDateRange(res, req);
+        expect(list.shift()).toEqual('date_end provided without a corresponding date_start');
 
-        expect(validateDateRange(res, start, end)).toEqual(true);
+        req.query.date_start = start;
+        req.query.date_end = end;
+        expect(validateDateRange(res, req)).toEqual(true);
     });
 
     it('index history', function() {
@@ -155,8 +165,9 @@ describe('teraserver search module', function() {
                 return this
             },
             json: function(val) {
-                list.push(val)
-            }
+                list.push(val.message)
+            },
+            set: function(){}
         };
 
         var req1 = {query: {}};
@@ -164,19 +175,19 @@ describe('teraserver search module', function() {
         var req3 = {query: {geo_box_top_left: '56m'}};
         var req4 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '56m'}};
         var req5 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '57,92'}};
+        var config = {};
+        expect(geoSearch(req1, res, 'location', config)).toEqual({});
 
-        expect(geoSearch(req1, res, 'location')).toEqual({});
+        geoSearch(req2, res, 'location', config);
+        expect(list.shift()).toEqual("geo_box and geo_distance queries can not be combined");
 
-        geoSearch(req2, res, 'location');
-        expect(list.shift().error).toEqual("geo_box and geo_distance queries can not be combined.");
+        geoSearch(req3, res, 'location', config);
+        expect(list.shift()).toEqual("Invalid geo_box_top_left");
 
-        geoSearch(req3, res, 'location');
-        expect(list.shift().error).toEqual("Invalid geo_box_top_left");
+        geoSearch(req4, res, 'location', config);
+        expect(list.shift()).toEqual("Invalid geo_box_bottom_right");
 
-        geoSearch(req4, res, 'location');
-        expect(list.shift().error).toEqual("Invalid geo_box_bottom_right");
-
-        expect(geoSearch(req5, res, 'location')).toEqual({
+        expect(geoSearch(req5, res, 'location', config)).toEqual({
             geo_bounding_box: {
                 location: {
                     top_left: {
@@ -201,8 +212,9 @@ describe('teraserver search module', function() {
                 return this
             },
             json: function(val) {
-                list.push(val)
-            }
+                list.push(val.message)
+            },
+            set: function(){}
         };
 
         var query;
@@ -236,7 +248,7 @@ describe('teraserver search module', function() {
         var req12 = {query: {size: 'some string'}};
 
         performSearch({}, req1, res, config);
-        expect(list.shift().error).toEqual("Request size too large. Must be less than 100000.");
+        expect(list.shift()).toEqual("Request size too large. Must be less than 100000.");
 
         //default query
         performSearch({}, req2, res, config);
@@ -302,10 +314,10 @@ describe('teraserver search module', function() {
         expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, sort: 'someDefault'});
 
         performSearch({}, req8, res, config6);
-        expect(list.shift().error).toEqual("Invalid sort parameter. Sorting currently available for the 'created' field only.");
+        expect(list.shift()).toEqual("Invalid sort parameter. Sorting currently available for the 'created' field only");
 
         performSearch({}, req9, res, config6);
-        expect(list.shift().error).toEqual("Invalid sort parameter. Must be field_name:asc or field_name:desc.");
+        expect(list.shift()).toEqual("Invalid sort parameter. Must be field_name:asc or field_name:desc");
 
         performSearch({}, req10, res, config6);
         expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, sort: 'created:asc'});
@@ -317,10 +329,10 @@ describe('teraserver search module', function() {
         expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, _sourceInclude: ['created']});
 
         performSearch({}, req11, res, config8);
-        expect(list.shift().error).toEqual('the fields parameter does not contain any valid fields');
+        expect(list.shift()).toEqual('the fields parameter does not contain any valid fields');
 
         performSearch({}, req12, res, config8);
-        expect(list.shift().error).toEqual('size parameter must be a valid number, was given some string');
+        expect(list.shift()).toEqual('size parameter must be a valid number, was given some string');
 
     });
 
@@ -333,8 +345,9 @@ describe('teraserver search module', function() {
                 return this
             },
             json: function(val) {
-                list.push(val)
-            }
+                list.push(val.message)
+            },
+            set: function(){}
         };
 
         var query;
@@ -349,7 +362,7 @@ describe('teraserver search module', function() {
         var config2 = _.extend({allowed_fields: 'some'}, config);
         var config3 = _.extend({allowed_fields: 'other'}, config);
 
-        var req1 = {};
+        var req1 = {query: {}};
         var req2 = {query: {q: 'some:*Query'}};
         var req3 = {query: {q: 'some:?Query'}};
         var req4 = {query: {q: 'some:*'}};
@@ -357,16 +370,16 @@ describe('teraserver search module', function() {
 
 
         luceneQuery(req1, res, index, config);
-        expect(list.shift().error).toEqual("Search query must be specified in the query parameter q.");
+        expect(list.shift()).toEqual("Search query must be specified in the query parameter q");
 
         luceneQuery(req2, res, index, config);
-        expect(list.shift().error).toEqual("Wild card queries of the form 'fieldname:*value' or 'fieldname:?value' can not be evaluated. Please refer to the documentation on 'fieldname.right'.");
+        expect(list.shift()).toEqual("Wild card queries of the form 'fieldname:*value' or 'fieldname:?value' can not be evaluated. Please refer to the documentation on 'fieldname.right'");
 
         luceneQuery(req3, res, index, config);
-        expect(list.shift().error).toEqual("Wild card queries of the form 'fieldname:*value' or 'fieldname:?value' can not be evaluated. Please refer to the documentation on 'fieldname.right'.");
+        expect(list.shift()).toEqual("Wild card queries of the form 'fieldname:*value' or 'fieldname:?value' can not be evaluated. Please refer to the documentation on 'fieldname.right'");
 
         luceneQuery(req4, res, index, config);
-        expect(list.shift().error).toEqual("Wild card queries of the form 'fieldname:*value' or 'fieldname:?value' can not be evaluated. Please refer to the documentation on 'fieldname.right'.");
+        expect(list.shift()).toEqual("Wild card queries of the form 'fieldname:*value' or 'fieldname:?value' can not be evaluated. Please refer to the documentation on 'fieldname.right'");
 
         luceneQuery(req5, res, index, config);
         expect(query).toEqual({
@@ -386,7 +399,7 @@ describe('teraserver search module', function() {
         });
 
         luceneQuery(req5, res, index, config3);
-        expect(list.shift().error).toEqual('you cannot query on these terms: some');
+        expect(list.shift()).toEqual('you cannot query on these terms: some');
     });
 
     it('lucene with history query', function() {
@@ -405,8 +418,9 @@ describe('teraserver search module', function() {
                 return this
             },
             json: function(val) {
-                list.push(val)
-            }
+                list.push(val.message)
+            },
+            set: function(){}
         };
 
         var query;
@@ -437,19 +451,19 @@ describe('teraserver search module', function() {
         });
 
         luceneWithHistoryQuery(req2, res, indexes1, config);
-        expect(list.shift().error).toEqual("History specification must be numeric.");
+        expect(list.shift()).toEqual("History specification must be numeric");
 
         luceneWithHistoryQuery(req3, res, indexes1, config);
-        expect(list.shift().error).toEqual("History specification must be numeric.");
+        expect(list.shift()).toEqual("History specification must be numeric");
 
         luceneWithHistoryQuery(req4, res, indexes1, config);
-        expect(list.shift().error).toEqual("History specification must be a positive number.");
+        expect(list.shift()).toEqual("History specification must be a positive number");
 
         luceneWithHistoryQuery(req5, res, indexes1, config);
-        expect(list.shift().error).toEqual("History specification must be a positive number.");
+        expect(list.shift()).toEqual("History specification must be a positive number");
 
         luceneWithHistoryQuery(req6, res, indexes1, config);
-        expect(list.shift().error).toEqual("History is not available beyond 90 days.");
+        expect(list.shift()).toEqual("History is not available beyond 90 days");
 
         luceneWithHistoryQuery(req7, res, indexes2, config);
         expect(query).toEqual({
