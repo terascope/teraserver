@@ -165,7 +165,7 @@ describe('teraserver search module', function() {
         var req4 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '56m'}};
         var req5 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '57,92'}};
 
-        expect(geoSearch(req1, res, 'location')).toEqual({});
+        expect(geoSearch(req1, res, 'location')).toEqual(false);
 
         geoSearch(req2, res, 'location');
         expect(list.shift().error).toEqual("geo_box and geo_distance queries can not be combined.");
@@ -176,7 +176,7 @@ describe('teraserver search module', function() {
         geoSearch(req4, res, 'location');
         expect(list.shift().error).toEqual("Invalid geo_box_bottom_right");
 
-        expect(geoSearch(req5, res, 'location')).toEqual({
+        expect(geoSearch(req5, res, 'location').query).toEqual({
             geo_bounding_box: {
                 location: {
                     top_left: {
