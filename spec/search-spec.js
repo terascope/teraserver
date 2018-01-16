@@ -164,6 +164,15 @@ describe('teraserver search module', function() {
         var req3 = {query: {geo_box_top_left: '56m'}};
         var req4 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '56m'}};
         var req5 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '57,92'}};
+        var req6 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '57,92', geo_sort_unit: 'km'}};
+        var req7 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '57,92', geo_sort_order: 'desc'}};
+        var req8 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '57,92', geo_sort_unit: 'km', geo_sort_order: 'desc'}};
+        var req9 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '57,92', geo_sort_point: '57,90'}};
+        var req10 = {query: {geo_box_top_left: '56,89', geo_box_bottom_right: '57,92', geo_sort_point: '57,90', geo_sort_unit: 'km', geo_sort_order: 'desc'}};
+        var req11 = {query: {geo_point: '56,89'}};
+        var req12 = {query: {geo_point: '56,89', geo_distance: '1000km'}};
+        var req13 = {query: {geo_point: '56,89', geo_distance: '1000km', geo_sort_order: 'desc', geo_sort_unit: 'km'}};
+        var req14 = {query: {geo_point: '56,89', geo_distance: '1000km', geo_sort_point: '57,90'}};
 
         expect(geoSearch(req1, res, 'location')).toEqual(false);
 
@@ -182,10 +191,74 @@ describe('teraserver search module', function() {
                     top_left: {
                         lat: '56',
                         lon: '89'
-                    }, bottom_right: {lat: '57', lon: '92'}
+                    },
+                    bottom_right: {
+                        lat: '57',
+                        lon: '92'
+                    }
                 }
             }
         });
+
+
+        geoSearch(req6, res, 'location');
+        expect(list.shift().error).toEqual("bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided");
+
+        geoSearch(req7, res, 'location');
+        expect(list.shift().error).toEqual("bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided");
+
+        geoSearch(req8, res, 'location');
+        expect(list.shift().error).toEqual("bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided");
+
+        const req9Results = geoSearch(req9, res, 'location');
+        expect(req9Results.query).toEqual({
+            geo_bounding_box: {
+                location: {
+                    top_left: {
+                        lat: '56',
+                        lon: '89'
+                    },
+                    bottom_right: {
+                        lat: '57',
+                        lon: '92'
+                    }
+                }
+            }
+        });
+        expect(req9Results.sort).toEqual({ _geo_distance: { location: { lat: '57', lon: '90' }, order: 'asc', unit: 'm' }});
+
+        const req10Results = geoSearch(req10, res, 'location');
+        expect(req10Results.query).toEqual({
+            geo_bounding_box: {
+                location: {
+                    top_left: {
+                        lat: '56',
+                        lon: '89'
+                    },
+                    bottom_right: {
+                        lat: '57',
+                        lon: '92'
+                    }
+                }
+            }
+        });
+        expect(req10Results.sort).toEqual({ _geo_distance: { location: { lat: '57', lon: '90' }, order: 'desc', unit: 'km' }});
+
+        geoSearch(req11, res, 'location');
+        expect(list.shift().error).toEqual("Both geo_point and geo_distance must be provided for a geo_point query.");
+
+        const req12Results = geoSearch(req12, res, 'location');
+        expect(req12Results.query).toEqual({ geo_distance: { distance: '1000km', location: { lat: '56', lon: '89' } } });
+        expect(req12Results.sort).toEqual({ _geo_distance: { location: { lat: '56', lon: '89' }, order: 'asc', unit: 'm' } });
+
+        const req13Results = geoSearch(req13, res, 'location');
+        expect(req13Results.query).toEqual({ geo_distance: { distance: '1000km', location: { lat: '56', lon: '89' } } });
+        expect(req13Results.sort).toEqual({ _geo_distance: { location: { lat: '56', lon: '89' }, order: 'desc', unit: 'km' } });
+
+        const req14Results = geoSearch(req14, res, 'location');
+        expect(req14Results.query).toEqual({ geo_distance: { distance: '1000km', location: { lat: '56', lon: '89' } } });
+        expect(req14Results.sort).toEqual({ _geo_distance: { location: { lat: '57', lon: '90' }, order: 'asc', unit: 'm' } });
+
     });
 
     it('performs search', function() {
