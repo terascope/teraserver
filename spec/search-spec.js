@@ -93,17 +93,17 @@ describe('teraserver search module', function() {
         //null, null is valid
         expect(validateDateRange(res, null, null)).toEqual(true);
 
-        validateDateRange(res, 'something', null);
-        expect(list.shift().error).toEqual('date_start is not a valid ISO 8601 date');
+        expect(() => validateDateRange(res, 'something', null))
+            .toThrow({code: 500, error: 'date_start is not a valid ISO 8601 date'});
 
-        validateDateRange(res, null, 'something');
-        expect(list.shift().error).toEqual('date_end is not a valid ISO 8601 date');
+        expect(() => validateDateRange(res, null, 'something'))
+            .toThrow({code: 500, error: 'date_end is not a valid ISO 8601 date'});
 
-        validateDateRange(res, end, start);
-        expect(list.shift().error).toEqual('date_end is before date_start');
+        expect(() => validateDateRange(res, end, start))
+            .toThrow({code: 500, error: 'date_end is before date_start'});
 
-        validateDateRange(res, null, end);
-        expect(list.shift().error).toEqual('date_end provided without a corresponding date_start');
+        expect(() => validateDateRange(res, null, end))
+            .toThrow({code: 500, error: 'date_end provided without a corresponding date_start'});
 
         expect(validateDateRange(res, start, end)).toEqual(true);
     });
@@ -176,14 +176,14 @@ describe('teraserver search module', function() {
 
         expect(geoSearch(req1, res, 'location')).toEqual(false);
 
-        geoSearch(req2, res, 'location');
-        expect(list.shift().error).toEqual("geo_box and geo_distance queries can not be combined.");
+        expect(() => geoSearch(req2, res, 'location'))
+            .toThrow({code: 500, error: "geo_box and geo_distance queries can not be combined."});
 
-        geoSearch(req3, res, 'location');
-        expect(list.shift().error).toEqual("Invalid geo_box_top_left");
+        expect(() => geoSearch(req3, res, 'location'))
+            .toThrow({code: 500, error: "Invalid geo_box_top_left"});
 
-        geoSearch(req4, res, 'location');
-        expect(list.shift().error).toEqual("Invalid geo_box_bottom_right");
+        expect(() => geoSearch(req4, res, 'location'))
+            .toThrow({code: 500, error: "Invalid geo_box_bottom_right"});
 
         expect(geoSearch(req5, res, 'location').query).toEqual({
             geo_bounding_box: {
@@ -201,14 +201,14 @@ describe('teraserver search module', function() {
         });
 
 
-        geoSearch(req6, res, 'location');
-        expect(list.shift().error).toEqual("bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided");
+        expect(() => geoSearch(req6, res, 'location'))
+            .toThrow({code: 500, error: "bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided"});
 
-        geoSearch(req7, res, 'location');
-        expect(list.shift().error).toEqual("bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided");
+        expect(() => geoSearch(req7, res, 'location'))
+            .toThrow({code: 500, error: "bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided"});
 
-        geoSearch(req8, res, 'location');
-        expect(list.shift().error).toEqual("bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided");
+        expect(() => geoSearch(req8, res, 'location'))
+            .toThrow({code: 500, error: "bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided"});
 
         const req9Results = geoSearch(req9, res, 'location');
         expect(req9Results.query).toEqual({
@@ -244,8 +244,8 @@ describe('teraserver search module', function() {
         });
         expect(req10Results.sort).toEqual({ _geo_distance: { location: { lat: '57', lon: '90' }, order: 'desc', unit: 'km' }});
 
-        geoSearch(req11, res, 'location');
-        expect(list.shift().error).toEqual("Both geo_point and geo_distance must be provided for a geo_point query.");
+        expect(() => geoSearch(req11, res, 'location'))
+            .toThrow({code: 500, error: "Both geo_point and geo_distance must be provided for a geo_point query."});
 
         const req12Results = geoSearch(req12, res, 'location');
         expect(req12Results.query).toEqual({ geo_distance: { distance: '1000km', location: { lat: '56', lon: '89' } } });
@@ -308,8 +308,8 @@ describe('teraserver search module', function() {
         var req11 = {query: {fields: 'created'}};
         var req12 = {query: {size: 'some string'}};
 
-        performSearch({}, req1, res, config);
-        expect(list.shift().error).toEqual("Request size too large. Must be less than 100000.");
+        expect(() => performSearch({}, req1, res, config))
+            .toThrow({code: 500, error: "Request size too large. Must be less than 100000."});
 
         //default query
         performSearch({}, req2, res, config);
@@ -374,11 +374,11 @@ describe('teraserver search module', function() {
         performSearch({}, req8, res, config5);
         expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, sort: 'someDefault'});
 
-        performSearch({}, req8, res, config6);
-        expect(list.shift().error).toEqual("Invalid sort parameter. Sorting currently available for the 'created' field only.");
+        expect(() => performSearch({}, req8, res, config6))
+            .toThrow({code: 500, error: "Invalid sort parameter. Sorting currently available for the 'created' field only."});
 
-        performSearch({}, req9, res, config6);
-        expect(list.shift().error).toEqual("Invalid sort parameter. Must be field_name:asc or field_name:desc.");
+        expect(() => performSearch({}, req9, res, config6))
+            .toThrow({code: 500, error: "Invalid sort parameter. Must be field_name:asc or field_name:desc."});
 
         performSearch({}, req10, res, config6);
         expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, sort: 'created:asc'});
@@ -389,11 +389,11 @@ describe('teraserver search module', function() {
         performSearch({}, req11, res, config7);
         expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, _sourceInclude: ['created']});
 
-        performSearch({}, req11, res, config8);
-        expect(list.shift().error).toEqual('the fields parameter does not contain any valid fields');
+        expect(() => performSearch({}, req11, res, config8))
+            .toThrow({code: 500, error: 'the fields parameter does not contain any valid fields'});
 
-        performSearch({}, req12, res, config8);
-        expect(list.shift().error).toEqual('size parameter must be a valid number, was given some string');
+        expect(() => performSearch({}, req12, res, config8))
+            .toThrow({code: 500, error: 'size parameter must be a valid number, was given some string'});
 
     });
 
