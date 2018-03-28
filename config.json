@@ -3,20 +3,22 @@
     "auth": {
       "open_signup": true,
       "require_email": true
-    }
   },
+  "ui": true
+  },
+  "logscope":{},
   "teraserver": {
     "shutdown_timeout": 5,
     "plugins": {
       "names": [
-        "teranaut"
+        "teranaut", "logscope"
       ],
-      "path": "/Users/jarednoble/Projects/terascope/teraserver/plugins"
+      "path": "/Users/ciorg/Terascope/teraserver/plugins"
     }
   },
   "terafoundation": {
     "environment": "development",
-    "log_path": "/Users/jarednoble/Desktop/logs",
+    "log_path": "/Users/ciorg/Terascope/logs",
     "connectors": {
       "elasticsearch": {
         "default": {
@@ -36,7 +38,7 @@
       },
       "mongodb": {
         "default": {
-          "servers": "mongodb://localhost:27017/hdfs"
+          "servers": "mongodb://localhost:27017"
         }
       },
       "redis": {
@@ -45,5 +47,9 @@
         }
       }
     }
+},
+  "searchCounter": {
+      "esConnection": "default",
+      "service": "api"
   }
 }
