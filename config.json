@@ -14,6 +14,11 @@
         "teranaut", "logscope"
       ],
       "path": "/Users/ciorg/Terascope/teraserver/plugins"
+  },
+    "stats": {
+      "es_onnection": "default",
+      "service": "api",
+      "internal": 10000
     }
   },
   "terafoundation": {
@@ -47,9 +52,5 @@
         }
       }
     }
-},
-  "searchCounter": {
-      "esConnection": "default",
-      "service": "api"
   }
 }
