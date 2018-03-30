@@ -7,7 +7,26 @@ describe('teraserver search module', function() {
         context: {
             foundation: {
                 makeLogger: function() {
-                }
+                },
+                getConnection: (config) => {
+                    return {
+                        client: {
+                            bulk: () => {
+                                return Promise.resolve({
+                                        items: [ ]
+                                })
+                            }
+                        }
+                    }
+                },
+            },
+            sysconfig: {
+                teraserver: {
+                    stats: {
+                        service: 'api',
+                        es_connection: 'default' }
+                        },
+                _nodeName: 'this.is.mylaptop.1'
             }
         }
     };
@@ -282,7 +301,8 @@ describe('teraserver search module', function() {
         var config = {
             es_client: {
                 search: function(_query) {
-                    query = _query
+                    query = _query;
+                    return Promise.resolve(false);
                 }
             }
         };
@@ -415,6 +435,7 @@ describe('teraserver search module', function() {
             es_client: {
                 search: function(_query) {
                     query = _query
+                    return Promise.resolve(false);
                 }
             }
         };
@@ -487,6 +508,7 @@ describe('teraserver search module', function() {
             es_client: {
                 search: function(_query) {
                     query = _query
+                    return Promise.resolve(false);
                 }
             },
             history_prefix: 'logscope-'

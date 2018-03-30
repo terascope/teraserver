@@ -1,23 +1,51 @@
 'use strict';
 
 var _ = require('lodash');
-const http = require('http');
-
-
+const Promise = require('bluebird');
 
 describe('teraserver search analytics module', function() {
-    const context = { foundation: 'getConnection',
-                      sysconfig: {
-                          teraserver: {
-                               stats: {
-                                   service: 'api',
-                                   es_connection: 'default' }
+    let bodyTest = {};
+    let statusCode = 201;
+    let errorCode = 'error';
+    let errorMessage = '';
+
+    const context = {
+        foundation: {
+            getConnection: (config) => {
+                return {
+                    client: {
+                        bulk: (body) => {
+                            bodyTest = body;
+                            return Promise.resolve({
+                                    items:
+                                        [ { index: {
+                                                status: statusCode,
+                                                error: errorCode
+                                            } } ]
+                            })
+                        }
+                    }
+                }
+            },
+            makeLogger: (module) => {
+                return {
+                        error: (message) => {
+                            errorMessage = message;
+                        }
+                    }
+                }
+        },
+        sysconfig: {
+                teraserver: {
+                        stats: {
+                            service: 'api',
+                            es_connection: 'default' }
                                },
                         _nodeName: 'this.is.mylaptop.1'
                            }
                        };
 
-    var search_module = require('../lib/search_counter')(context);
+    var search_counter_module = require('../lib/search_counter')(context);
 
     let req = {user: { api_token: 'abc123dabdsioueadbs23423' },
                _parsedOriginalUrl: { pathname: 'api/v1/logstash' }
@@ -39,16 +67,33 @@ describe('teraserver search analytics module', function() {
                     res.statusCode = statusCode;
                     let i = 0;
                     for(i; i < 10; i += 1){
-                        counter = search_module.tokenAndStatusCodeCount(req, res, 5);
+                        counter = search_counter_module.tokenAndStatusCodeCount(req, res, 5);
                     }
                 });
             });
         });
     }
 
+    it('avgTime function takes an array of numbers and returns the rounded up average', function() {
+        const numsArray1 = [1, 2, 3, 4, 5];
+        const numsArray2 = [13, 34, 23, 100, 102];
+        const numsArray3 = [1, 2, 3, 4, undefined, 5, undefined];
+        const numsArray4 = [undefined, undefined];
+
+        expect(search_counter_module.__test_context()._avgTime(numsArray1)).toBe(3);
+        expect(search_counter_module.__test_context()._avgTime(numsArray2)).toBe(55);
+        expect(search_counter_module.__test_context()._avgTime(numsArray3)).toBe(3);
+        expect(search_counter_module.__test_context()._avgTime(numsArray4)).toBe(0);
+    });
+
+    it('formatedDate returns month.date from ISO string', function() {
+        const date = '2018-03-28T20:25:34.708Z'
+        expect(search_counter_module.__test_context()._formattedDate(date)).toBe('2018.03');
+    });
+
     it('query responses are aggregated', function() {
         res = { statusCode: 200};
-        counter = search_module.tokenAndStatusCodeCount(req, res, 10);
+        counter = search_counter_module.tokenAndStatusCodeCount(req, res, 10);
 
         // apiToken, apiEndpoint, status combine for the counter property
         expect(counter['abc12-api/v1/logstash-200']).toBeDefined();
@@ -99,25 +144,20 @@ describe('teraserver search analytics module', function() {
         expect(counter['ghi12-api/v1/bobrash'].length).toBe(30);
     });
 
-    it('avgTime function takes an array of numbers and returns the average, rounded up', function() {
-        const numsArray1 = [1, 2, 3, 4, 5];
-        const numsArray2 = [13, 34, 23, 100, 102];
-        expect(search_module.__test_context()._avgTime(numsArray1)).toBe(3);
-        expect(search_module.__test_context()._avgTime(numsArray2)).toBe(55);
-    });
-
-    it('formatedDate returns month.date from ISO string', function() {
-        const date = '2018-03-28T20:25:34.708Z'
-        expect(search_module.__test_context()._formattedDate(date)).toBe('2018.03');
+    it('flush should reset the counter to 0', function(){
+        expect(Object.keys(counter).length).toBe(38);
+        search_counter_module.__test_context()._resetCounter();
+        res = { statusCode: 200};
+        counter = search_counter_module.tokenAndStatusCodeCount(req, res, 10);
+        expect(Object.keys(counter).length).toBe(2);
     });
 
     it('bulkRequests create a proper es bulk request array', function () {
+        search_counter_module.__test_context()._resetCounter();
         manyRequests();
-        const results = search_module.__test_context()._bulkRequests();
-        // 28 different search points to count (27 from manyRequests and 1 solo)
-        // 10 different timer points ( 9 from manyRequests, 1 solo)
-        // 38 total records + a header for each record = 76 total objects in bulk array
-        expect(results.length).toBe(76);
+        const results = search_counter_module.__test_context()._bulkRequests();
+        // 27 different searches, 9 endpoints from timers x2 for the bulk index header
+        expect(results.length).toBe(72);
         expect(results[0].index).toBeDefined();
         expect(results[0].index._index).toBeDefined();
         expect(results[0].index._type).toBeDefined();
@@ -129,27 +169,40 @@ describe('teraserver search analytics module', function() {
         expect(results[1].endpoint).toBeDefined();
     });
 
-    it('flush should reset the counter to 0', function(){
-        expect(Object.keys(counter).length).toBe(38);
-        search_module.__test_context()._resetCounter();
-        res = { statusCode: 200};
-        counter = search_module.tokenAndStatusCodeCount(req, res, 10);
-        expect(Object.keys(counter).length).toBe(2);
-    });
-
     it('bulkRequest should know the difference between a counter and a timer', function(){
-        search_module.__test_context()._resetCounter();
+        search_counter_module.__test_context()._resetCounter();
         res = { statusCode: 200};
-        search_module.tokenAndStatusCodeCount(req, res, 10);
-        const results = search_module.__test_context()._bulkRequests();
-        expect(results[0].index._type).toBe('counter');
-        expect(results[2].index._type).toBe('timer');
+        search_counter_module.tokenAndStatusCodeCount(req, res, 10);
+        const results = search_counter_module.__test_context()._bulkRequests();
+        expect(results[1].type).toBe('counter');
+        expect(results[3].type).toBe('timer');
     });
 
-    // access the es connection
-    // logging?
-    // test data is pushed into es
-    // test that interval is working
-    // test errors
+    it('test the bulk request error handling', function(done) {
+        statusCode = 404;
+        let returnedMessage;
+        search_counter_module.__test_context()._sendBulkRequestToEs()
+        .then(() => {
+            expect(errorMessage).toBe('Stats sync error from bulk insert: 404 error')
+        })
+        .finally(done);
+    });
 
+    it('test 500 status codes', function() {
+        let res = {
+            statusCode: 500,
+        };
+        search_counter_module.__test_context()._resetCounter();
+        search_counter_module.tokenAndStatusCodeCount(req, res, undefined);
+        res.statusCode = 200;
+        search_counter_module.tokenAndStatusCodeCount(req, res, 10);
+        search_counter_module.tokenAndStatusCodeCount(req, res, 20);
+        res.statusCode = 500;
+        counter = search_counter_module.tokenAndStatusCodeCount(req, res, undefined);
+        const bulkArray = search_counter_module.__test_context()._bulkRequests();
+        expect(bulkArray[3].avg_time).toBe(15);
+        expect(bulkArray[1].status).toBe('500');
+        expect(bulkArray[5].status).toBe('200');
+
+    });
 });
