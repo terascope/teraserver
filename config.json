@@ -16,9 +16,9 @@
       "path": "/Users/ciorg/Terascope/teraserver/plugins"
   },
     "stats": {
-      "es_onnection": "default",
+      "es_connection": "default",
       "service": "api",
-      "internal": 10000
+      "interval": 10000
     }
   },
   "terafoundation": {

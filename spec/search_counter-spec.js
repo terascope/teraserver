@@ -9,7 +9,7 @@ describe('teraserver search analytics module', function() {
     let errorCode = 'error';
     let errorMessage = '';
 
-    const context = {
+    let context = {
         foundation: {
             getConnection: (config) => {
                 return {
@@ -205,4 +205,12 @@ describe('teraserver search analytics module', function() {
         expect(bulkArray[5].status).toBe('200');
 
     });
+
+    it('test that if no stats in config the counts do not happen', function() {
+        search_counter_module.__test_context()._resetCounter();
+        delete context.sysconfig.teraserver.stats;
+        res = { statusCode: 200};
+        counter = search_counter_module.tokenAndStatusCodeCount(req, res, 10);
+        expect(Object.keys(counter).length).toBe(0);
+    })
 });
