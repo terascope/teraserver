@@ -7,7 +7,26 @@ describe('teraserver search module', function() {
         context: {
             foundation: {
                 makeLogger: function() {
-                }
+                },
+                getConnection: (config) => {
+                    return {
+                        client: {
+                            bulk: () => {
+                                return Promise.resolve({
+                                        items: [ ]
+                                })
+                            }
+                        }
+                    }
+                },
+            },
+            sysconfig: {
+                teraserver: {
+                    stats: {
+                        service: 'api',
+                        es_connection: 'default' }
+                        },
+                _nodeName: 'this.is.mylaptop.1'
             }
         }
     };
@@ -282,7 +301,8 @@ describe('teraserver search module', function() {
         var config = {
             es_client: {
                 search: function(_query) {
-                    query = _query
+                    query = _query;
+                    return Promise.resolve(false);
                 }
             }
         };
@@ -308,8 +328,8 @@ describe('teraserver search module', function() {
         var req11 = {query: {fields: 'created'}};
         var req12 = {query: {size: 'some string'}};
 
-        expect(() => performSearch({}, req1, res, config))
-            .toThrow({code: 500, error: "Request size too large. Must be less than 100000."});
+        performSearch({}, req1, res, config)
+        expect(list.shift().error).toEqual("Request size too large. Must be less than 100000.");
 
         //default query
         performSearch({}, req2, res, config);
@@ -374,11 +394,11 @@ describe('teraserver search module', function() {
         performSearch({}, req8, res, config5);
         expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, sort: 'someDefault'});
 
-        expect(() => performSearch({}, req8, res, config6))
-            .toThrow({code: 500, error: "Invalid sort parameter. Sorting currently available for the 'created' field only."});
+        performSearch({}, req8, res, config6)
+        expect(list.shift().error).toEqual("Invalid sort parameter. Sorting currently available for the 'created' field only.");
 
-        expect(() => performSearch({}, req9, res, config6))
-            .toThrow({code: 500, error: "Invalid sort parameter. Must be field_name:asc or field_name:desc."});
+        performSearch({}, req9, res, config6)
+        expect(list.shift().error).toEqual("Invalid sort parameter. Must be field_name:asc or field_name:desc.");
 
         performSearch({}, req10, res, config6);
         expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, sort: 'created:asc'});
@@ -389,12 +409,11 @@ describe('teraserver search module', function() {
         performSearch({}, req11, res, config7);
         expect(query).toEqual({body: {query: {bool: {must: []}}}, size: 100, _sourceInclude: ['created']});
 
-        expect(() => performSearch({}, req11, res, config8))
-            .toThrow({code: 500, error: 'the fields parameter does not contain any valid fields'});
+        performSearch({}, req11, res, config8)
+        expect(list.shift().error).toEqual('the fields parameter does not contain any valid fields');
 
-        expect(() => performSearch({}, req12, res, config8))
-            .toThrow({code: 500, error: 'size parameter must be a valid number, was given some string'});
-
+        performSearch({}, req12, res, config8)
+        expect(list.shift().error).toEqual('size parameter must be a valid number, was given some string');
     });
 
     it('lucene query', function() {
@@ -415,6 +434,7 @@ describe('teraserver search module', function() {
             es_client: {
                 search: function(_query) {
                     query = _query
+                    return Promise.resolve(false);
                 }
             }
         };
@@ -487,6 +507,7 @@ describe('teraserver search module', function() {
             es_client: {
                 search: function(_query) {
                     query = _query
+                    return Promise.resolve(false);
                 }
             },
             history_prefix: 'logscope-'
