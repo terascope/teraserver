@@ -166,7 +166,7 @@ describe('teraserver search analytics module', function() {
         expect(results[1].service).toBeDefined();
         expect(results[1].worker).toBeDefined();
         expect(results[1].token).toBeDefined();
-        expect(results[1].endpoint).toBeDefined();
+        expect(results[1].url).toBeDefined();
     });
 
     it('bulkRequest should know the difference between a counter and a timer', function(){

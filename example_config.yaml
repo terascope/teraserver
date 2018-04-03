@@ -1,0 +1,36 @@
+teranaut:
+  auth:
+      open_signup: true
+      require_email: true
+  ui: true
+teraserver:
+  shutdown_timeout: 5
+  plugins:
+    names:
+      - plugin directory names go here
+    path: "path to plugin directory"
+  stats:
+    es_connection: default
+    service: api
+    interval: 10000
+terafoundation:
+  environment: development
+  log_path: "path to log file"
+  connectors:
+    elasticsearch:
+      default:
+        host:
+          - "127.0.0.1:9200"
+        keepAlive: false
+        maxRetries: 5
+        maxSockets: 20
+    statsd:
+      default:
+        host: "127.0.0.1"
+        mock: false
+    mongodb:
+      default:
+        servers: "mongodb://localhost:27017"
+    redis:
+      default:
+        host: "127.0.0.1"
