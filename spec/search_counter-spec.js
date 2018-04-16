@@ -92,7 +92,7 @@ describe('teraserver search analytics module', function() {
     });
 
     it('query responses are aggregated', function() {
-        res = { statusCode: 200};
+        res.statusCode = 200;
         counter = search_counter_module.tokenAndStatusCodeCount(req, res, 10);
 
         // apiToken, apiEndpoint, status combine for the counter property
@@ -147,7 +147,7 @@ describe('teraserver search analytics module', function() {
     it('flush should reset the counter to 0', function(){
         expect(Object.keys(counter).length).toBe(38);
         search_counter_module.__test_context()._resetCounter();
-        res = { statusCode: 200};
+        res.statusCode = 200;
         counter = search_counter_module.tokenAndStatusCodeCount(req, res, 10);
         expect(Object.keys(counter).length).toBe(2);
     });
@@ -171,7 +171,7 @@ describe('teraserver search analytics module', function() {
 
     it('bulkRequest should know the difference between a counter and a timer', function(){
         search_counter_module.__test_context()._resetCounter();
-        res = { statusCode: 200};
+        res.statusCode = 200;
         search_counter_module.tokenAndStatusCodeCount(req, res, 10);
         const results = search_counter_module.__test_context()._bulkRequests();
         expect(results[1].type).toBe('counter');
@@ -189,9 +189,7 @@ describe('teraserver search analytics module', function() {
     });
 
     it('test 500 status codes', function() {
-        let res = {
-            statusCode: 500,
-        };
+        res.statusCode = 500;
         search_counter_module.__test_context()._resetCounter();
         search_counter_module.tokenAndStatusCodeCount(req, res, undefined);
         res.statusCode = 200;
@@ -203,14 +201,15 @@ describe('teraserver search analytics module', function() {
         expect(bulkArray[3].avg_time).toBe(15);
         expect(bulkArray[1].status).toBe('500');
         expect(bulkArray[5].status).toBe('200');
-
     });
 
     it('test that if no stats in config the counts do not happen', function() {
         search_counter_module.__test_context()._resetCounter();
         delete context.sysconfig.teraserver.stats;
-        res = { statusCode: 200};
+        search_counter_module = require('../lib/search_counter')(context);
+        res.statusCode = 200;
         counter = search_counter_module.tokenAndStatusCodeCount(req, res, 10);
         expect(Object.keys(counter).length).toBe(0);
     })
+    
 });

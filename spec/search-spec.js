@@ -1,6 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
+const Promise = require('bluebird');
 
 describe('teraserver search module', function() {
     var config = {
