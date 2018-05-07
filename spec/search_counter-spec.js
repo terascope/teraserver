@@ -77,13 +77,9 @@ describe('teraserver search analytics module', function() {
     it('avgTime function takes an array of numbers and returns the rounded up average', function() {
         const numsArray1 = [1, 2, 3, 4, 5];
         const numsArray2 = [13, 34, 23, 100, 102];
-        const numsArray3 = [1, 2, 3, 4, undefined, 5, undefined];
-        const numsArray4 = [undefined, undefined];
-
+    
         expect(search_counter_module.__test_context()._avgTime(numsArray1)).toBe(3);
         expect(search_counter_module.__test_context()._avgTime(numsArray2)).toBe(55);
-        expect(search_counter_module.__test_context()._avgTime(numsArray3)).toBe(3);
-        expect(search_counter_module.__test_context()._avgTime(numsArray4)).toBe(0);
     });
 
     it('formatedDate returns month.date from ISO string', function() {
@@ -191,16 +187,16 @@ describe('teraserver search analytics module', function() {
     it('test 500 status codes', function() {
         res.statusCode = 500;
         search_counter_module.__test_context()._resetCounter();
-        search_counter_module.tokenAndStatusCodeCount(req, res, undefined);
+        search_counter_module.tokenAndStatusCodeCount(req, res);
         res.statusCode = 200;
         search_counter_module.tokenAndStatusCodeCount(req, res, 10);
         search_counter_module.tokenAndStatusCodeCount(req, res, 20);
         res.statusCode = 500;
-        counter = search_counter_module.tokenAndStatusCodeCount(req, res, undefined);
+        counter = search_counter_module.tokenAndStatusCodeCount(req, res);
         const bulkArray = search_counter_module.__test_context()._bulkRequests();
-        expect(bulkArray[3].avg_time).toBe(15);
+        expect(bulkArray[5].avg_time).toBe(15);
         expect(bulkArray[1].status).toBe('500');
-        expect(bulkArray[5].status).toBe('200');
+        expect(bulkArray[3].status).toBe('200');
     });
 
     it('test that if no stats in config the counts do not happen', function() {
