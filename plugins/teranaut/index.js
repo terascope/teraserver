@@ -140,8 +140,8 @@ var ensureAuthenticated = function(req, res, next) {
             if (account) {
                 req.user = account;
 
-                // If there's redis session storage available we add the login to the session.
-                if (config.teraserver.redis_sessions) {
+                // If there's elasticsearch session storage available we add the login to the session.
+                if (config.teraserver.elasticsearch_sessions) {
                     req.logIn(account, function(err) {
                         if (err) {
                             return next(err);

@@ -4,27 +4,26 @@ var fs = require('fs');
 var getPlugin = require('./lib/utils').getPlugin;
 
 var schema = {
-
     shutdown_timeout: {
         doc: 'seconds util force shutdown will occur when exiting the app',
         default: 60
     },
-
     port: {
         doc: 'port which the server will listen to',
         default: 8000
     },
-
     ssl_path: {
         doc: 'path to directory where the ssl certs are located',
         default: '/app/config/ssl'
     },
-
-    redis_sessions: {
-        doc: 'enable redis sessions',
+    elasticsearch_sessions: {
+        doc: 'enable elasticsearch sessions',
         default: true
     },
-
+    ttl: {
+        doc: 'session time to live duration',
+        default: 1000 * 60 * 60
+    },
     plugins: {
         names: {
             doc: 'list of plugins that will be uploaded into TeraServer',
@@ -35,12 +34,10 @@ var schema = {
             default: '/app/api/plugins'
         }
     },
-
     static_assets: {
         doc: 'Location of static HTTP assets',
         default: '/app/api/public'
     }
-
 };
 
 function getPluginSchema(plugin) {
