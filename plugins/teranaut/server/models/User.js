@@ -31,7 +31,9 @@ module.exports = function (config) {
             updated: {type: Date, default: Date.now}
         });
 
-        userSchema.plugin(passportLocalMongoose);
+        userSchema.plugin(passportLocalMongoose, {
+            digestAlgorithm: 'sha1'
+        });
 
         userSchema.pre('save', function (next) {
             this.updated = new Date();
