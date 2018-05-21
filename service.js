@@ -4,7 +4,6 @@ var plugin_schema = require('./system_schema').plugin_schema;
 
 var foundation = require('terafoundation')({
     name: 'teraserver',
-    baucis: true,
     worker: worker,
     config_schema: config_schema,
     plugin_schema: plugin_schema

@@ -13,7 +13,6 @@ module.exports = function(customConfig) {
 
     var config = {
         name: 'teraserver',
-        baucis: true,
         worker: worker,
         config_schema: config_schema,
         plugin_schema: plugin_schema

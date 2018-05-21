@@ -1,12 +1,11 @@
 'use strict';
 
-var fs = require('fs');
 var crypto = require("crypto");
 var teranaut_schema = require('./schema');
 var getPlugin = require('../../lib/utils').getPlugin;
 
 
-var logger, models, baucis, config, passport, userModel, teranaut;
+var logger, models, router, config, passport, userModel, teranaut;
 
 
 var api = {
@@ -19,29 +18,11 @@ var api = {
     config: function(pluginConfig) {
         this._config = pluginConfig;
         logger = pluginConfig.logger;
-        baucis = pluginConfig.baucis;
         passport = pluginConfig.passport;
         config = pluginConfig.server_config;
         teranaut = pluginConfig.server_config.teranaut;
-
-        var modelConfig = {
-            mongoose: pluginConfig.mongodb,
-            logger: logger
-        };
-
-        if (teranaut.models) {
-            models = getPlugin(teranaut.models, config)(modelConfig);
-        }
-        else {
-            models = require('./server/models')(modelConfig);
-        }
-
-        if (teranaut.auth.user_model) {
-            userModel = models[teranaut.auth.user_model];
-        }
-        else {
-            userModel = models.User;
-        }
+        router = pluginConfig.express.Router();
+        // TODO need to have elasticsearch models
 
     },
 
@@ -51,19 +32,14 @@ var api = {
 
     init: function() {
 
-        if (!(teranaut && teranaut.models)) {
-            // Configure Baucis to know about the application models
-            require('./server/api/baucis')(this._config);
-        }
-
-        passport.use(userModel.createStrategy());
+      /*  passport.use(userModel.createStrategy());
         passport.serializeUser(userModel.serializeUser());
-        passport.deserializeUser(userModel.deserializeUser());
+        passport.deserializeUser(userModel.deserializeUser());*/
     },
 
     pre: function() {
-        this._config.app.use(passport.initialize());
-        this._config.app.use(passport.session());
+       /* this._config.app.use(passport.initialize());
+        this._config.app.use(passport.session());*/
     },
 
     routes: function(deferred) {
@@ -73,6 +49,9 @@ var api = {
 
         // All API endpoints require authentication
         this._config.app.use('/api/v1', ensureAuthenticated);
+
+        require('./server/api/user')(router);
+        require('./server/api/node')(router);
 
         if (config.teranaut.ui) {
             var url_base = this._config.url_base;
@@ -100,8 +79,9 @@ var api = {
 
         // THIS needs to be deferred until after all plugins have had a chance to load
         var plugin_config = this._config;
+        //TODO add routes here
         deferred.push(function() {
-            plugin_config.app.use('/api/v1', baucis());
+            plugin_config.app.use('/api/v1', router);
         });
 
         this._config.app.post('/login', passport.authenticate('local'), function(req, res) {
@@ -122,7 +102,6 @@ var api = {
 var ensureAuthenticated = function(req, res, next) {
     // We allow creating new accounts without authentication.
     if (teranaut.auth.open_signup) {
-        // TODO: THIS URL should depend on the name of the model
         if (req.url === '/accounts' && req.method === 'POST') return next();
     }
 

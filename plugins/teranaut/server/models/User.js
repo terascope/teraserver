@@ -1,9 +1,25 @@
 'use strict';
 
-var model;
 
 module.exports = function (config) {
-    var logger = config.logger;
+
+    var crypto = require('crypto');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   /* var logger = config.logger;
     var mongoose = config.mongoose;
 
     if (!model) {
@@ -23,7 +39,7 @@ module.exports = function (config) {
                 default: 'user'
             },
             username: {type: String, trim: true, required: true, unique: true},
-            /*password:       { type: String, trim: true, required: true },*/
+            /!*password:       { type: String, trim: true, required: true },*!/
             email: {type: String, trim: true, lowercase: true},
             api_token: String,
 
@@ -69,5 +85,5 @@ module.exports = function (config) {
         model = mongoose.model('User', userSchema);
     }
 
-    return model;
+    return model;*/
 };
