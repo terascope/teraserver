@@ -1,0 +1,49 @@
+{
+  "settings": {
+    "index.number_of_shards": 5,
+    "index.number_of_replicas": 1
+  },
+  "mappings": {
+    "user": {
+      "_all": {
+        "enabled": false
+      },
+      "dynamic": false,
+      "properties": {
+        "client_id": {
+          "type": "integer"
+        },
+        "firstname": {
+          "type": "keyword"
+        },
+        "lastname": {
+          "type": "keyword"
+        },
+        "username": {
+          "type": "keyword"
+        },
+        "email": {
+          "type": "keyword"
+        },
+        "role": {
+          "type": "keyword"
+        },
+        "api_token": {
+          "type": "keyword"
+        },
+        "hash": {
+          "type": "keyword"
+        },
+        "salt": {
+          "type": "keyword"
+        },
+        "created": {
+          "type": "long"
+        },
+        "updated": {
+          "type": "long"
+        }
+      }
+    }
+  }
+}

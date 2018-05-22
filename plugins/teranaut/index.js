@@ -1,14 +1,14 @@
 'use strict';
 
-var crypto = require("crypto");
-var teranaut_schema = require('./schema');
-var getPlugin = require('../../lib/utils').getPlugin;
+const crypto = require("crypto");
+const teranaut_schema = require('./schema');
+const getPlugin = require('../../lib/utils').getPlugin;
+const Promise = require('bluebird');
+
+let logger, context, router, config, passport, userModel, teranaut, userStore, nodeStore;
 
 
-var logger, models, router, config, passport, userModel, teranaut;
-
-
-var api = {
+const api = {
     _config: undefined,
 
     config_schema: function() {
@@ -17,12 +17,13 @@ var api = {
 
     config: function(pluginConfig) {
         this._config = pluginConfig;
+        context = pluginConfig.context;
         logger = pluginConfig.logger;
         passport = pluginConfig.passport;
         config = pluginConfig.server_config;
         teranaut = pluginConfig.server_config.teranaut;
         router = pluginConfig.express.Router();
-        // TODO need to have elasticsearch models
+        // TODO it looks like that models could have been put in config, we don't have that with ES
 
     },
 
@@ -35,6 +36,11 @@ var api = {
       /*  passport.use(userModel.createStrategy());
         passport.serializeUser(userModel.serializeUser());
         passport.deserializeUser(userModel.deserializeUser());*/
+      return Promise.all([require('./server/store/users')(context), require('./server/store/node')(context)])
+          .spread((_userStore, _nodeStore) => {
+            userStore = _userStore;
+            nodeStore = _nodeStore;
+          })
     },
 
     pre: function() {
@@ -50,8 +56,8 @@ var api = {
         // All API endpoints require authentication
         this._config.app.use('/api/v1', ensureAuthenticated);
 
-        require('./server/api/user')(router);
-        require('./server/api/node')(router);
+        require('./server/api/user')(router, userStore);
+        require('./server/api/node')(router, nodeStore);
 
         if (config.teranaut.ui) {
             var url_base = this._config.url_base;

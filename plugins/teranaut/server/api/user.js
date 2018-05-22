@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(router) {
+module.exports = function(router, store) {
 
     router.use(requireUser);
 //TODO dont know full path

@@ -2,24 +2,7 @@
 
 
 module.exports = function (config) {
-
-    var crypto = require('crypto');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   /* var logger = config.logger;
+    var logger = config.logger;
     var mongoose = config.mongoose;
 
     if (!model) {
@@ -39,7 +22,7 @@ module.exports = function (config) {
                 default: 'user'
             },
             username: {type: String, trim: true, required: true, unique: true},
-            /!*password:       { type: String, trim: true, required: true },*!/
+            /*password:       { type: String, trim: true, required: true },*/
             email: {type: String, trim: true, lowercase: true},
             api_token: String,
 
@@ -53,7 +36,7 @@ module.exports = function (config) {
 
         userSchema.pre('save', function (next) {
             this.updated = new Date();
-
+            //if it has changed
             if (!this.isModified('hash')) return next();
 
             // Hash is passed in as clear text so we need to hash it again
@@ -85,5 +68,5 @@ module.exports = function (config) {
         model = mongoose.model('User', userSchema);
     }
 
-    return model;*/
+    return model;
 };
