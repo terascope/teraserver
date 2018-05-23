@@ -1,21 +1,18 @@
 'use strict';
 
-const crypto = require("crypto");
 const teranaut_schema = require('./schema');
-const getPlugin = require('../../lib/utils').getPlugin;
 const Promise = require('bluebird');
-
-let logger, context, router, config, passport, userModel, teranaut, userStore, nodeStore;
-
+const Strategy = require('passport-local').Strategy;
+const parseError = require('error_parser');
+const _ = require('lodash');
+let logger, context, router, config, passport, teranaut, userStore;
 
 const api = {
     _config: undefined,
-
-    config_schema: function() {
+    config_schema: () => {
         return teranaut_schema;
     },
-
-    config: function(pluginConfig) {
+    config: (pluginConfig) => {
         this._config = pluginConfig;
         context = pluginConfig.context;
         logger = pluginConfig.logger;
@@ -26,29 +23,33 @@ const api = {
         // TODO it looks like that models could have been put in config, we don't have that with ES
 
     },
+    static: () => __dirname + '/static',
+    init: () => {
+        return Promise.resolve()
+            .then(() => require('./server/store/users')(context))
+            .then(_userStore => {
+                userStore = _userStore;
 
-    static: function() {
-        return __dirname + '/static';
+                passport.use(new Strategy(
+                    function(username, password, done) {
+                        if (!username || !password) return done(null, false);
+                        userStore.authenticateUser(username, password)
+                            .then((user) => {
+                                if (!user) return done(null, false);
+                                return done(null, user);
+                            })
+                            .catch(err => done(err));
+                    }));
+
+                passport.serializeUser(userStore.serializeUser);
+                passport.deserializeUser(userStore.deserializeUser);
+            })
     },
-
-    init: function() {
-
-      /*  passport.use(userModel.createStrategy());
-        passport.serializeUser(userModel.serializeUser());
-        passport.deserializeUser(userModel.deserializeUser());*/
-      return Promise.all([require('./server/store/users')(context), require('./server/store/node')(context)])
-          .spread((_userStore, _nodeStore) => {
-            userStore = _userStore;
-            nodeStore = _nodeStore;
-          })
+    pre: () => {
+        this._config.app.use(passport.initialize());
+        this._config.app.use(passport.session());
     },
-
-    pre: function() {
-       /* this._config.app.use(passport.initialize());
-        this._config.app.use(passport.session());*/
-    },
-
-    routes: function(deferred) {
+    routes: (deferred) => {
         // Login function to generate an API token
         this._config.app.use('/api/v1/token', login);
         this._config.app.use('/api/v1/login', login);
@@ -56,24 +57,13 @@ const api = {
         // All API endpoints require authentication
         this._config.app.use('/api/v1', ensureAuthenticated);
 
-        require('./server/api/user')(router, userStore);
-        require('./server/api/node')(router, nodeStore);
+        require('./server/api/user')(router, userStore, logger);
 
         if (config.teranaut.ui) {
-            var url_base = this._config.url_base;
-
-            var index = function(req, res) {
-                res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-                res.header("Pragma", "no-cache");
-                res.header("X-Frame-Options", "Deny");
-
-                res.sendfile('index.html', {root: __dirname + '/static'});
-            };
-
+            const url_base = this._config.url_base;
             this._config.app.get(url_base, function(req, res) {
                 res.redirect(url_base + '/_'); // redirecting to a path handled by /* path below
             });
-
             this._config.app.get(url_base + '/', index);
             this._config.app.get(url_base + '/*', index);
 
@@ -82,10 +72,9 @@ const api = {
             this._config.app.get('/pl/' + config.teranaut.ui + '/', index);
             this._config.app.get('/pl/' + config.teranaut.ui + '/*', index);
         }
-
         // THIS needs to be deferred until after all plugins have had a chance to load
-        var plugin_config = this._config;
-        //TODO add routes here
+        const plugin_config = this._config;
+
         deferred.push(function() {
             plugin_config.app.use('/api/v1', router);
         });
@@ -93,105 +82,106 @@ const api = {
         this._config.app.post('/login', passport.authenticate('local'), function(req, res) {
             res.status(200).send('login successful');
         });
-
         this._config.app.get('/logout', function(req, res) {
             req.logout();
             res.status(200).send('logout successful');
         });
     },
-
-    post: function() {
-
-    }
+    post: () => {}
 };
 
-var ensureAuthenticated = function(req, res, next) {
+function index(req, res) {
+    res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.header("Pragma", "no-cache");
+    res.header("X-Frame-Options", "Deny");
+    res.sendfile('index.html', {root: __dirname + '/static'});
+}
+
+function ensureAuthenticated(req, res, next) {
     // We allow creating new accounts without authentication.
+    const token = req.query.token;
+    console.log('i should not be calling ensureAuthenticated');
     if (teranaut.auth.open_signup) {
         if (req.url === '/accounts' && req.method === 'POST') return next();
     }
-
     // See if the session is authenticated
     if (req.isAuthenticated()) {
         return next();
     }
     // API auth based on tokens
-    else if (req.query.token) {
-        userModel.findOne({api_token: req.query.token}, function(err, account) {
-            if (err) {
-                throw err;
-            }
-
-            if (account) {
-                req.user = account;
-
-                // If there's elasticsearch session storage available we add the login to the session.
-                if (config.teraserver.elasticsearch_sessions) {
-                    req.logIn(account, function(err) {
-                        if (err) {
-                            return next(err);
-                        }
-
+    else if (token) {
+        userStore.findByToken(token)
+            .then((account) => {
+                if (account) {
+                    req.user = account;
+                    // If there's elasticsearch session storage available we add the login to the session.
+                    if (config.teraserver.elasticsearch_sessions) {
+                        req.logIn(account, function(err) {
+                            if (err) {
+                                return next(err);
+                            }
+                            return next();
+                        });
+                    }
+                    else {
                         return next();
-                    });
+                    }
                 }
                 else {
-                    return next();
+                    console.log('in the crazy else;');
+                    return res.status(401).json({error: 'Access Denied'});
                 }
-            }
-            else {
-                return res.status(401).json({error: 'Access Denied'});
-            }
-        })
+            })
+            .catch((err) => {
+                logger.error('\n\n\nwhoooooooo\n\n\n',err);
+                next(new Error(err))
+            })
     }
     else {
         // For session based auth
+        console.log('in the crazy oter else;');
+
         return res.status(401).json({error: 'Access Denied'});
     }
-};
+}
 
-var login = function(req, res, next) {
+function login(req, res, next) {
+    console.log('\n calling top level login', req.body, '\n');
+    passport.authenticate('local', { session: false }, function(err, user, info) {
+        console.log('calling top level login', user, info, err);
 
-    passport.authenticate('local', {session: false}, function(err, user, info) {
-
-        if (err) {
-            return next(err);
-        }
-
+        if (err) return next(err);
         if (!user) {
-
-            return res.status(401).json({error: info.message});
+            console.log('im in the first return becuase there is no user', user)
+            return res.status(401).json({ error: _.get(info, 'message', 'no user was found') });
         }
-
         if (teranaut.auth.require_email && !user.email_validated) {
-            return res.status(401).json({error: 'Account has not been activated'});
+            return res.status(401).json({ error: 'Account has not been activated' });
         }
-
+        console.log('im first here', user);
         req.logIn(user, function(err) {
             if (err) {
+                console.log('im not the error in login', err);
                 return next(err);
             }
 
-            var shasum = crypto.createHash('sha1');
-            var date = Date.now();
-            crypto.randomBytes(128, function(err, buf) {
-                if (err) {
-                    logger.error("Error generating randomBytes on User save.");
-                    return next(err);
-                }
-
-                shasum.update(buf + Date.now() + user.hash + user.username);
-                var token = shasum.digest('hex');
-                user.api_token = token;
-                user.save();
-                res.json({
-                    token: token,
-                    date: date,
-                    id: user._id
+            userStore.createApiTokenHash(user)
+                .then((hashedUser) => userStore.updateToken(hashedUser))
+                .then((hashedUser) => {
+                    res.json({
+                        token: hashedUser.api_token,
+                        date: hashedUser.updated,
+                        id: hashedUser.id
+                    });
+                })
+                .catch((err) => {
+                    const errMsg = parseError(err);
+                    console.log('som login error', err);
+                    logger.error(`error while creating new token and updating user, error:${errMsg}`)
+                    res.status(401).json({ error: 'error while creating new token and updating user' });
                 });
-            });
         });
     })(req, res, next);
-};
+}
 
 module.exports = api;

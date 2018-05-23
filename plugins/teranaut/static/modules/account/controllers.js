@@ -40,7 +40,9 @@ function ($scope, $location, $http, $cookies, $routeParams, authService, account
                 }
             );            
         }).
-        error(function(data, status) {            
+        error(function(data, status) {
+            console.log('what is the error on the client', data, status);
+
             $scope.message = "Could not log in. Please provide a valid username and password.";
         });
     }  
@@ -50,9 +52,8 @@ angular.module('teranaut.account').controller('LogoutController',
     ['$scope', '$rootScope', '$http', '$location', '$cookies', 
 function ($scope, $rootScope, $http, $location, $cookies) {   
     $http.get('/logout').success(function() {
-        delete $cookies.wappuser
-        
-        $rootScope.$broadcast('event:auth-loginRequired')
+        delete $cookies.wappuser;
+        $rootScope.$broadcast('event:auth-loginRequired');
         $location.path('account/login').search({});
     }).error(function() {
         console.log("Error on logout");        
@@ -65,11 +66,10 @@ function($scope, accountData, uiNotices) {
     
     accountData.getActiveUser().then(function(activeUser) {
         $scope.user = activeUser
-    })
+    });
 
     $scope.update = function() {        
         uiNotices.clear();
-        
         if (! accountData.validate($scope.user)) return;
 
         var user = accountData.getUser($scope.user.username);
@@ -80,7 +80,7 @@ function($scope, accountData, uiNotices) {
             uiNotices.success('Account updated successfully');
         }, 
         function(err) {
-            uiNotices.error('Could not update account');       
+            uiNotices.error('Could not update account');
         });
     }
 }]);

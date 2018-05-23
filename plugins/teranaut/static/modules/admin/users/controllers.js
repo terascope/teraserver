@@ -14,15 +14,12 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
 
         newUser: function() {
             uiNotices.clear();
-
             this.getScope().searchui.resetContext(true);
-
             $location.path("/admin/users/new")
         },
 
         edit: function(username) {
             uiNotices.clear();
-
             $location.path("/admin/users/edit/" + username)
         },
 
@@ -102,9 +99,9 @@ angular.module('teranaut.admin.users').controller('AdminEditUserController',
     ['$scope', '$location', '$routeParams', 'uiNotices', 'accountData', 'adminUserData', 'teranautAdminUserRoles',
 function($scope, $location, $routeParams, uiNotices, accountData, adminUserData, teranautAdminUserRoles) {
     $scope.title = "Edit User";
-    $scope.updating = true
+    $scope.updating = true;
     $scope.roles = teranautAdminUserRoles;
-    $scope.user = adminUserData.getUser($routeParams.username).get()
+    $scope.user = adminUserData.getUser($routeParams.username).get();
     
     $scope.update = function() {
         uiNotices.clear();
@@ -115,11 +112,10 @@ function($scope, $location, $routeParams, uiNotices, accountData, adminUserData,
                 $scope.user.client_id = active_user.client_id;
             if ($scope.user.password) $scope.user.hash = $scope.user.password;
 
-            var user = adminUserData.getUser($scope.user.username)
+            var user = adminUserData.getUser($scope.user.username);
         
             user.update($scope.user, function() {
-                uiNotices.success('User updated successfully')
-                
+                uiNotices.success('User updated successfully');
                 $location.path('/admin/users');
             }, 
             function(err) {
@@ -129,11 +125,10 @@ function($scope, $location, $routeParams, uiNotices, accountData, adminUserData,
                 }
             });
         });    
-    }
+    };
 
     $scope.cancel = function() {
         uiNotices.clear();
-
         $location.path('/admin/users');
     }
 }]);
@@ -164,8 +159,7 @@ function($scope, $location, uiNotices, accountData, adminUserData, teranautAdmin
                 $scope.user.hash = $scope.user.password;
 
                 user.save($scope.user, function() {
-                    uiNotices.success('User created successfully')
-                    
+                    uiNotices.success('User created successfully');
                     $location.path('/admin/users');
                 }, 
                 function(err) {
@@ -179,11 +173,10 @@ function($scope, $location, uiNotices, accountData, adminUserData, teranautAdmin
         else {
             uiNotices.error('Can not save an empty record');
         }        
-    }
+    };
 
     $scope.cancel = function() {
         uiNotices.clear();
-
         $location.path('/admin/users');
     }
 

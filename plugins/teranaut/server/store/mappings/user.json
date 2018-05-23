@@ -42,6 +42,9 @@
         },
         "updated": {
           "type": "long"
+        },
+        "id": {
+          "type": "keyword"
         }
       }
     }

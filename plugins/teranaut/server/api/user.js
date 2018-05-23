@@ -1,37 +1,71 @@
 'use strict';
 
-module.exports = function(router, store) {
+const parseError = require('error_parser');
+
+
+module.exports = function(router, store, logger) {
 
     router.use(requireUser);
-//TODO dont know full path
+
     router.get('/users', function(req, res){
-        console.log('getting users get');
+        store.findAllUsers()
+            .then(results => {
+                const users = results.map(store.sanitizeUser);
+                res.json(users)
+            })
+            .catch((err) => {
+                const errMsg = parseError(err);
+                logger.error(errMsg);
+                res.status(500).json({ error: `could not get user` });
+            })
+    });
+
+    router.get('/users/:username', function(req, res){
+       const username = req.params.username;
+        console.log('what is the username query here', username);
+        store.findByUsername(username, true)
+           .then(user => res.json(store.sanitizeUser(user)))
+           .catch((err) => {
+               const errMsg = parseError(err);
+               logger.error(errMsg);
+               res.status(500).json({ error: `could not find user with username ${username}` });
+           })
     });
 
     router.head('/users', function(req, res){
-        console.log('getting users head');
-
+        console.log('getting users head', req.body);
+        res.send('got it')
     });
 
     router.post('/users', function(req, res){
-        console.log('getting users post');
-
+       const user = req.body;
+        console.log('posting is being called');
+        store.createUser(user)
+           .then((results) => res.status(201).json(results))
+           .catch((err) => {
+               const errMsg = parseError(err);
+               logger.error(errMsg);
+               res.status(500).json({ error: 'error while creating user' });
+           })
     });
 
     router.put('/users', function(req, res){
-        console.log('getting users put');
+        const user = req.body;
+        console.log('putting is being called');
 
+        store.updateUser(user)
+            .then(results => res.json(results))
+            .catch((err) => {
+                const errMsg = parseError(err);
+                logger.error(errMsg);
+                res.status(500).json({ error: 'error while creating user' });
+            })
     });
 
     router.delete('/users', function(req, res){
-        console.log('getting users delete');
-
+        console.log('getting users delete', req.body);
+        res.send('got it')
     });
-
-
-    function validateUser(){
-
-    }
 
 
     function requireUser(req, res, next) {
