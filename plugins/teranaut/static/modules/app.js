@@ -36,9 +36,7 @@ var app = angular.module('theApp', ['ngRoute', 'ngResource', 'ngCookies',
 
             $rootScope.$on('event:auth-loginConfirmed', function() {
                 accountData.getActiveUser().then(function(user) {
-                    console.log('what is the active user', user);
                     $rootScope.activeUser = user;
-
                     $rootScope.hideLogin = true;
 
                    /* console.log("Loading node cache.");

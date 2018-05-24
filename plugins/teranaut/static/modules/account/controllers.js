@@ -41,8 +41,6 @@ function ($scope, $location, $http, $cookies, $routeParams, authService, account
             );            
         }).
         error(function(data, status) {
-            console.log('what is the error on the client', data, status);
-
             $scope.message = "Could not log in. Please provide a valid username and password.";
         });
     }  
@@ -75,8 +73,7 @@ function($scope, accountData, uiNotices) {
         var user = accountData.getUser($scope.user.username);
         $scope.user.updated = new Date();
         if ($scope.user.password) $scope.user.hash = $scope.user.password;
-
-        user.update($scope.user, function() {            
+        user.update($scope.user, function() {
             uiNotices.success('Account updated successfully');
         }, 
         function(err) {

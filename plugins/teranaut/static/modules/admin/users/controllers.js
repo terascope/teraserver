@@ -11,18 +11,15 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
          */
         // This will be attached by the calling scope
         getScope: null,
-
         newUser: function() {
             uiNotices.clear();
             this.getScope().searchui.resetContext(true);
             $location.path("/admin/users/new")
         },
-
         edit: function(username) {
             uiNotices.clear();
             $location.path("/admin/users/edit/" + username)
         },
-
         remove: function(username) {
             uiNotices.clear();
 
@@ -109,7 +106,7 @@ function($scope, $location, $routeParams, uiNotices, accountData, adminUserData,
         if (! accountData.validate($scope.user)) return;
         
         accountData.getActiveUser().then(function(active_user) {
-                $scope.user.client_id = active_user.client_id;
+            $scope.user.client_id = active_user.client_id;
             if ($scope.user.password) $scope.user.hash = $scope.user.password;
 
             var user = adminUserData.getUser($scope.user.username);

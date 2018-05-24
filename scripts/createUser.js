@@ -44,6 +44,6 @@ request.post(options, function (error, response, body) {
     }
     if (!error && response.statusCode == 201) {
         const account = JSON.parse(response.body);
-        console.log(argv.username + " | " + argv.password + " | " + account.id + " | " + account.api_token);
+        console.log(argv.username + " | " + argv.password + " | " + account.id + " | " + account.token);
     }
 });

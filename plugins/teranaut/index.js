@@ -100,7 +100,6 @@ function index(req, res) {
 function ensureAuthenticated(req, res, next) {
     // We allow creating new accounts without authentication.
     const token = req.query.token;
-    console.log('i should not be calling ensureAuthenticated');
     if (teranaut.auth.open_signup) {
         if (req.url === '/accounts' && req.method === 'POST') return next();
     }
@@ -128,42 +127,27 @@ function ensureAuthenticated(req, res, next) {
                     }
                 }
                 else {
-                    console.log('in the crazy else;');
                     return res.status(401).json({error: 'Access Denied'});
                 }
             })
-            .catch((err) => {
-                logger.error('\n\n\nwhoooooooo\n\n\n',err);
-                next(new Error(err))
-            })
+            .catch((err) => next(new Error(err)))
     }
     else {
         // For session based auth
-        console.log('in the crazy oter else;');
-
         return res.status(401).json({error: 'Access Denied'});
     }
 }
 
 function login(req, res, next) {
-    console.log('\n calling top level login', req.body, '\n');
     passport.authenticate('local', { session: false }, function(err, user, info) {
-        console.log('calling top level login', user, info, err);
-
         if (err) return next(err);
-        if (!user) {
-            console.log('im in the first return becuase there is no user', user)
-            return res.status(401).json({ error: _.get(info, 'message', 'no user was found') });
-        }
+        if (!user) res.status(401).json({ error: _.get(info, 'message', 'no user was found') });
         if (teranaut.auth.require_email && !user.email_validated) {
             return res.status(401).json({ error: 'Account has not been activated' });
         }
-        console.log('im first here', user);
+
         req.logIn(user, function(err) {
-            if (err) {
-                console.log('im not the error in login', err);
-                return next(err);
-            }
+            if (err) return next(err);
 
             userStore.createApiTokenHash(user)
                 .then((hashedUser) => userStore.updateToken(hashedUser))
@@ -176,7 +160,6 @@ function login(req, res, next) {
                 })
                 .catch((err) => {
                     const errMsg = parseError(err);
-                    console.log('som login error', err);
                     logger.error(`error while creating new token and updating user, error:${errMsg}`)
                     res.status(401).json({ error: 'error while creating new token and updating user' });
                 });

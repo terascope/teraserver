@@ -17,6 +17,7 @@ module.exports = (context) => {
     const migrantIndexName = `${index}-v${version}`;
     const mapping = require('./mappings/user.json');
     const type = 'user';
+    const fields = ['client_id', 'role', 'firstname', 'lastname', 'username', 'created', 'updated', 'id', 'api_token'];
     //TODO allow this to be configurable?
     const clientName = 'default';
     let saltLength = 32;
@@ -36,9 +37,14 @@ module.exports = (context) => {
             })
     }
 
+    function deleteUser(user) {
+        const query = { index: index, type: type, id: user.id };
+        return client.remove(query)
+    }
+
     function createUser(user) {
         return _validate(user)
-            .then(validUser => Promise.all([_hashCredentials(validUser), _isUnique(validUser)])
+            .then(validUser => Promise.all([_createdCredentials(validUser), _isUnique(validUser)])
                 .spread((hashedUser) => {
                     const query = { index: index, type: type, id: hashedUser.id, body: hashedUser };
                     return client.index(query)
@@ -49,6 +55,21 @@ module.exports = (context) => {
                 logger.error(`could not save user error: ${errMsg}`);
                 return Promise.reject(errMsg)
             })
+    }
+
+    function _compareHashes(oldUserData, newUserData) {
+        return new Promise((resolve, reject) => {
+            delete newUserData.password;
+            delete newUserData.password2;
+            if (oldUserData.hash === newUserData.hash) {
+                resolve(newUserData);
+                return;
+            }
+            _createPasswordHash(newUserData)
+                .then(hashedUser => resolve(hashedUser))
+                .catch(err => reject(parseError(err)))
+            
+        });
     }
 
     function updateUser(user) {
@@ -64,12 +85,13 @@ module.exports = (context) => {
             retryOnConflict: 3
         };
 
-        return _validate(user)
-            .then(validUser => {
-                query.body.doc = validUser;
+        return Promise.all([findByUsername(user.username), _validate(user)])
+            .spread((oldUserData, validUserData) => _compareHashes(oldUserData, validUserData))
+            .then((newUserData) => {
+                query.body.doc = newUserData;
                 return client.update(query)
                     .then(() => user)
-            })
+            });
     }
 
     function updateToken(user){
@@ -92,20 +114,11 @@ module.exports = (context) => {
                 logger.error(`could not findUser, error: ${errMsg}`);
                 return Promise.reject(errMsg)
             })
-
-
     }
-
-    function sanitizeUser(_user){
-        const user = _.cloneDeep(_user);
-        delete user.hash;
-        delete user.salt;
-        return user;
-    }
-    //TODO add fields to sanitized query
 
     function findByUsername(username, sanitize) {
         const query = { index: index, type: type, q: `username:${username.trim()}` };
+        if (sanitize) query._source = fields;
         return _search(query)
             .then(results => results[0])
             .catch((err) => {
@@ -159,7 +172,7 @@ module.exports = (context) => {
             });
     }
 
-    function _hashCredentials(user){
+    function _createdCredentials(user){
         return Promise.resolve()
             .then(() => _createPasswordHash(user))
             .then(() => createApiTokenHash(user))
@@ -233,10 +246,10 @@ module.exports = (context) => {
     }
 
     function findAllUsers(){
-        const query = { index: index, type: type, q: `role:*`, size: 10000 };
+        const query = { index: index, type: type, q: `role:*`, size: 10000, _source: fields };
         return _search(query)
             .catch((err) => {
-                logger.error(`could not find user for token: ${token} , error: ${err}`);
+                logger.error(`could not get all users, error: ${err}`);
                 return Promise.reject(err)
             })
     }
@@ -248,10 +261,10 @@ module.exports = (context) => {
         updateToken: updateToken,
         findByToken: findByToken,
         findAllUsers: findAllUsers,
-        sanitizeUser: sanitizeUser,
+        findByUsername: findByUsername,
+        deleteUser: deleteUser,
         authenticateUser: authenticateUser,
         createApiTokenHash: createApiTokenHash,
-        findByUsername: findByUsername,
         serializeUser: serializeUser,
         deserializeUser: deserializeUser
     };
