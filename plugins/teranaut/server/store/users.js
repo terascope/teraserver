@@ -18,7 +18,7 @@ module.exports = (context) => {
     const mapping = require('./mappings/user.json');
     const type = 'user';
     const fields = ['client_id', 'role', 'firstname', 'lastname', 'username', 'created', 'updated', 'id', 'api_token'];
-    //TODO allow this to be configurable?
+    //TODO allow this to be configurable? both the connection and clustername
     const clientName = 'default';
     let saltLength = 32;
     let iterations = 25000;
@@ -68,7 +68,6 @@ module.exports = (context) => {
             _createPasswordHash(newUserData)
                 .then(hashedUser => resolve(hashedUser))
                 .catch(err => reject(parseError(err)))
-            
         });
     }
 
@@ -94,18 +93,18 @@ module.exports = (context) => {
             });
     }
 
-    function updateToken(user){
+    function updateToken(user) {
         return createApiTokenHash(user)
             .then(tokenUser => updateUser(tokenUser))
     }
 
     function authenticateUser(username, password) {
         return findByUsername(username)
-            .then(user =>  {
+            .then((user) => {
                 if (!user) return false;
                 return _createPasswordHash({ hash: password }, user.salt)
                     .then((hashObj) => {
-                        if(hashObj.hash === user.hash) return user;
+                        if (hashObj.hash === user.hash) return user;
                         return null
                     })
             })
@@ -117,7 +116,7 @@ module.exports = (context) => {
     }
 
     function findByUsername(username, sanitize) {
-        const query = { index: index, type: type, q: `username:${username.trim()}` };
+        const query = {index: index, type: type, q: `username:${username.trim()}`};
         if (sanitize) query._source = fields;
         return _search(query)
             .then(results => results[0])
@@ -135,15 +134,15 @@ module.exports = (context) => {
             })
     }
 
-    function _getSalt(_salt){
-        if(_salt) return Promise.resolve(_salt);
+    function _getSalt(_salt) {
+        if (_salt) return Promise.resolve(_salt);
         return crypto.randomBytesAsync(saltLength)
             .then((buf) => buf.toString(encoding));
     }
 
     function _createId(user) {
         const shasum = crypto.createHash('sha1');
-        shasum.update(Math.random() + Date.now() + user.username + user.hash );
+        shasum.update(Math.random() + Date.now() + user.username + user.hash);
         user.id = shasum.digest('hex').slice(0, 10);
         return user;
     }
@@ -172,7 +171,7 @@ module.exports = (context) => {
             });
     }
 
-    function _createdCredentials(user){
+    function _createdCredentials(user) {
         return Promise.resolve()
             .then(() => _createPasswordHash(user))
             .then(() => createApiTokenHash(user))
@@ -189,8 +188,14 @@ module.exports = (context) => {
     }
 
     function _validate(user) {
-        const rolesAvailable = {'admin': true, 'analyst': true, 'user': true, 'domains-user': true, 'class-b-user': true};
-        return new Promise(function(resolve, reject){
+        const rolesAvailable = {
+            'admin': true,
+            'analyst': true,
+            'user': true,
+            'domains-user': true,
+            'class-b-user': true
+        };
+        return new Promise((resolve, reject) => {
             if (user.client_id === undefined || typeof user.client_id !== 'number') {
                 reject('client_id must exists and be of type Number')
             }
@@ -226,7 +231,7 @@ module.exports = (context) => {
         })
     }
 
-    function _isDate(_date){
+    function _isDate(_date) {
         const date = typeof _date === 'number' ? _date : Number(_date);
         return moment(Number(date)).isValid();
     }
@@ -245,28 +250,18 @@ module.exports = (context) => {
             })
     }
 
-    function findAllUsers(){
-        const query = { index: index, type: type, q: `role:*`, size: 10000, _source: fields };
-        return _search(query)
-            .catch((err) => {
-                logger.error(`could not get all users, error: ${err}`);
-                return Promise.reject(err)
-            })
-    }
-
-
     const api = {
         createUser: createUser,
         updateUser: updateUser,
         updateToken: updateToken,
         findByToken: findByToken,
-        findAllUsers: findAllUsers,
         findByUsername: findByUsername,
         deleteUser: deleteUser,
         authenticateUser: authenticateUser,
         createApiTokenHash: createApiTokenHash,
         serializeUser: serializeUser,
-        deserializeUser: deserializeUser
+        deserializeUser: deserializeUser,
+        searchSettings: () => ({ client: esClient, index: index, fields: fields })
     };
 
     return client.indexSetup(clusterName, index, migrantIndexName, mapping, type, clientName)

@@ -5,7 +5,7 @@ const Promise = require('bluebird');
 const Strategy = require('passport-local').Strategy;
 const parseError = require('error_parser');
 const _ = require('lodash');
-let logger, context, router, config, passport, teranaut, userStore;
+let logger, context, router, config, passport, teranaut, userStore, teraSearchApi;
 
 const api = {
     _config: undefined,
@@ -20,8 +20,7 @@ const api = {
         config = pluginConfig.server_config;
         teranaut = pluginConfig.server_config.teranaut;
         router = pluginConfig.express.Router();
-        // TODO it looks like that models could have been put in config, we don't have that with ES
-
+        teraSearchApi = pluginConfig.search(pluginConfig, 'created')
     },
     static: () => __dirname + '/static',
     init: () => {
@@ -57,7 +56,7 @@ const api = {
         // All API endpoints require authentication
         this._config.app.use('/api/v1', ensureAuthenticated);
 
-        require('./server/api/user')(router, userStore, logger);
+        require('./server/api/user')(router, userStore, logger, teraSearchApi);
 
         if (config.teranaut.ui) {
             const url_base = this._config.url_base;

@@ -3,22 +3,24 @@
 const parseError = require('error_parser');
 const path = require('path');
 
-module.exports = function(router, store, logger) {
+module.exports = function(router, store, logger, teraSearchApi) {
+
+    const searchSettings = store.searchSettings();
 
     router.use(requireUser);
 
     router.get('/users', function(req, res) {
-        console.log('the query', req.query)
-        console.log('the params', req.params)
-        console.log('the body', req.body)
+        const queryConfig = {
+            es_client: searchSettings.client,
+            sort_enabled: true,
+            sort_default: false,
+            sort_dates_only: false,
+            date_range: 'created',
+            require_query: false,
+            allowed_fields: searchSettings.fields
+        };
 
-        store.findAllUsers()
-            .then(results => res.json(results))
-            .catch((err) => {
-                const errMsg = parseError(err);
-                logger.error(errMsg);
-                res.status(500).json({ error: `could not get user` });
-            })
+            teraSearchApi.luceneQuery(req, res, searchSettings.index, queryConfig);
     });
 
     router.get('/users/:username', function(req, res) {
@@ -46,7 +48,6 @@ module.exports = function(router, store, logger) {
 
     router.post('/users', function(req, res) {
        const user = req.body;
-        console.log('posting is being called');
         store.createUser(user)
            .then((results) => res.status(201).json(results))
            .catch((err) => {
