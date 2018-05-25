@@ -23,7 +23,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
             //this.dateRange = 30 * 24;
             this.dateRange = -1;
 
-            this.startField = "last_e"
+            this.startField = "last_e";
             this.endField = "last_e";
 
             this.uiResultPage = 1;
@@ -40,7 +40,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
             }
 
             // Clean any special fields
-            var obj = this
+            var obj = this;
             angular.forEach(this, function(value, field) {
                 if (field[0] === '_') {
                     delete obj[field];
@@ -49,12 +49,12 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
 
             // Clear the criteria
             delete this['criteria'];
-        }
+        };
 
         SearchContext.prototype.resetPresentation = function() {
             this.uiResultPage = 1;
             this.uiResultCount = 0;
-        },
+        };
 
         SearchContext.prototype.configure = function() {
             if (this.searchConfig) {
@@ -90,7 +90,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                     this.searchengine = mongodbSearch;
                 }
             }
-        }
+        };
 
         SearchContext.prototype.fieldConfig = function(name) {
             for (var i = 0; i < this.searchConfig.fields.length; i++) {
@@ -98,12 +98,12 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                 var field = this.searchConfig.fields[i];
                 if (field.name === name) return field;
             }
-        },
+        };
 
         SearchContext.prototype.hasCriteria = function() {
             if (this.criteria || this.defaultCriteria) return true;
             else return false;
-        },
+        };
 
         SearchContext.prototype.locationState = function() {
             var state = angular.copy(this);
@@ -114,7 +114,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
             delete state.searchengine;
 
             return state;
-        }
+        };
 
         /*
          * Return the context management API
@@ -125,10 +125,9 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
              * a new one is created automatically.
              */
             getActiveContext: function(config) {
-
                 if (config.context && contexts.hasOwnProperty(config.context) && config.freshContext === false) {
                     var context = contexts[config.context];
-// TODO: this configure won't take a new config. DO we really need this here?
+                // TODO: this configure won't take a new config. DO we really need this here?
                     //context.configure(config);
 
                     return context;
@@ -177,7 +176,6 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
             },
 
             saveContext: function(context) {
-
                 console.log(JSON.stringify(context));
             },
 
@@ -204,24 +202,19 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                 newSearch: function() {
                     // Merge the form values with the URL params.
                     scope.search = scope.searchui.mergeParams(scope.search, $location.search())
-
                     // If we actually received criteria, put it in the URL
                     if (scope.search.hasCriteria()) scope.searchui.performSearch()
-
                     scope.searchui.loadData();
                 },
 
                 performSearch: function(criteria_update) {
                     // reset paging if the search was initiated by a form criteria update.
                     if (criteria_update) scope.search.resetPresentation();
-
                     $location.search(scope.search.locationState());
-
                 },
 
                 loadData: function() {
                     uiNotices.clear();
-
                     scope.searchui._setPageTitle();
 
                     // Prevent the query from being submitted multiple times while active.
@@ -234,11 +227,10 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                         uiLoading = true;
 
                         scope.searchResultView = teranautModuleBase + '/search/grid-loading.tpl.html';
-
                         scope.search.searchengine.search(scope.search, function(count, results) {
                             scope.searchResults = results;
                             scope.search.uiResultCount = count;
-                            if (scope.search.uiResultCount == 0) scope.search.uiResultCount = 1;
+                            if (scope.search.uiResultCount === 0) scope.search.uiResultCount = 1;
 
 
                             // If we have actual results swap to the grid display view.
@@ -272,7 +264,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                 },
 
                 resetContext: function(no_reload) {
-                    scope.search.reset()
+                    scope.search.reset();
 
                     // if we should reload the data do so.
                     if (! no_reload) {
@@ -305,7 +297,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
 
                 toggleSort: function(field) {
                     if (field.sortable && scope.searchui.isInteractive()) {
-                        if (scope.search.uiSortField == '-' + field.name) {
+                        if (scope.search.uiSortField === '-' + field.name) {
                             scope.search.uiSortField = field.name;
                         }
                         else {
@@ -326,7 +318,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
 
                         var field = scope.search.fieldConfig(name);
                         if (field) {
-                            if (scope.search.uiSortField[0] == '-') {
+                            if (scope.search.uiSortField[0] === '-') {
                                 return field.human_name + " descending"
                             }
                             return field.human_name + " ascending";
@@ -340,10 +332,10 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                     if (field.sortable && scope.searchui.isInteractive()) {
                         var css = 'sorting ';
 
-                        if (field.name == scope.search.uiSortField) {
+                        if (field.name === scope.search.uiSortField) {
                             css += 'sorting_asc'
                         }
-                        else if ('-' + field.name == scope.search.uiSortField) {
+                        else if ('-' + field.name === scope.search.uiSortField) {
                             css += 'sorting_desc'
                         }
 
@@ -363,7 +355,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                     scope.search.endDate = null; // Range has no end date.
 
                     // Set the startDate if needed.
-                    if (hours == -1) {
+                    if (hours === -1) {
                         scope.search.startDate = null;
                     }
                     else {
@@ -395,8 +387,8 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                 },
 
                 mergeParams: function(search, params) {
-                    for (var item in params) {
-                        if (item == 'startDate' || item == 'endDate') {
+                    for (let item in params) {
+                        if (item === 'startDate' || item === 'endDate') {
                             search[item] = new Date(params[item]);
                         }
                         else {
@@ -434,7 +426,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                 },
 
                 fieldActive: function(name) {
-                    return $.inArray(name, scope.searchConfig.fields) != -1
+                    return $.inArray(name, scope.searchConfig.fields) !== -1
                 },
 
                 isInteractive: function() {
@@ -443,7 +435,6 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
 
                 activeUrl: function() {
                     var path = scope.search.searchengine.activeUrl(scope.search);
-
                     return $location.protocol() + '://' + $location.host() + ':' + $location.port() + path + '&token=YOUR_API_TOKEN';
                 },
 
@@ -506,7 +497,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
 
                     pageTitle.setTitle(title);
                 }
-            }
+            };
 
             return controller;
         }
@@ -711,9 +702,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
             controller: ['$scope', '$location', function($scope, $location) {
                 $scope.pivot = function(field, value, append, path) {
                     var criteria = "";
-
                     if (! path) path = $location.path();
-
                     if (append) {
                         criteria = $scope.criteria + ' AND ' + field + ':' + '"' + value + '"';
                     }
@@ -721,9 +710,8 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                         criteria = field + ':' + '"' + value + '"';
                     }
 
-
                     $location.path(path).search({criteria: criteria});
-                }
+                };
 
                 $scope.contextMenu = '<' + $scope.context + '-pivot-menu></' + $scope.context + '-pivot-menu>'
 
@@ -755,7 +743,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                     function (event) {
                         if (! (element === openElement)) element.removeClass('pivot-menu');
                     }
-                )
+                );
 
                 element.bind('click', function (event) {
                     var elementWasOpen = (element === openElement);
@@ -771,10 +759,9 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                         var watcher = scope.$watch('$location.path', function() { closeMenu(); });
 
                         scope.$apply(function() {
-                            var e = $compile(scope.contextMenu)
-
+                            var e = $compile(scope.contextMenu);
                             element.parent().append(angular.element(e(scope)));
-                        })
+                        });
 
                         element.addClass('pivot-menu');
 
@@ -787,7 +774,7 @@ angular.module('teranaut.search', ['app.config', 'teranaut.notices', 'teranaut.d
                                 event.stopPropagation();
                             }
 
-                            watcher() // clear the closeMenu watch
+                            watcher(); // clear the closeMenu watch
 
                             $document.unbind('click', closeMenu);
                             element.parent().removeClass('open');

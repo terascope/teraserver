@@ -34,19 +34,14 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
                 valid: true,
 
                 getBaseUrl: function() {
-                    console.log('what is this base url', mongodbData.getBaseUrl() + '/' + collection);
                     return mongodbData.getBaseUrl() + '/' + collection
                 },
                 initActiveUser: function(username) {
-                    console.log('what is this initActiveUser url', this.getBaseUrl() + username);
-
                     this.activeUser = mongodbData.request(this.getBaseUrl() + username);
                     return this.activeUser;
                 },
                 getUser: function(username) {
                     //return mongodbData.request(this.getBaseUrl() + username)
-                    console.log('what is this getUser url', this.getBaseUrl() + ':username');
-
                     return $resource(this.getBaseUrl() + ':username', { username: username }, { update: { method: 'PUT' } } )                 
                 },
                 getActiveUser: function() {
@@ -67,7 +62,6 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
                         // TODO: this looks fishy with no error handling
                         this.initActiveUser($cookies.wappuser).then(
                             function(user) {
-                                console.log('what is this user wappuser', user);
                                 $rootScope.activeUser = user;
                                 authService.loginConfirmed();
                                 $rootScope.hideLogin = true;
@@ -78,7 +72,6 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
                         );            
                     }
                     else {
-                        console.log('am i account/login');
                         $location.path('/account/login');
                     }
 
@@ -120,8 +113,7 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
             
                 scope.$on('event:auth-loginRequired', function() {     
                     var returnURL = $location.path();
-                    console.log('what is the retrun Url', returnURL);
-                    $rootScope.hideLogin = false; // TODO: this really shouldn't be in the scope               
+                    $rootScope.hideLogin = false; // TODO: this really shouldn't be in the scope
                     $location.path('account/login').search({returnURL: returnURL});
                 });
                 /*scope.$on('event:auth-loginConfirmed', function() {

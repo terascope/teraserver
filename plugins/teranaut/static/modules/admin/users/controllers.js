@@ -80,7 +80,7 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
         title: "User Manager",
         context: 'user_manager',
         freshContext: true,
-        engine: 'mongodb',
+        engine: 'elasticsearch',
         collection: 'users',
         interactiveUI: true,
         dateToolbar: false,

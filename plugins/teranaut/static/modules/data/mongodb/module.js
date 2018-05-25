@@ -3,9 +3,7 @@
 angular.module('teranaut.data.mongodb', [])
 
     .provider('mongodbData', function() {
-
         this.baseUrl = '/api/v1';
-
         this.$get = ['$http', function($http) {
             var baseUrl = this.baseUrl;
             return {
@@ -18,6 +16,7 @@ angular.module('teranaut.data.mongodb', [])
                 },
 
                 prepareUrl: function(collection, config) {
+
                     var url = baseUrl + '/' + collection;
 
                     if (config) {
@@ -62,7 +61,7 @@ angular.module('teranaut.data.mongodb', [])
                     }).then(function(result) {
                         return result.data;
                     }, function(error) {
-console.log(error);
+                        console.log(error);
                         //$rootScope.systemError = "Service unavailable."
                     });
                 }
@@ -149,7 +148,6 @@ console.log(error);
                 var searchConfig = context.searchConfig;
                 mongodbData.getData(searchConfig.collection, config).then(function(records) {
                     if (records) {
-
                         // A second query is required to the get the count for paging.
                         // This is not ideal, especially since counting in mongo can be slow.
                         config.count = true;
