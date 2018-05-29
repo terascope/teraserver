@@ -18,5 +18,14 @@ module.exports = {
             doc: '',
             default: ''
         }
+    },
+    connection: {
+        doc: 'Elasticsearch cluster where user state is stored',
+        default: 'default',
+        format(val) {
+            if (typeof val !== 'string') {
+                throw new Error('connection parameter must be of type String as the value');
+            }
+        }
     }
 };
