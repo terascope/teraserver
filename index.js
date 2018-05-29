@@ -1,24 +1,20 @@
-/*
- If teraserver is loaded as a module we can still initialize while giving the app
- finer control over what services are loaded.
- */
+'use strict';
 
-var _ = require('lodash');
+const _ = require('lodash');
 
-module.exports = function(customConfig) {
-    var worker = require('./lib/worker');
-    var config_schema = require('./system_schema').config_schema;
-    var plugin_schema = require('./system_schema').plugin_schema;
+module.exports = (customConfig) => {
+    const worker = require('./lib/worker');
+    const configSchema = require('./system_schema').config_schema;
+    const pluginSchema = require('./system_schema').plugin_schema;
 
-
-    var config = {
+    const config = {
         name: 'teraserver',
-        worker: worker,
-        config_schema: config_schema,
-        plugin_schema: plugin_schema
+        worker,
+        config_schema: configSchema,
+        plugin_schema: pluginSchema
     };
 
     _.merge(config, customConfig);
 
-    var foundation = require('terafoundation')(config);
+    require('terafoundation')(config);
 };

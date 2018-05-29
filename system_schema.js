@@ -1,9 +1,8 @@
 'use strict';
 
-var fs = require('fs');
-var getPlugin = require('./lib/utils').getPlugin;
+const { getPlugin } = require('./lib/utils');
 
-var schema = {
+const schema = {
     shutdown_timeout: {
         doc: 'seconds util force shutdown will occur when exiting the app',
         default: 60
@@ -37,44 +36,60 @@ var schema = {
     static_assets: {
         doc: 'Location of static HTTP assets',
         default: '/app/api/public'
+    },
+    name: {
+        doc: 'Name for the cluster itself, its used for naming log files/indices',
+        default: 'teraserver',
+        format: (val) => {
+            if (val && typeof val !== 'string') {
+                throw new Error('This field is required and must by of type string');
+            }
+        },
+    },
+    connection: {
+        doc: 'Elasticsearch cluster where session state is stored',
+        default: 'default',
+        format(val) {
+            if (typeof val !== 'string') {
+                throw new Error('connection parameter must be of type String as the value');
+            }
+        }
     }
 };
 
 function getPluginSchema(plugin) {
-    var pluginSchema = {};
+    let pluginSchemaDict = {};
 
     if (plugin.config_schema) {
         if (typeof plugin.config_schema === 'function') {
-            pluginSchema = plugin.config_schema();
-        }
-        else if (typeof plugin.config_schema === 'object') {
-            pluginSchema = plugin.config_schema;
+            pluginSchemaDict = plugin.config_schema();
+        } else if (typeof plugin.config_schema === 'object') {
+            pluginSchemaDict = plugin.config_schema;
         }
     }
-    return pluginSchema;
+    return pluginSchemaDict;
 }
 
-function plugin_schema(config) {
-    var schema = {};
-    var plugins = config.teraserver.plugins;
+function pluginSchema(config) {
+    const schemaDict = {};
+    const { plugins } = config.teraserver.plugins;
 
     if (plugins && plugins.names.length > 0) {
-
-        plugins.names.forEach(function(name) {
-            var plugin =  getPlugin(name, config);
-            schema[name] = getPluginSchema(plugin);
+        plugins.names.forEach((name) => {
+            const plugin = getPlugin(name, config);
+            schemaDict[name] = getPluginSchema(plugin);
         });
     }
 
-    return schema;
+    return schemaDict;
 }
 
-function config_schema(config) {
+function configSchema() {
     return schema;
 }
 
 module.exports = {
-    config_schema: config_schema,
-    plugin_schema: plugin_schema,
-    schema: schema
+    config_schema: configSchema,
+    plugin_schema: pluginSchema,
+    schema
 };

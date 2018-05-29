@@ -1,10 +1,12 @@
-var worker = require('./lib/worker');
-var config_schema = require('./system_schema').config_schema;
-var plugin_schema = require('./system_schema').plugin_schema;
+'use strict';
 
-var foundation = require('terafoundation')({
+const worker = require('./lib/worker');
+const configSchema = require('./system_schema').config_schema;
+const pluginSchema = require('./system_schema').plugin_schema;
+
+require('terafoundation')({
     name: 'teraserver',
-    worker: worker,
-    config_schema: config_schema,
-    plugin_schema: plugin_schema
+    worker,
+    config_schema: configSchema,
+    plugin_schema: pluginSchema
 });
