@@ -137,11 +137,10 @@ function ensureAuthenticated(req, res, next) {
 function login(req, res, next) {
     passport.authenticate('local', { session: false }, (err, user, info) => {
         if (err) return next(err);
-        if (!user) res.status(401).json({ error: _.get(info, 'message', 'no user was found') });
+        if (!user) return res.status(401).json({ error: _.get(info, 'message', 'no user was found') });
         if (teranaut.auth.require_email && !user.email_validated) {
             return res.status(401).json({ error: 'Account has not been activated' });
         }
-
         req.logIn(user, (errObj) => {
             if (errObj) return next(errObj);
 
@@ -157,7 +156,7 @@ function login(req, res, next) {
                 .catch((lastErr) => {
                     const errMsg = parseError(lastErr);
                     logger.error(`error while creating new token and updating user, error:${errMsg}`);
-                    res.status(401).json({ error: 'error while creating new token and updating user' });
+                    return res.status(401).json({ error: 'error while creating new token and updating user' });
                 });
         });
     })(req, res, next);
