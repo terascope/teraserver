@@ -186,7 +186,7 @@ module.exports = (context) => {
     }
 
     function _isUnique(user) {
-        const query = { q: `username:${user.username}` };
+        const query = { index, type, q: `username:${user.username}` };
         return client.count(query)
             .then((count) => {
                 if (count !== 0) return Promise.reject('username is not unique');
