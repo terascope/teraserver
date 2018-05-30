@@ -89,7 +89,6 @@ describe('user routes', () => {
     it('should assign routes', () => {
         routes(router, store, logger, teraSearchApi);
         expect(Object.keys(endpoints).length > 0).toEqual(true);
-        console.log('whats the endpoing', endpoints);
         expect(endpoints.get['/users']).toBeDefined();
         expect(typeof endpoints.get['/users'].fn).toEqual('function');
 
@@ -242,7 +241,7 @@ describe('user routes', () => {
     });
 
     // search-spec.js tests the teraSearchApi itself
-    fit('can get /users', (done) => {
+    it('can get /users', (done) => {
         const req1 = { body: {} };
 
         function makeTest() {
