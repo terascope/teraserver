@@ -1,12 +1,17 @@
-"use strict";
+'use strict';
 
-const foundation = require('terafoundation')({
+const configSchema = require('../system_schema').config_schema;
+const pluginSchema = require('../system_schema').plugin_schema;
+
+require('terafoundation')({
     name: 'teraserver',
-    script: script
+    script,
+    config_schema: configSchema,
+    plugin_schema: pluginSchema
 });
 
 function script(context) {
-    const logger = context.logger;
+    const { logger } = context;
     const password = 'admin';
     const time = Date.now();
     const userStore = require('../plugins/teranaut/server/store/users')(context);
@@ -23,7 +28,7 @@ function script(context) {
     };
 
     userStore
-        .then((api) => api.createUser(user))
+        .then(api => api.createUser(user))
         .then(() => logger.info('succesfully created admin'))
-        .catch(err => logger.error('error creating admin', err))
+        .catch(err => logger.error('error creating admin', err));
 }
