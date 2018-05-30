@@ -15,7 +15,7 @@ const argv = require('yargs')
     .argv;
 
 const request = require('request');
-const api = argv.server + "/api/v1";
+const api = `${argv.server}/api/v1`;
 
 const record = {
     client_id: 0,
@@ -27,7 +27,7 @@ const record = {
 };
 
 const options = {
-    url: api + '/users?token=' + argv.token,
+    url: `${api}/users?token=${argv.token}`,
     headers: {
         'content-type': 'application/json'
     },
@@ -35,7 +35,6 @@ const options = {
 };
 
 request.post(options, function (error, response, body) {
-    console.log('what is this', response.body, body);
     if (error) {
         console.log(error);
     }
