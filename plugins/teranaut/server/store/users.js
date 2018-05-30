@@ -221,6 +221,7 @@ module.exports = (context) => {
             if (user.api_token && typeof user.api_token !== 'string') {
                 reject('api_token must be of type String');
             }
+            if (user.role) user.role = user.role.trim();
             if (!user.role) user.role = 'user';
             if (!user.created) user.created = Date.now();
             if (!user.updated) user.updated = Date.now();
