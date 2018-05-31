@@ -73,6 +73,9 @@ function($scope, accountData, uiNotices) {
         var user = accountData.getUser($scope.user.username);
         $scope.user.updated = new Date();
         if ($scope.user.password) $scope.user.hash = $scope.user.password;
+        // These fields should not be sent up
+        delete $scope.user.password;
+        delete $scope.user.password2;
         user.update($scope.user, function() {
             uiNotices.success('Account updated successfully');
         }, 

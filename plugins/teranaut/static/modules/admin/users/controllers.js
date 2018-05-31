@@ -142,9 +142,9 @@ function($scope, $location, uiNotices, accountData, adminUserData, teranautAdmin
 
         if ($scope.user) {            
             
-            if (! accountData.validate($scope.user)) return;
+            if (!accountData.validate($scope.user)) return;
 
-            if (! $scope.user.password) {
+            if (!$scope.user.password) {
                 uiMessages.error("Password is required");                
                 return;
             }
@@ -154,7 +154,9 @@ function($scope, $location, uiNotices, accountData, adminUserData, teranautAdmin
             accountData.getActiveUser().then(function(active_user) {
                 $scope.user.client_id = active_user.client_id;
                 $scope.user.hash = $scope.user.password;
-
+                // These fields should not be sent up
+                delete $scope.user.password;
+                delete $scope.user.password2;
                 user.save($scope.user, function() {
                     uiNotices.success('User created successfully');
                     $location.path('/admin/users');

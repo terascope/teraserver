@@ -5,8 +5,8 @@ var config = angular.module('app.config', [])
     .constant('appModuleBase', '/pl/teranaut/static/modules/')
     .constant('teranautModuleBase', '/pl/teranaut/static/modules/')
     .constant('teranautAdminUserRoles', [
-        {role: 'admin', name: 'Admin'},
-        {role: 'user', name: 'User'}
+        {role: 'user', name: 'User'},
+        {role: 'admin', name: 'Admin'}
     ]);
 
 // Declare app level module which depends on filters, and services
