@@ -4,17 +4,14 @@ const _ = require('lodash');
 
 module.exports = (customConfig) => {
     const worker = require('./lib/worker');
-    const configSchema = require('./system_schema').config_schema;
-    const pluginSchema = require('./system_schema').plugin_schema;
+    const { configSchema } = require('./system_schema');
 
     const config = {
         name: 'teraserver',
-        worker,
-        config_schema: configSchema,
-        plugin_schema: pluginSchema
+        worker
     };
-
     _.merge(config, customConfig);
-
+    // teraserver already pulls in schema from plugins, this should not be overwritten
+    config.config_schema = configSchema;
     require('terafoundation')(config);
 };

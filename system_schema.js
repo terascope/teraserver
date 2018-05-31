@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const { getPlugin } = require('./lib/utils');
 
 const schema = {
@@ -72,7 +73,7 @@ function getPluginSchema(plugin) {
 
 function pluginSchema(config) {
     const schemaDict = {};
-    const { plugins } = config.teraserver.plugins;
+    const { plugins } = config.teraserver;
 
     if (plugins && plugins.names.length > 0) {
         plugins.names.forEach((name) => {
@@ -84,12 +85,12 @@ function pluginSchema(config) {
     return schemaDict;
 }
 
-function configSchema() {
-    return schema;
+function configSchema(config) {
+    const paritialSchema = pluginSchema(config);
+    return _.merge({ teraserver: schema }, paritialSchema);
 }
 
 module.exports = {
-    config_schema: configSchema,
-    plugin_schema: pluginSchema,
+    configSchema,
     schema
 };

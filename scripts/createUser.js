@@ -1,6 +1,8 @@
 'use strict';
 
-const argv = require('yargs')
+const request = require('request');
+
+const { argv } = require('yargs')
     .usage('Usage: $0 -a API token -u username -p password -f firstname -l lastname -s [API server URL] -r [role] ')
     .demand(['u', 'p', 'f', 'l'])
     .alias('u', 'username')
@@ -11,10 +13,8 @@ const argv = require('yargs')
     .alias('s', 'server')
     .alias('a', 'token')
     .default('r', 'user')
-    .default('s', 'http://localhost:8000')
-    .argv;
+    .default('s', 'http://localhost:8000');
 
-const request = require('request');
 const api = `${argv.server}/api/v1`;
 
 const record = {
@@ -34,15 +34,15 @@ const options = {
     body: JSON.stringify(record)
 };
 
-request.post(options, function (error, response, body) {
+request.post(options, function (error, response) {
     if (error) {
         console.log(error);
     }
-    if (response.statusCode != 201) {
+    if (response.statusCode !== 201) {
         console.log(response.body);
     }
-    if (!error && response.statusCode == 201) {
+    if (!error && response.statusCode === 201) {
         const account = JSON.parse(response.body);
-        console.log(argv.username + " | " + argv.password + " | " + account.id + " | " + account.token);
+        console.log(`${argv.username} | ${argv.password} | ${account.id} | ${account.token}`);
     }
 });
