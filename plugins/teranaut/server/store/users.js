@@ -92,7 +92,14 @@ module.exports = (context) => {
         };
 
         return Promise.all([findByUsername(user.username), _validate(user)])
-            .spread((oldUserData, validUserData) => _compareHashes(oldUserData, validUserData))
+            .spread((oldUserData, validUserData) => {
+            // admin may update another user, the sent user obj may not have the salt and hash
+                if (validUserData.hash === undefined) {
+                    validUserData.hash = oldUserData.hash;
+                    validUserData.salt = oldUserData.salt;
+                }
+                return _compareHashes(oldUserData, validUserData);
+            })
             .then((newUserData) => {
                 query.body.doc = newUserData;
                 return client.update(query)
@@ -273,4 +280,3 @@ module.exports = (context) => {
     return client.indexSetup(clusterName, index, migrantIndexName, mapping, type, connection)
         .then(() => api);
 };
-
