@@ -41,7 +41,7 @@ module.exports = (context) => {
     }
 
     function deleteUser(user) {
-        const query = { index, type, id: user.id };
+        const query = { index, type, id: user.id, refresh: true };
         return client.remove(query);
     }
 
@@ -50,7 +50,7 @@ module.exports = (context) => {
             .then(validUser => Promise.all([_createdCredentials(validUser), _isUnique(validUser)])
                 .spread((hashedUser) => {
                     const query = {
-                        index, type, id: hashedUser.id, body: hashedUser
+                        index, type, id: hashedUser.id, body: hashedUser, refresh: true
                     };
                     return client.index(query)
                         .then(() => ({
@@ -68,8 +68,6 @@ module.exports = (context) => {
 
     function _compareHashes(oldUserData, newUserData) {
         return new Promise((resolve, reject) => {
-            delete newUserData.password;
-            delete newUserData.password2;
             if (oldUserData.hash === newUserData.hash) {
                 resolve(newUserData);
                 return;
