@@ -103,11 +103,15 @@ function($scope, $location, $routeParams, uiNotices, accountData, adminUserData,
     $scope.update = function() {
         uiNotices.clear();
 
-        if (! accountData.validate($scope.user)) return;
+        if (!accountData.validate($scope.user)) return;
         
         accountData.getActiveUser().then(function(active_user) {
             $scope.user.client_id = active_user.client_id;
             if ($scope.user.password) $scope.user.hash = $scope.user.password;
+
+            // These fields should not be sent up
+            delete $scope.user.password;
+            delete $scope.user.password2;
 
             var user = adminUserData.getUser($scope.user.username);
         
