@@ -22,7 +22,7 @@ module.exports = (context) => {
     const migrantIndexName = `${index}-v${version}`;
     const mapping = require('./mappings/user.json');
     const type = 'user';
-    const fields = ['client_id', 'role', 'firstname', 'lastname', 'username', 'created', 'updated', 'id', 'api_token'];
+    const fields = ['client_id', 'role', 'firstname', 'lastname', 'username', 'created', 'updated', 'id', 'api_token', 'email'];
     const saltLength = 32;
     const iterations = 25000;
     const keyLength = 512;
