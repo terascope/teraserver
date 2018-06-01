@@ -93,12 +93,9 @@ module.exports = (context) => {
 
         return Promise.all([findByUsername(user.username), _validate(user)])
             .spread((oldUserData, validUserData) => {
-            // admin may update another user, the sent user obj may not have the salt and hash
-                if (validUserData.hash === undefined) {
-                    validUserData.hash = oldUserData.hash;
-                    validUserData.salt = oldUserData.salt;
-                }
-                return _compareHashes(oldUserData, validUserData);
+            // admin may update another user, the sent user obj may not have all the fields
+                const validUser = Object.assign({}, oldUserData, validUserData);
+                return _compareHashes(oldUserData, validUser);
             })
             .then((newUserData) => {
                 query.body.doc = newUserData;
@@ -209,7 +206,7 @@ module.exports = (context) => {
         };
         return new Promise((resolve, reject) => {
             if (user.client_id === undefined || typeof user.client_id !== 'number') {
-                reject('client_id must exists and be of type Number');
+                reject('client_id must exist and be of type Number');
             }
             if (user.firstname && typeof user.firstname !== 'string') {
                 reject('firstname must be of type String');
