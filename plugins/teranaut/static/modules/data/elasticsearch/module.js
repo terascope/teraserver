@@ -182,8 +182,8 @@ angular.module('teranaut.data.elasticsearch', [])
 
             search: function(context, done) {
                 var config = this.prepare(context);
-
-               // if (!config.criteria) return done(1, []); // No criteria so no query will be run.
+                // No criteria so no query will be run.
+                if (!config.criteria && !context.searchConfig.allowEmptyQuery) return done(1, []);
                 elasticsearchData.getData(context.searchConfig.collection, config).then(function(records) {
                     if (records) {
                         var count, results;

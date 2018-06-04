@@ -88,7 +88,8 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
         gridView: teranautModuleBase + '/admin/users/search-results.tpl.html',
         searchView: teranautModuleBase + '/admin/users/search-controls.tpl.html',
         toolbarView: teranautModuleBase + '/admin/users/search-toolbar.tpl.html',
-        uiController: uiController
+        uiController: uiController,
+        allowEmptyQuery: true
     };
 }]);
 
