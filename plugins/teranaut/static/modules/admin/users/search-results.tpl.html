@@ -5,7 +5,7 @@
     <td>{{ user.role | role_name }}</td>
     <td>{{ user.created | wt_date }}</td>
     <td><button class="btn" ng-click="uictrl.edit(user.username)">Edit</button>
-        <span ng-show="user.username != 'admin'">
+        <span ng-show="user.username !== 'admin'">
             <button class="btn" ng-click="uictrl.remove(user.username)">Remove</button>
         </span>
     </td>

@@ -24,7 +24,7 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
             uiNotices.clear();
 
             // Not allowed to remove the user named admin.
-            if (username == 'admin') return;
+            if (username === 'admin' || username === $scope.activeUser.username) return;
 
             // TODO: find a cleaner way rather than poping a dialog right here.
             if (confirm("Are you sure you want to remove the user: " + username + "?")) {
