@@ -102,6 +102,14 @@ angular.module('teranaut.data.elasticsearch', [])
                     criteria += ' AND ' + context.searchConfig.dateField + ':[' + context.startDate.toISOString() + ' TO ' + context.endDate.toISOString() +']';
                 }*/
 
+                function formatRegex(str) {
+                    var fields = context.searchConfig.regexSearchFields;
+                    var fieldList = fields.map(function(val){return val + ':/.*' + str + '.*/'});
+                    return fieldList.join(' OR ');
+                }
+
+                if (context.searchConfig.regexSearchFields) criteria = formatRegex(criteria);
+
                 var config = {
                     criteria: criteria,
                     limit: context.uiPageSize,

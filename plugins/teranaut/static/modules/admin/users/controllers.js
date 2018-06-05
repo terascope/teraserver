@@ -89,7 +89,8 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
         searchView: teranautModuleBase + '/admin/users/search-controls.tpl.html',
         toolbarView: teranautModuleBase + '/admin/users/search-toolbar.tpl.html',
         uiController: uiController,
-        allowEmptyQuery: true
+        allowEmptyQuery: true,
+        regexSearchFields: ['firstname', 'lastname', 'username', 'email']
     };
 }]);
 

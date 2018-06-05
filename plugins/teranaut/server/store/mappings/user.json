@@ -1,7 +1,15 @@
 {
   "settings": {
     "index.number_of_shards": 5,
-    "index.number_of_replicas": 1
+    "index.number_of_replicas": 1,
+    "analysis": {
+      "analyzer": {
+        "lowercase_keyword_analyzer": {
+          "tokenizer": "keyword",
+          "filter": "lowercase"
+        }
+      }
+    }
   },
   "mappings": {
     "user": {
@@ -14,16 +22,20 @@
           "type": "integer"
         },
         "firstname": {
-          "type": "keyword"
+          "type": "text",
+          "analyzer": "lowercase_keyword_analyzer"
         },
         "lastname": {
-          "type": "keyword"
+          "type": "text",
+          "analyzer": "lowercase_keyword_analyzer"
         },
         "username": {
-          "type": "keyword"
+          "type": "text",
+          "analyzer": "lowercase_keyword_analyzer"
         },
         "email": {
-          "type": "keyword"
+          "type": "text",
+          "analyzer": "lowercase_keyword_analyzer"
         },
         "role": {
           "type": "keyword"

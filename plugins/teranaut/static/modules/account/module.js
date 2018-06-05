@@ -80,12 +80,12 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
                 validate: function(user) {
                     //TODO check about role here
                     this.valid = true;
-                    if (! user.username) this.invalid("Username is required");
-                    if (! user.role) this.invalid("Role is required");
-                    if (! user.firstname) this.invalid("First name is required");
-                    if (! user.lastname) this.invalid("Last name is required");
+                    if (!user.username) this.invalid("Username is required");
+                    if (!user.role) this.invalid("Role is required");
+                    if (!user.firstname) this.invalid("First name is required");
+                    if (!user.lastname) this.invalid("Last name is required");
                     if (user.username.length < 4) this.invalid("Username must be at least 4 characters");
-                    if ((user.password && user.password != user.password2) || (user.password2 && ! user.password)) this.invalid('Passwords do not match');
+                    if ((user.password && user.password !== user.password2) || (user.password2 && !user.password)) this.invalid('Passwords do not match');
                
                     return this.valid;
                 },
