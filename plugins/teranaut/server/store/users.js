@@ -242,8 +242,7 @@ module.exports = (context) => {
     }
 
     function _isDate(_date) {
-        const date = typeof _date === 'number' ? _date : Number(_date);
-        return moment(Number(date)).isValid();
+        return moment(_date).isValid();
     }
 
     function serializeUser(user, next) {

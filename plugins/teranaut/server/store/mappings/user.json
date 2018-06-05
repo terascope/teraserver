@@ -50,10 +50,10 @@
           "type": "keyword"
         },
         "created": {
-          "type": "long"
+          "type": "date"
         },
         "updated": {
-          "type": "long"
+          "type": "date"
         },
         "id": {
           "type": "keyword"

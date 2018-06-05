@@ -11,7 +11,7 @@ require('terafoundation')({
 function script(context) {
     const { logger } = context;
     const password = 'admin';
-    const time = Date.now();
+    const time = new Date().toISOString();
     const userStore = require('../plugins/teranaut/server/store/users')(context);
 
     const user = {
