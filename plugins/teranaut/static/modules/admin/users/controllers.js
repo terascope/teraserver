@@ -3,7 +3,7 @@
 angular.module('teranaut.admin.users').controller('AdminUserListController', 
     ['$scope', '$routeParams', '$location', '$modal', 'uiNotices', 'adminUserData', 'teranautModuleBase',
 function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, teranautModuleBase) {
-    
+
     var uiController = {
         /* 
          * We have to be handed the scope from the search directive since it is isolated.
@@ -24,7 +24,7 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
             uiNotices.clear();
 
             // Not allowed to remove the user named admin.
-            if (username === 'admin' || username === $scope.activeUser.username) return;
+            if (username === 'admin') return;
 
             // TODO: find a cleaner way rather than poping a dialog right here.
             if (confirm("Are you sure you want to remove the user: " + username + "?")) {
