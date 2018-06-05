@@ -22,7 +22,7 @@ const schema = {
     },
     ttl: {
         doc: 'session time to live duration',
-        default: 1000 * 60 * 60
+        default: 24000 * 60 * 60
     },
     plugins: {
         names: {
