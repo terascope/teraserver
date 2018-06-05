@@ -103,7 +103,7 @@ angular.module('teranaut.data.elasticsearch', [])
                 }*/
 
                 function formatRegex(str) {
-                    var fields = context.searchConfig.regexSearchFields;
+                    var fields = context.searchConfig.regexSearchFields.map(function(field){return field + '.text'});
                     var fieldList = fields.map(function(val){return val + ':/.*' + str + '.*/'});
                     return fieldList.join(' OR ');
                 }

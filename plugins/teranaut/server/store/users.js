@@ -22,13 +22,28 @@ module.exports = (context) => {
     const migrantIndexName = `${index}-v${version}`;
     const mapping = require('./mappings/user.json');
     const type = 'user';
-    const fields = ['client_id', 'role', 'firstname', 'lastname', 'username', 'created', 'updated', 'id', 'api_token', 'email'];
     const saltLength = 32;
     const iterations = 25000;
     const keyLength = 512;
     const tokenLength = 128;
     const encoding = 'hex';
     const digest = 'sha1';
+    const fields = [
+        'client_id',
+        'role',
+        'firstname',
+        'lastname',
+        'username',
+        'created',
+        'updated',
+        'id',
+        'api_token',
+        'email',
+        'firstname.text',
+        'lastname.text',
+        'username.text',
+        'email.text'
+    ];
 
     function findByToken(token) {
         const query = { index, type, q: `api_token:${token}` };

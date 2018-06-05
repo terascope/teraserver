@@ -22,20 +22,40 @@
           "type": "integer"
         },
         "firstname": {
-          "type": "text",
-          "analyzer": "lowercase_keyword_analyzer"
+          "type": "keyword",
+          "fields": {
+            "text": {
+              "type": "text",
+              "analyzer": "lowercase_keyword_analyzer"
+            }
+          }
         },
         "lastname": {
-          "type": "text",
-          "analyzer": "lowercase_keyword_analyzer"
+          "type": "keyword",
+          "fields": {
+            "text": {
+              "type": "text",
+              "analyzer": "lowercase_keyword_analyzer"
+            }
+          }
         },
         "username": {
-          "type": "text",
-          "analyzer": "lowercase_keyword_analyzer"
+          "type": "keyword",
+          "fields": {
+            "text": {
+              "type": "text",
+              "analyzer": "lowercase_keyword_analyzer"
+            }
+          }
         },
         "email": {
-          "type": "text",
-          "analyzer": "lowercase_keyword_analyzer"
+          "type": "keyword",
+          "fields": {
+            "text": {
+              "type": "text",
+              "analyzer": "lowercase_keyword_analyzer"
+            }
+          }
         },
         "role": {
           "type": "keyword"
