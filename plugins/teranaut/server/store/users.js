@@ -79,7 +79,7 @@ module.exports = (context) => {
     }
 
     function updateUser(user) {
-        user.updated = Date.now();
+        user.updated = new Date().toISOString();
         const query = {
             index,
             type,
@@ -225,8 +225,8 @@ module.exports = (context) => {
             }
             if (user.role) user.role = user.role.trim();
             if (!user.role) user.role = 'user';
-            if (!user.created) user.created = Date.now();
-            if (!user.updated) user.updated = Date.now();
+            if (!user.created) user.created = new Date().toISOString();
+            if (!user.updated) user.updated = new Date().toISOString();
             if (!_isDate(user.created)) reject('created must be of type Date');
             if (!_isDate(user.updated)) reject('updated must be of type Date');
 
