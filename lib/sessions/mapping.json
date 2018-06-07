@@ -16,7 +16,7 @@
              "type": "long"
            },
            "expires": {
-             "type": "long"
+             "type": "date"
            },
            "httpOnly": {
              "type": "boolean"
@@ -25,17 +25,7 @@
              "type": "keyword"
            }
          }
-       },
-        "passport": {
-          "properties": {
-            "user": {
-              "type": "keyword"
-            }
-          }
-        },
-        "timestamp" : {
-          "type": "long"
-        }
+       }
       }
     }
   }

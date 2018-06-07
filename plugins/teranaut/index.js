@@ -94,7 +94,7 @@ function index(req, res) {
     res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.header('Pragma', 'no-cache');
     res.header('X-Frame-Options', 'Deny');
-    res.sendfile('index.html', { root: `${__dirname}/static` });
+    res.sendFile('index.html', { root: `${__dirname}/static` });
 }
 
 function ensureAuthenticated(req, res, next) {
