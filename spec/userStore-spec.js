@@ -15,7 +15,12 @@ describe('user store', () => {
         'created',
         'updated',
         'id',
-        'api_token'
+        'api_token',
+        'email',
+        'firstname.text',
+        'lastname.text',
+        'username.text',
+        'email.text',
     ];
 
     let clientCount = 0;
@@ -237,11 +242,11 @@ describe('user store', () => {
                 expect(body.role).toEqual('user');
 
                 expect(body.created).toBeDefined();
-                expect(typeof body.created).toEqual('number');
-                expect(body.created >= dateTime).toEqual(true);
+                expect(typeof body.created).toEqual('string');
+                expect(new Date(body.created).getTime() >= dateTime).toEqual(true);
                 expect(body.updated).toBeDefined();
-                expect(typeof body.updated).toEqual('number');
-                expect(body.updated >= dateTime).toEqual(true);
+                expect(typeof body.updated).toEqual('string');
+                expect(new Date(body.updated).getTime() >= dateTime).toEqual(true);
                 expect(body.updated === body.created).toEqual(true);
 
                 expect(body.salt).toBeDefined();
@@ -259,8 +264,8 @@ describe('user store', () => {
                 expect(results.token.length).toEqual(40);
 
                 expect(results.date).toBeDefined();
-                expect(typeof results.date).toEqual('number');
-                expect(results.date >= dateTime).toEqual(true);
+                expect(typeof results.date).toEqual('string');
+                expect(new Date(results.date).getTime() >= dateTime).toEqual(true);
             })
             .catch(fail)
             .finally(done);
@@ -289,7 +294,9 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(_api => api = _api)
+            .then((_api) => {
+                api = _api;
+            })
             .then(() => Promise.all([
                 expectFailure(api.createUser, badUser1),
                 expectFailure(api.createUser, badUser2),
@@ -437,7 +444,7 @@ describe('user store', () => {
             .then(api => api.deleteUser(user))
             .then((bool) => {
                 expect(bool).toEqual(true);
-                expect(deleteQuery).toEqual({ index: 'test__users', type: 'user', id: 'someID' });
+                expect(deleteQuery).toEqual({ index: 'test__users', type: 'user', id: 'someID', refresh: true });
             })
             .catch(fail)
             .finally(done);

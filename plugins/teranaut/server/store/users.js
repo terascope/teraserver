@@ -115,7 +115,7 @@ module.exports = (context) => {
             .then((newUserData) => {
                 query.body.doc = newUserData;
                 return client.update(query)
-                    .then(() => user);
+                    .then(() => newUserData);
             });
     }
 
