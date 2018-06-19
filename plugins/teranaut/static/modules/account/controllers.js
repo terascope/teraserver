@@ -40,7 +40,7 @@ function ($scope, $location, $http, $cookies, $routeParams, authService, account
                 }
             );            
         }).
-        error(function(data, status) {            
+        error(function(data, status) {
             $scope.message = "Could not log in. Please provide a valid username and password.";
         });
     }  
@@ -50,9 +50,8 @@ angular.module('teranaut.account').controller('LogoutController',
     ['$scope', '$rootScope', '$http', '$location', '$cookies', 
 function ($scope, $rootScope, $http, $location, $cookies) {   
     $http.get('/logout').success(function() {
-        delete $cookies.wappuser
-        
-        $rootScope.$broadcast('event:auth-loginRequired')
+        delete $cookies.wappuser;
+        $rootScope.$broadcast('event:auth-loginRequired');
         $location.path('account/login').search({});
     }).error(function() {
         console.log("Error on logout");        
@@ -65,22 +64,23 @@ function($scope, accountData, uiNotices) {
     
     accountData.getActiveUser().then(function(activeUser) {
         $scope.user = activeUser
-    })
+    });
 
     $scope.update = function() {        
         uiNotices.clear();
-        
         if (! accountData.validate($scope.user)) return;
 
         var user = accountData.getUser($scope.user.username);
         $scope.user.updated = new Date();
         if ($scope.user.password) $scope.user.hash = $scope.user.password;
-
-        user.update($scope.user, function() {            
+        // These fields should not be sent up
+        delete $scope.user.password;
+        delete $scope.user.password2;
+        user.update($scope.user, function() {
             uiNotices.success('Account updated successfully');
         }, 
         function(err) {
-            uiNotices.error('Could not update account');       
+            uiNotices.error('Could not update account');
         });
     }
 }]);

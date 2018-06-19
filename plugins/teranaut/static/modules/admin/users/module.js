@@ -19,24 +19,19 @@ angular.module('teranaut.admin.users', ['app.config', 'teranaut.notices', 'teran
     ])
 
     .provider('adminUserData', function() {
-
         this.collection = 'users/';
-
         this.$get = ['$http', '$resource', 'mongodbData', function($http, $resource, mongodbData) {
             var collection = this.collection;
             return {
                 getBaseUrl: function() {
                     return mongodbData.getBaseUrl() + '/' + collection
                 },
-
                 getUser: function(username) {
                     return $resource(this.getBaseUrl() + ':username', { username: username }, { update: { method: 'PUT' } } )
                 },
-
                 getUsers: function(config) {
                     return mongodbData.getData(collection, config)
                 },
-
                 newUser: function() {
                     return $resource(this.getBaseUrl(), {}, { create: { method: 'PUT' } } )
                 }
@@ -57,4 +52,4 @@ angular.module('teranaut.admin.users', ['app.config', 'teranaut.notices', 'teran
                 }
             }
         }
-    })
+    });

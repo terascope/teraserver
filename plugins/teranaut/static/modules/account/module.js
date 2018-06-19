@@ -33,7 +33,7 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
             return {
                 valid: true,
 
-                getBaseUrl: function() {                    
+                getBaseUrl: function() {
                     return mongodbData.getBaseUrl() + '/' + collection
                 },
                 initActiveUser: function(username) {
@@ -41,7 +41,7 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
                     return this.activeUser;
                 },
                 getUser: function(username) {
-                    //return mongodbData.request(this.getBaseUrl() + username)  
+                    //return mongodbData.request(this.getBaseUrl() + username)
                     return $resource(this.getBaseUrl() + ':username', { username: username }, { update: { method: 'PUT' } } )                 
                 },
                 getActiveUser: function() {
@@ -51,7 +51,6 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
                     else {
                         console.log("No active user is available")
                     }
-                    
                 },
 
                 // Try to load the user from a cookie
@@ -62,11 +61,9 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
                     if ($cookies.wappuser) {                            
                         // TODO: this looks fishy with no error handling
                         this.initActiveUser($cookies.wappuser).then(
-                            function(user) {                
+                            function(user) {
                                 $rootScope.activeUser = user;
-                                
                                 authService.loginConfirmed();
-                                
                                 $rootScope.hideLogin = true;
                             },
                             function(err) {
@@ -80,19 +77,15 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
 
                 },
 
-                validate: function(user) {   
+                validate: function(user) {
+                    //TODO check about role here
                     this.valid = true;
-
-                    if (! user.username) this.invalid("Username is required");
-
-                    if (! user.role) this.invalid("Role is required");
-                        
-                    if (! user.firstname) this.invalid("First name is required");
-                    if (! user.lastname) this.invalid("Last name is required");
-
+                    if (!user.username) this.invalid("Username is required");
+                    if (!user.role) this.invalid("Role is required");
+                    if (!user.firstname) this.invalid("First name is required");
+                    if (!user.lastname) this.invalid("Last name is required");
                     if (user.username.length < 4) this.invalid("Username must be at least 4 characters");
-                                        
-                    if ((user.password && user.password != user.password2) || (user.password2 && ! user.password)) this.invalid('Passwords do not match');
+                    if ((user.password && user.password !== user.password2) || (user.password2 && !user.password)) this.invalid('Passwords do not match');
                
                     return this.valid;
                 },
@@ -120,7 +113,7 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
             
                 scope.$on('event:auth-loginRequired', function() {     
                     var returnURL = $location.path();
-                    $rootScope.hideLogin = false; // TODO: this really shouldn't be in the scope               
+                    $rootScope.hideLogin = false; // TODO: this really shouldn't be in the scope
                     $location.path('account/login').search({returnURL: returnURL});
                 });
                 /*scope.$on('event:auth-loginConfirmed', function() {
@@ -129,4 +122,4 @@ angular.module('teranaut.account', ['app.config', 'http-auth-interceptor', 'tera
                 });*/
             }
         }
-    }])
+    }]);

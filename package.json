@@ -21,9 +21,19 @@
     "method-override": "^2.3.10",
     "passport": "^0.4.0",
     "passport-local": "~1.0.0",
-    "passport-local-mongoose": "^4.5.0",
     "request": "^2.85.0",
     "yargs": "^11.0.0",
-    "terafoundation": "terascope/terafoundation"
+    "terafoundation": "terascope/terafoundation",
+    "elasticsearch_api": "terascope/elasticsearch_api",
+    "moment": "^2.22.1",
+    "error_parser": "terascope/error_parser"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "nyc": "^11.6.0"
   }
 }

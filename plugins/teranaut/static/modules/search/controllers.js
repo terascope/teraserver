@@ -42,7 +42,7 @@ function ($scope) {
             if (date != 'Invalid Date') $scope.endDate = date;
             else $scope.message = 'End date is not valid.';
         }
-    }
+    };
 
     $scope.applyDateRange = function() {
         $scope.message = '';

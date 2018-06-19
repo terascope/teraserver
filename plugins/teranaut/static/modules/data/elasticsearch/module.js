@@ -3,9 +3,7 @@
 angular.module('teranaut.data.elasticsearch', [])
 
     .provider('elasticsearchData', function() {
-
         this.baseUrl = '/api/v1';
-
         this.$get = ['$http', function($http) {
             var baseUrl = this.baseUrl;
             return {                
@@ -25,6 +23,7 @@ angular.module('teranaut.data.elasticsearch', [])
                     }).then(function(result) {
                         return result.data;
                     }, function(error) {
+                        console.log(error);
                         //$rootScope.systemError = "Service unavailable."
                     });
                 },
@@ -92,9 +91,9 @@ angular.module('teranaut.data.elasticsearch', [])
                 return elasticsearchData.prepareUrl(context.searchConfig.collection, config);
             },
 
-            prepare: function(context) {                               
+            prepare: function(context) {
                 var criteria = context.criteria;
-                if (! criteria) criteria = context.searchConfig.defaultCriteria;
+                if (!criteria) criteria = context.searchConfig.defaultCriteria;
 
                 /*if (context.startDate && ! context.endDate) {           
                     criteria += ' AND ' + context.searchConfig.dateField + ':[' + context.startDate.toISOString() + ' TO ' + (new Date()).toISOString() +']';
@@ -103,11 +102,19 @@ angular.module('teranaut.data.elasticsearch', [])
                     criteria += ' AND ' + context.searchConfig.dateField + ':[' + context.startDate.toISOString() + ' TO ' + context.endDate.toISOString() +']';
                 }*/
 
+                function formatRegex(str) {
+                    var fields = context.searchConfig.regexSearchFields.map(function(field){return field + '.text'});
+                    var fieldList = fields.map(function(val){return val + ':/.*' + str + '.*/'});
+                    return fieldList.join(' OR ');
+                }
+
+                if (context.searchConfig.regexSearchFields) criteria = formatRegex(criteria);
+
                 var config = {
                     criteria: criteria,
                     limit: context.uiPageSize,
                     skip: ((context.uiResultPage - 1) * context.uiPageSize)
-                }
+                };
 
                 if (context.startDate) {
                     config.date_start = context.startDate.toISOString();
@@ -181,17 +188,23 @@ angular.module('teranaut.data.elasticsearch', [])
                 return config;
             },
 
-            search: function(context, done) {            
-    
+            search: function(context, done) {
                 var config = this.prepare(context);
-
-                if (! config.criteria) return done(1, []); // No criteria so no query will be run.
-
+                // No criteria so no query will be run.
+                if (!config.criteria && !context.searchConfig.allowEmptyQuery) return done(1, []);
                 elasticsearchData.getData(context.searchConfig.collection, config).then(function(records) {
-                    if (records) {                                                                   
-                        var count = records.info.match(/^\d+/)[0]; 
+                    if (records) {
+                        var count, results;
+                        if (Array.isArray(records)) {
+                            count = records.length;
+                            results = records;
+                        } else {
+                            //This was how it was done previously, keeping it for backwards compatability
+                            count = records.info.match(/^\d+/)[0];
+                            results = records.results
+                        }
 
-                        return done(count, records.results);
+                        return done(count, results);
                     }
                     
                     done(1, []); // No results
@@ -200,4 +213,5 @@ angular.module('teranaut.data.elasticsearch', [])
                 });
             }
         }
-    }])
+    }]);
+

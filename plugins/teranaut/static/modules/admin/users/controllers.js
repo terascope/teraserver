@@ -3,7 +3,7 @@
 angular.module('teranaut.admin.users').controller('AdminUserListController', 
     ['$scope', '$routeParams', '$location', '$modal', 'uiNotices', 'adminUserData', 'teranautModuleBase',
 function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, teranautModuleBase) {
-    
+
     var uiController = {
         /* 
          * We have to be handed the scope from the search directive since it is isolated.
@@ -11,26 +11,20 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
          */
         // This will be attached by the calling scope
         getScope: null,
-
         newUser: function() {
             uiNotices.clear();
-
             this.getScope().searchui.resetContext(true);
-
             $location.path("/admin/users/new")
         },
-
         edit: function(username) {
             uiNotices.clear();
-
             $location.path("/admin/users/edit/" + username)
         },
-
         remove: function(username) {
             uiNotices.clear();
 
             // Not allowed to remove the user named admin.
-            if (username == 'admin') return;
+            if (username === 'admin') return;
 
             // TODO: find a cleaner way rather than poping a dialog right here.
             if (confirm("Are you sure you want to remove the user: " + username + "?")) {
@@ -86,7 +80,7 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
         title: "User Manager",
         context: 'user_manager',
         freshContext: true,
-        engine: 'mongodb',
+        engine: 'elasticsearch',
         collection: 'users',
         interactiveUI: true,
         dateToolbar: false,
@@ -94,7 +88,9 @@ function ($scope, $routeParams, $location, $modal, uiNotices, adminUserData, ter
         gridView: teranautModuleBase + '/admin/users/search-results.tpl.html',
         searchView: teranautModuleBase + '/admin/users/search-controls.tpl.html',
         toolbarView: teranautModuleBase + '/admin/users/search-toolbar.tpl.html',
-        uiController: uiController
+        uiController: uiController,
+        allowEmptyQuery: true,
+        regexSearchFields: ['firstname', 'lastname', 'username', 'email']
     };
 }]);
 
@@ -102,24 +98,27 @@ angular.module('teranaut.admin.users').controller('AdminEditUserController',
     ['$scope', '$location', '$routeParams', 'uiNotices', 'accountData', 'adminUserData', 'teranautAdminUserRoles',
 function($scope, $location, $routeParams, uiNotices, accountData, adminUserData, teranautAdminUserRoles) {
     $scope.title = "Edit User";
-    $scope.updating = true
+    $scope.updating = true;
     $scope.roles = teranautAdminUserRoles;
-    $scope.user = adminUserData.getUser($routeParams.username).get()
+    $scope.user = adminUserData.getUser($routeParams.username).get();
     
     $scope.update = function() {
         uiNotices.clear();
 
-        if (! accountData.validate($scope.user)) return;
+        if (!accountData.validate($scope.user)) return;
         
         accountData.getActiveUser().then(function(active_user) {
-                $scope.user.client_id = active_user.client_id;
+            $scope.user.client_id = active_user.client_id;
             if ($scope.user.password) $scope.user.hash = $scope.user.password;
 
-            var user = adminUserData.getUser($scope.user.username)
+            // These fields should not be sent up
+            delete $scope.user.password;
+            delete $scope.user.password2;
+
+            var user = adminUserData.getUser($scope.user.username);
         
             user.update($scope.user, function() {
-                uiNotices.success('User updated successfully')
-                
+                uiNotices.success('User updated successfully');
                 $location.path('/admin/users');
             }, 
             function(err) {
@@ -129,11 +128,10 @@ function($scope, $location, $routeParams, uiNotices, accountData, adminUserData,
                 }
             });
         });    
-    }
+    };
 
     $scope.cancel = function() {
         uiNotices.clear();
-
         $location.path('/admin/users');
     }
 }]);
@@ -150,9 +148,9 @@ function($scope, $location, uiNotices, accountData, adminUserData, teranautAdmin
 
         if ($scope.user) {            
             
-            if (! accountData.validate($scope.user)) return;
+            if (!accountData.validate($scope.user)) return;
 
-            if (! $scope.user.password) {
+            if (!$scope.user.password) {
                 uiMessages.error("Password is required");                
                 return;
             }
@@ -162,10 +160,11 @@ function($scope, $location, uiNotices, accountData, adminUserData, teranautAdmin
             accountData.getActiveUser().then(function(active_user) {
                 $scope.user.client_id = active_user.client_id;
                 $scope.user.hash = $scope.user.password;
-
+                // These fields should not be sent up
+                delete $scope.user.password;
+                delete $scope.user.password2;
                 user.save($scope.user, function() {
-                    uiNotices.success('User created successfully')
-                    
+                    uiNotices.success('User created successfully');
                     $location.path('/admin/users');
                 }, 
                 function(err) {
@@ -179,11 +178,10 @@ function($scope, $location, uiNotices, accountData, adminUserData, teranautAdmin
         else {
             uiNotices.error('Can not save an empty record');
         }        
-    }
+    };
 
     $scope.cancel = function() {
         uiNotices.clear();
-
         $location.path('/admin/users');
     }
 

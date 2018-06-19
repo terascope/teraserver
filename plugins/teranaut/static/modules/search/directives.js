@@ -124,10 +124,6 @@ angular.module('teranaut.search').
                                 }
 
                                 query[filter.name]['$bte'] = [filter.value, filter.value2];
-                                // This is what mongo requires
-                                /*query[filter.name]['$and'] = {};
-                                query[filter.name]['$and']['$gte'] = filter.value;
-                                query[filter.name]['$and']['$lte'] = filter.value2;*/
                             }
                             else {
                                 if (filter.operator) {

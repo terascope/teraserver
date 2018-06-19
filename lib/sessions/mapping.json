@@ -1,0 +1,33 @@
+{
+  "settings": {
+    "index.number_of_shards": 5,
+    "index.number_of_replicas": 1
+  },
+  "mappings": {
+    "session": {
+      "_all": {
+        "enabled": false
+      },
+      "dynamic": false,
+      "properties": {
+       "cookie": {
+         "properties": {
+           "originalMaxAge": {
+             "type": "long"
+           },
+           "expires": {
+             "type": "date"
+           },
+           "httpOnly": {
+             "type": "boolean"
+           },
+           "path": {
+             "type": "keyword"
+           }
+         }
+       }
+      }
+    }
+  }
+}
+

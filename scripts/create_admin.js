@@ -1,35 +1,32 @@
-var foundation = require('terafoundation')({
-    name: 'CreateAdmin',
-    mongodb: ['default'],
-    script: script
+'use strict';
+
+const { configSchema } = require('../system_schema');
+
+require('terafoundation')({
+    name: 'teraserver',
+    script,
+    config_schema: configSchema
 });
 
 function script(context) {
-    var mongoose = context.foundation.getConnection({type: 'mongodb', cached: true}).client;
+    const { logger } = context;
+    const password = 'admin';
+    const time = new Date().toISOString();
+    const userStore = require('../plugins/teranaut/server/store/users')(context);
 
-    var logger = context.logger;
-
-    var models = require("../plugins/teranaut/server/models")({
-        mongoose: mongoose
-    });
-
-    var password = 'admin';
-
-    user = new models.User({
+    const user = {
         client_id: 0,
         role: 'admin',
         firstname: 'System',
         lastname: 'Admin',
         username: 'admin',
-        hash: password
-    });
+        hash: password,
+        created: time,
+        updated: time
+    };
 
-    user.save(function (err, account) {
-        if (err) {
-            logger.error('Failure creating account ' + err);
-        }
-
-        logger.info('Account "admin" created');
-        mongoose.connection.close();
-    });
+    userStore
+        .then(api => api.createUser(user))
+        .then(() => logger.info('succesfully created admin'))
+        .catch(() => logger.error('error creating admin'));
 }
