@@ -55,7 +55,11 @@ const schema = {
                 throw new Error('connection parameter must be of type String as the value');
             }
         }
-    }
+    },
+    request_timeout: {
+        doc: 'How long in milliseconds HTTP requests will wait before timing out.',
+        default: 120000
+    },
 };
 
 function getPluginSchema(plugin) {
