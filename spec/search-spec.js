@@ -4,10 +4,21 @@ const _ = require('lodash');
 const Promise = require('bluebird');
 
 describe('teraserver search module', () => {
+
+    const logger = {
+        error() {},
+        info() {},
+        warn() {},
+        trace() {},
+        debug() {},
+        flush() {}
+    };
+
     const config = {
         context: {
             foundation: {
                 makeLogger() {
+                    return logger;
                 },
                 getConnection: () => ({
                     client: {
@@ -289,7 +300,7 @@ describe('teraserver search module', () => {
         expect(req14Results.sort).toEqual({ _geo_distance: { location: { lat: '57', lon: '90' }, order: 'asc', unit: 'm' } });
     });
 
-    it('performs search', () => {
+    it('performs search can query', () => {
         const { performSearch } = searchModule.__test_context(config, 'created');
 
         const date = new Date();
@@ -311,7 +322,7 @@ describe('teraserver search module', () => {
             es_client: {
                 search(_query) {
                     query = _query;
-                    return Promise.resolve(false);
+                    return Promise.resolve([]);
                 }
             }
         };
@@ -433,6 +444,75 @@ describe('teraserver search module', () => {
 
         performSearch({}, req12, res, config8);
         expect(list.shift().error).toEqual('size parameter must be a valid number, was given some string');
+    });
+
+    it('performs search can handle data and errors', (done) => {
+        const { performSearch } = searchModule.__test_context(config, 'created');
+        const list = [];
+        const res = {
+            status() {
+                return this;
+            },
+            json(val) {
+                list.push(val);
+            }
+        };
+        let responseData = {};
+
+        const myConfig = {
+            query: 'some:Query',
+            es_client: {
+                search() {
+                    return Promise.resolve(responseData);
+                }
+            }
+        };
+
+        function callAndWait(...args) {
+            return new Promise((resolve) => {
+                performSearch(...args);
+                setTimeout(() => {
+                    resolve(true);
+                }, 10);
+            });
+        }
+
+        const config2 = _.extend({ preserve_index_name: true }, myConfig);
+        const req1 = { query: { size: 10000 } };
+
+        Promise.resolve()
+            .then(() => {
+                responseData.error = 'an erorr occured';
+                return callAndWait({}, req1, res, myConfig);
+            })
+            .then(() => {
+                expect(list.shift().error).toEqual('Error during query execution.');
+                responseData = { hits: false };
+                return callAndWait({}, req1, res, myConfig);
+            })
+            .then(() => {
+                expect(list.shift().error).toEqual('No results returned from query.');
+                responseData = { hits: { hits: [], total: 0 } };
+                return callAndWait({}, req1, res, myConfig);
+            })
+            .then(() => {
+                const data = list.shift();
+                expect(data.results).toEqual([]);
+                responseData = { hits: { hits: [{ _source: { some: 'data' } }, { _source: { some: 'otherData' } }], total: 2 } };
+                return callAndWait({}, req1, res, myConfig);
+            })
+            .then(() => {
+                const data = list.shift();
+                expect(data.results).toEqual([{ some: 'data' }, { some: 'otherData' }]);
+                responseData = { hits: { hits: [{ _index: 'index', _source: { some: 'data' } }, { _index: 'index', _source: { some: 'otherData' } }], total: 2 } };
+                return callAndWait({}, req1, res, config2);
+            })
+            .then(() => {
+                const data = list.shift();
+                expect(data.results).toEqual([{ some: 'data', _index: 'index' }, { some: 'otherData', _index: 'index' }]);
+            })
+            .catch(fail)
+            .finally(done);
     });
 
     it('lucene query', () => {
