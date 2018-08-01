@@ -116,7 +116,11 @@ function ensureAuthenticated(req, res, next) {
                 }
                 return res.status(401).json({ error: 'Access Denied' });
             })
-            .catch(err => next(new Error(err)));
+            .catch((err) => {
+                const errMsg = parseError(err);
+                logger.error(`error while searching elasticsearch: ${errMsg}`);
+                return res.status(503).json({ error: 'Error while accesing elasticsearch' });
+            });
     } else {
         // For session based auth
         return res.status(401).json({ error: 'Access Denied' });
