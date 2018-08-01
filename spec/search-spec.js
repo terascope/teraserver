@@ -287,9 +287,15 @@ describe('teraserver search module', () => {
         expect(() => geoSearch(req11, res, 'location'))
             .toThrow({ code: 500, error: 'Both geo_point and geo_distance must be provided for a geo_point query.' });
 
+        // This tests no user defined sort with default geo distance sort
         const req12Results = geoSearch(req12, res, 'location');
         expect(req12Results.query).toEqual({ geo_distance: { distance: '1000km', location: { lat: '56', lon: '89' } } });
         expect(req12Results.sort).toEqual({ _geo_distance: { location: { lat: '56', lon: '89' }, order: 'asc', unit: 'm' } });
+
+        // This tests a user defined sort preventing a default geo distance sort
+        const req12Results2 = geoSearch(req12, res, 'location', 'someUserDefined:sort');
+        expect(req12Results2.query).toEqual({ geo_distance: { distance: '1000km', location: { lat: '56', lon: '89' } } });
+        expect(req12Results2.sort).toBeUndefined();
 
         const req13Results = geoSearch(req13, res, 'location');
         expect(req13Results.query).toEqual({ geo_distance: { distance: '1000km', location: { lat: '56', lon: '89' } } });
@@ -298,6 +304,11 @@ describe('teraserver search module', () => {
         const req14Results = geoSearch(req14, res, 'location');
         expect(req14Results.query).toEqual({ geo_distance: { distance: '1000km', location: { lat: '56', lon: '89' } } });
         expect(req14Results.sort).toEqual({ _geo_distance: { location: { lat: '57', lon: '90' }, order: 'asc', unit: 'm' } });
+
+        // This has both a user defined sort and a geo sort combination
+        const req14Results2 = geoSearch(req14, res, 'location', 'someUserDefined:sort');
+        expect(req14Results2.query).toEqual({ geo_distance: { distance: '1000km', location: { lat: '56', lon: '89' } } });
+        expect(req14Results2.sort).toEqual({ _geo_distance: { location: { lat: '57', lon: '90' }, order: 'asc', unit: 'm' } });
     });
 
     it('performs search can query', () => {
