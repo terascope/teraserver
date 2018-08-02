@@ -155,7 +155,13 @@ module.exports = (context) => {
     function _search(query) {
         return client.search(query)
             .catch((err) => {
-                const errMsg = parseError(err);
+                let errMsg = parseError(err);
+                logger.error(errMsg);
+                const regex = new RegExp(/No Living connections/g);
+                const results = errMsg.match(regex);
+                if (results) {
+                    errMsg = 'The api is currently unavailable';
+                }
                 return Promise.reject(errMsg);
             });
     }

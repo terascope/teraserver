@@ -112,22 +112,15 @@ function ensureAuthenticated(req, res, next) {
             .then((account) => {
                 if (account) {
                     req.user = account;
-                    // If there's session storage available we add the login to the session.
-                    if (config.teraserver.elasticsearch_sessions) {
-                        req.logIn(account, (err) => {
-                            if (err) {
-                                return next(err);
-                            }
-                            return next();
-                        });
-                    } else {
-                        return next();
-                    }
-                } else {
-                    return res.status(401).json({ error: 'Access Denied' });
+                    return next();
                 }
+                return res.status(401).json({ error: 'Access Denied' });
             })
-            .catch(err => next(new Error(err)));
+            .catch((err) => {
+                const errMsg = parseError(err);
+                logger.error(errMsg);
+                return res.status(503).json({ error: errMsg });
+            });
     } else {
         // For session based auth
         return res.status(401).json({ error: 'Access Denied' });

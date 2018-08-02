@@ -4,7 +4,6 @@ const _ = require('lodash');
 const Promise = require('bluebird');
 
 describe('teraserver search module', () => {
-
     const logger = {
         error() {},
         info() {},

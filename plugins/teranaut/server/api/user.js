@@ -3,7 +3,7 @@
 const parseError = require('error_parser');
 const path = require('path');
 
-module.exports = function (router, store, logger, teraSearchApi) {
+module.exports = (router, store, logger, teraSearchApi) => {
     const searchSettings = store.searchSettings();
 
     router.use(requireUser);
