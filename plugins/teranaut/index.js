@@ -118,8 +118,8 @@ function ensureAuthenticated(req, res, next) {
             })
             .catch((err) => {
                 const errMsg = parseError(err);
-                logger.error(`error while searching elasticsearch: ${errMsg}`);
-                return res.status(503).json({ error: 'Error while accesing elasticsearch' });
+                logger.error(errMsg);
+                return res.status(503).json({ error: errMsg });
             });
     } else {
         // For session based auth

@@ -156,6 +156,7 @@ module.exports = (context) => {
         return client.search(query)
             .catch((err) => {
                 let errMsg = parseError(err);
+                logger.error(errMsg);
                 const regex = new RegExp(/No Living connections/g);
                 const results = errMsg.match(regex);
                 if (results) {
