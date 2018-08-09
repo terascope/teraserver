@@ -223,7 +223,8 @@ module.exports = (context) => {
             analyst: true,
             user: true,
             'domains-user': true,
-            'class-b-user': true
+            'class-b-user': true,
+            'class-a-user': true
         };
         return new Promise((resolve, reject) => {
             if (user.client_id === undefined || typeof user.client_id !== 'number') {
