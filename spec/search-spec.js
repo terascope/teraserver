@@ -662,4 +662,128 @@ describe('teraserver search module', () => {
             size: 100
         });
     });
+
+    it('can post_process docs and pre_process queries', async () => {
+        const { performSearch } = searchModule.__test_context(config, 'created');
+        const date = new Date().toISOString();
+        const list = [];
+        const res = {
+            status() {
+                return this;
+            },
+            json(val) {
+                list.push(val);
+            },
+            set() {
+                return this;
+            },
+            send(val) {
+                list.push(JSON.parse(val));
+            }
+        };
+
+        const data = [{ _source: { some: 'data' } }, { _source: { some: 'other data' } }];
+
+        const elasticResponse = {
+            hits: {
+                total: 2,
+                hits: data
+            }
+        };
+
+        let query;
+        const myConfig = {
+            es_client: {
+                search(_query) {
+                    query = _query;
+                    return Promise.resolve(elasticResponse);
+                }
+            }
+        };
+
+        function upperCase(results) {
+            return results.map((doc) => {
+                doc.some = doc.some.toUpperCase();
+                return doc;
+            });
+        }
+
+        function addDates(reqQuery, reqConfig) {
+            if (!reqConfig.date_range) {
+                reqConfig.date_range = true;
+                reqQuery.date_start = date;
+                reqQuery.date_end = date;
+            }
+            return reqQuery;
+        }
+
+        function changeStart(reqQuery) {
+            reqQuery.start = 100;
+            return reqQuery;
+        }
+
+        const config2 = _.extend({ post_process: upperCase }, myConfig);
+        const config3 = _.extend({ pre_process: changeStart }, myConfig);
+        const config4 = _.extend({ pre_process: addDates }, myConfig);
+
+        function getReq() {
+            return { query: { size: 100 } };
+        }
+
+        await performSearch({}, getReq(), res, myConfig);
+        const results1 = list.pop();
+
+        expect(results1).toEqual({
+            info: '2 results found.',
+            total: 2,
+            returning: 2,
+            results: data.map(obj => obj._source)
+        });
+
+        await performSearch({}, getReq(), res, config2);
+        const results2 = list.pop();
+
+        expect(results2).toEqual({
+            info: '2 results found.',
+            total: 2,
+            returning: 2,
+            results: upperCase(data.map(obj => obj._source))
+        });
+
+        await performSearch({}, getReq(), res, config3);
+        list.pop();
+
+        expect(query).toEqual({
+            body: {
+                query: {
+                    bool: {
+                        must: []
+                    }
+                }
+            },
+            size: 100,
+            from: 100
+        });
+
+        await performSearch({}, getReq(), res, config4);
+        list.pop();
+
+        expect(query).toEqual({
+            body: {
+                query: {
+                    bool: {
+                        must: [{
+                            range: {
+                                created: {
+                                    gte: date,
+                                    lte: date
+                                }
+                            }
+                        }]
+                    }
+                }
+            },
+            size: 100,
+        });
+    });
 });
