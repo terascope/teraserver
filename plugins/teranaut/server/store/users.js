@@ -226,7 +226,8 @@ module.exports = (context) => {
             'class-b-user': true,
             'class-a-user': true,
             'class-h-user': true,
-            'class-i-user': true
+            'class-i-user': true,
+            'class-t-user': true
         };
         return new Promise((resolve, reject) => {
             if (user.client_id === undefined || typeof user.client_id !== 'number') {
