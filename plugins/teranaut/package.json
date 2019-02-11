@@ -1,12 +1,15 @@
 {
-  "name": "teranaut",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node service.js"
-  },
-  "dependencies": {
-    "passport-local-mongoose": "^0.3.0",
-    "passport-local": "~0.1.6"
-  }
+    "name": "teranaut",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node service.js"
+    },
+    "dependencies": {
+        "@terascope/error-parser": "^1.0.2",
+        "bluebird": "^3.5.1",
+        "lodash": "^4.17.11",
+        "passport-local-mongoose": "^0.3.0",
+        "passport-local": "~0.1.6"
+    }
 }
