@@ -76,6 +76,7 @@ const api = {
             this._config.app.get(`/pl/${config.teranaut.ui}/`, index);
             this._config.app.get(`/pl/${config.teranaut.ui}/*`, index);
         }
+
         // THIS needs to be deferred until after all plugins have had a chance to load
         const pluginConfig = this._config;
 

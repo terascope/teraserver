@@ -1,6 +1,6 @@
 'use strict';
 
-const parseError = require('error_parser');
+const parseError = require('@terascope/error-parser');
 const path = require('path');
 
 module.exports = (router, store, logger, teraSearchApi) => {
@@ -78,7 +78,7 @@ module.exports = (router, store, logger, teraSearchApi) => {
             delete req.body.role;
             next();
         } else {
-            return res.status(403).json({ error: 'Access Denied - You don\'t have permission to this data' });
+            res.status(403).json({ error: 'Access Denied - You don\'t have permission to this data' });
         }
     }
 };

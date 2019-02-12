@@ -2,8 +2,8 @@
 
 const Promise = require('bluebird');
 const moment = require('moment');
-const esApi = require('elasticsearch_api');
-const parseError = require('error_parser');
+const esApi = require('@terascope/elasticsearch-api');
+const parseError = require('@terascope/error-parser');
 const crypto = Promise.promisifyAll(require('crypto'));
 const { version } = require('../../../../package.json');
 
@@ -56,7 +56,9 @@ module.exports = (context) => {
     }
 
     function deleteUser(user) {
-        const query = { index, type, id: user.id, refresh: true };
+        const query = {
+            index, type, id: user.id, refresh: true
+        };
         return client.remove(query);
     }
 
