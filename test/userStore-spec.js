@@ -444,7 +444,9 @@ describe('user store', () => {
             .then(api => api.deleteUser(user))
             .then((bool) => {
                 expect(bool).toEqual(true);
-                expect(deleteQuery).toEqual({ index: 'test__users', type: 'user', id: 'someID', refresh: true });
+                expect(deleteQuery).toEqual({
+                    index: 'test__users', type: 'user', id: 'someID', refresh: true
+                });
             })
             .catch(fail)
             .finally(done);

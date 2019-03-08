@@ -1,7 +1,7 @@
 'use strict';
 
-const routes = require('../plugins/teranaut/server/api/user');
 const Promise = require('bluebird');
+const routes = require('../plugins/teranaut/server/api/user');
 
 describe('user routes', () => {
     let requireUserFn;
@@ -83,7 +83,7 @@ describe('user routes', () => {
     }
 
     it('should be able to instantiate', () => {
-        expect(() => { routes(router, store, logger, teraSearchApi); }).not.toThrow;
+        expect(() => { routes(router, store, logger, teraSearchApi); }).not.toThrow();
     });
 
     it('should assign routes', () => {
@@ -245,7 +245,7 @@ describe('user routes', () => {
         const req1 = { body: {} };
 
         function makeTest() {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 const searchApi = {
                     luceneQuery(req, res, index, queryConfig) {
                         return resolve({
