@@ -326,15 +326,14 @@
     lodash "^4.17.11"
     uuid "^3.3.2"
 
-"@terascope/elasticsearch-api@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@terascope/elasticsearch-api/-/elasticsearch-api-2.0.0.tgz#9a4ffc5dbfc4be424841d8e6ca2951c2aac1341d"
-  integrity sha512-uGd7DUCGujWfanEITpcHbTOPkstjRnrEA6YwmEOUDVm0NZLcKGpNXI0ECxJPUFx1ISHCQWKZKzw76BPSPJUTkg==
+"@terascope/elasticsearch-api@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@terascope/elasticsearch-api/-/elasticsearch-api-2.0.1.tgz#7d93e6251cf9872850d8091156a6dce26ad72477"
+  integrity sha512-2q5rppMeajRJ/9OkGYsYP1q1And9jod/Y0WHvSAaG9p0ed+X1Hv98p5i6V/i8h4Et4698iGzv3Aos03z5AZFkA==
   dependencies:
-    "@terascope/utils" "^0.3.0"
+    "@terascope/utils" "^0.6.0"
     bluebird "^3.5.3"
     lodash "^4.17.11"
-    uuid "^3.3.2"
 
 "@terascope/error-parser@^1.0.2":
   version "1.0.2"
@@ -343,10 +342,10 @@
   dependencies:
     lodash.get "^4.4.2"
 
-"@terascope/utils@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.3.0.tgz#ec04d57fd8f127fc3de478a8ddacd591911bedf2"
-  integrity sha512-OQZ8TKhIy/o0YWGhl69qGCUOJlrf7L8W6f58hl56Vj70kUExumyyjcjCKoiGNPmvL+aT4dq88OGZ7NTeEXludA==
+"@terascope/utils@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.6.0.tgz#72a226ef3f675b3b5b561b4a2d5491af6991af99"
+  integrity sha512-Aeztbtd6Rn6dQ6pfCfIFSAXRiO5N0lFmNvu6cTPyxsqtjyPMe8jv5Jgtz3Guh+PX6trktvMVNzQNhsTel9Nc4A==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^2.0.4"
@@ -452,7 +451,7 @@ agentkeepalive@^3.4.1:
   dependencies:
     humanize-ms "^1.2.1"
 
-agentkeepalive@^4.0.1:
+agentkeepalive@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/agentkeepalive/-/agentkeepalive-4.0.2.tgz#38a490b779a97bd542d153e5a7da0d1fdef35dd3"
   integrity sha512-A5gSniD4xMCYtSD4ilUHpQRB9ZbNjtIPittKUv7bA0j0UCwbT3EJBUYLKPJ/dtmaXRYWI2mG4/O90xbi7oahNw==
@@ -2781,10 +2780,18 @@ jest@^24.3.1:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-js-yaml@^3.12.0, js-yaml@^3.12.1:
+js-yaml@^3.12.0:
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.1.tgz#295c8632a18a23e054cf5c9d3cecafe678167600"
   integrity sha512-um46hB9wNOKlwkHgiuyEVAybXBjwFUV0Z/RaHJblRd9DXltue9FTYvzCr9ErQrK9Adz5MU4gHWVaNUfdmrC8qA==
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^4.0.0"
+
+js-yaml@^3.12.2:
+  version "3.12.2"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.12.2.tgz#ef1d067c5a9d9cb65bd72f285b5d8105c77f14fc"
+  integrity sha512-QHn/Lh/7HhZ/Twc7vJYQTkjuCa0kaCcDcjK5Zlk2rvnUpy7DxMJ23+Jc2dcyvltwQVg1nygAVlB2oRDFHoRS5Q==
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
@@ -4515,25 +4522,25 @@ table@^5.2.3:
     slice-ansi "^2.1.0"
     string-width "^3.0.0"
 
-terafoundation@^0.7.3:
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.7.3.tgz#5aff7fad0f319948545a3458b29d623fd72e75af"
-  integrity sha512-SOkCOl8DRNg+N9lVZsZmVTcXUGL0TncuxHl3TXaXtqrffa5Yi8hPlCjl9DQwKn85dAdVqodaUiiPCgBqcyMtdg==
+terafoundation@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.7.4.tgz#f73ac72dbe71caeec4d43e891f93513247357aa6"
+  integrity sha512-38+4pgI0XNh+1fOwJQbr59fdR85YxYrvdhJ8sGMxcap5qqp7pd0xSfCSvFud64Koa26dumI7UQ27v5ErT+1DYQ==
   dependencies:
-    "@terascope/elasticsearch-api" "^2.0.0"
-    agentkeepalive "^4.0.1"
+    "@terascope/elasticsearch-api" "^2.0.1"
+    agentkeepalive "^4.0.2"
     bluebird "^3.5.3"
     bunyan "^1.8.12"
     convict "^4.4.1"
     elasticsearch "^15.4.1"
-    js-yaml "^3.12.1"
+    js-yaml "^3.12.2"
     lodash "^4.17.11"
     moment "^2.24.0"
     mongoose "~4.13.18"
     node-statsd "0.1.1"
     node-webhdfs "^1.0.2"
     redis "^2.8.0"
-    yargs "^13.2.1"
+    yargs "^13.2.2"
 
 test-exclude@^5.0.0:
   version "5.1.0"
@@ -4921,7 +4928,7 @@ yargs@^12.0.2:
     y18n "^3.2.1 || ^4.0.0"
     yargs-parser "^11.1.1"
 
-yargs@^13.2.1, yargs@^13.2.2:
+yargs@^13.2.2:
   version "13.2.2"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-13.2.2.tgz#0c101f580ae95cea7f39d927e7770e3fdc97f993"
   integrity sha512-WyEoxgyTD3w5XRpAQNYUB9ycVH/PQrToaTXdYXRdOXvEy1l19br+VJsc0vcO8PTGg5ro/l/GY7F/JMEBmI0BxA==
