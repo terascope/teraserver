@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "node service.js",
-        "lint": "eslint lib/**/*.js plugins/teranaut/**/*.js test/**/*.js",
+        "lint": "eslint lib/**/*.js plugins/teranaut/*.js plugins/teranaut/server/**/*.js test/**/*.js",
         "lint:fix": "npm run lint -- --fix",
         "test": "jest",
         "test:debug": "env DEBUG='*teraslice*' jest --detectOpenHandles --coverage=false --runInBand",
