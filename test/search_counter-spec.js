@@ -5,7 +5,8 @@ const Promise = require('bluebird');
 describe('teraserver search analytics module', () => {
     const statusCode = 201;
     const errorCode = 'error';
-    const errorMessage = '';
+    // eslint-disable-next-line no-unused-vars
+    let errorMessage = '';
 
     function returnResults() {
         return {

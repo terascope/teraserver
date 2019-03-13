@@ -121,17 +121,29 @@ describe('teraserver search module', () => {
         // null, null is valid
         expect(validateDateRange(res, null, null)).toEqual(true);
 
-        expect(() => validateDateRange(res, 'something', null))
-            .toThrow({ code: 500, error: 'date_start is not a valid ISO 8601 date' });
+        let err = null;
+        try {
+            validateDateRange(res, 'something', null);
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'date_start is not a valid ISO 8601 date' });
 
-        expect(() => validateDateRange(res, null, 'something'))
-            .toThrow({ code: 500, error: 'date_end is not a valid ISO 8601 date' });
+        err = null;
+        try {
+            validateDateRange(res, null, 'something');
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'date_end is not a valid ISO 8601 date' });
 
-        expect(() => validateDateRange(res, end, start))
-            .toThrow({ code: 500, error: 'date_end is before date_start' });
+        err = null;
+        try {
+            validateDateRange(res, end, start);
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'date_end is before date_start' });
 
-        expect(() => validateDateRange(res, null, end))
-            .toThrow({ code: 500, error: 'date_end provided without a corresponding date_start' });
+        err = null;
+        try {
+            validateDateRange(res, null, end);
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'date_end provided without a corresponding date_start' });
 
         expect(validateDateRange(res, start, end)).toEqual(true);
     });
@@ -215,14 +227,24 @@ describe('teraserver search module', () => {
 
         expect(geoSearch(req1, res, 'location')).toEqual(false);
 
-        expect(() => geoSearch(req2, res, 'location'))
-            .toThrow({ code: 500, error: 'geo_box and geo_distance queries can not be combined.' });
 
-        expect(() => geoSearch(req3, res, 'location'))
-            .toThrow({ code: 500, error: 'Invalid geo_box_top_left' });
+        let err = null;
+        try {
+            geoSearch(req2, res, 'location');
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'geo_box and geo_distance queries can not be combined.' });
 
-        expect(() => geoSearch(req4, res, 'location'))
-            .toThrow({ code: 500, error: 'Invalid geo_box_bottom_right' });
+        err = null;
+        try {
+            geoSearch(req3, res, 'location');
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'Invalid geo_box_top_left' });
+
+        err = null;
+        try {
+            geoSearch(req4, res, 'location');
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'Invalid geo_box_bottom_right' });
 
         expect(geoSearch(req5, res, 'location').query).toEqual({
             geo_bounding_box: {
@@ -239,15 +261,21 @@ describe('teraserver search module', () => {
             }
         });
 
+        err = null;
+        try {
+            geoSearch(req6, res, 'location');
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided' });
 
-        expect(() => geoSearch(req6, res, 'location'))
-            .toThrow({ code: 500, error: 'bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided' });
+        try {
+            geoSearch(req7, res, 'location');
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided' });
 
-        expect(() => geoSearch(req7, res, 'location'))
-            .toThrow({ code: 500, error: 'bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided' });
-
-        expect(() => geoSearch(req8, res, 'location'))
-            .toThrow({ code: 500, error: 'bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided' });
+        try {
+            geoSearch(req8, res, 'location');
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'bounding box search requires geo_sort_point to be set if any other geo_sort_* parameter is provided' });
 
         const req9Results = geoSearch(req9, res, 'location');
         expect(req9Results.query).toEqual({
@@ -283,8 +311,10 @@ describe('teraserver search module', () => {
         });
         expect(req10Results.sort).toEqual({ _geo_distance: { location: { lat: '57', lon: '90' }, order: 'desc', unit: 'km' } });
 
-        expect(() => geoSearch(req11, res, 'location'))
-            .toThrow({ code: 500, error: 'Both geo_point and geo_distance must be provided for a geo_point query.' });
+        try {
+            geoSearch(req11, res, 'location');
+        } catch (_err) { err = _err; }
+        expect(err).toEqual({ code: 500, error: 'Both geo_point and geo_distance must be provided for a geo_point query.' });
 
         // This tests no user defined sort with default geo distance sort
         const req12Results = geoSearch(req12, res, 'location');

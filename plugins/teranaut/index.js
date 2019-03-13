@@ -1,10 +1,10 @@
 'use strict';
 
-const teranautSchema = require('./schema');
-const Promise = require('bluebird');
-const Strategy = require('passport-local').Strategy;
-const parseError = require('error_parser');
 const _ = require('lodash');
+const Promise = require('bluebird');
+const { Strategy } = require('passport-local');
+const parseError = require('@terascope/error-parser');
+const teranautSchema = require('./schema');
 
 let logger;
 let context;
@@ -33,7 +33,11 @@ const api = {
             userStore = _userStore;
 
             passport.use(new Strategy(((username, password, done) => {
-                if (!username || !password) return done(null, false);
+                if (!username || !password) {
+                    done(null, false);
+                    return;
+                }
+
                 userStore.authenticateUser(username, password)
                     .then((user) => {
                         if (!user) return done(null, false);
@@ -72,6 +76,7 @@ const api = {
             this._config.app.get(`/pl/${config.teranaut.ui}/`, index);
             this._config.app.get(`/pl/${config.teranaut.ui}/*`, index);
         }
+
         // THIS needs to be deferred until after all plugins have had a chance to load
         const pluginConfig = this._config;
 
@@ -101,13 +106,19 @@ function ensureAuthenticated(req, res, next) {
     // We allow creating new accounts without authentication.
     const { token } = req.query;
     if (teranaut.auth.open_signup) {
-        if (req.url === '/accounts' && req.method === 'POST') return next();
+        if (req.url === '/accounts' && req.method === 'POST') {
+            next();
+            return;
+        }
     }
     // See if the session is authenticated
-    if (req.isAuthenticated()) return next();
+    if (req.isAuthenticated()) {
+        next();
+        return;
+    }
 
     // API auth based on tokens
-    else if (token) {
+    if (token) {
         userStore.findByToken(token)
             .then((account) => {
                 if (account) {
@@ -123,19 +134,30 @@ function ensureAuthenticated(req, res, next) {
             });
     } else {
         // For session based auth
-        return res.status(401).json({ error: 'Access Denied' });
+        res.status(401).json({ error: 'Access Denied' });
     }
 }
 
 function login(req, res, next) {
     passport.authenticate('local', { session: false }, (err, user, info) => {
-        if (err) return next(err);
-        if (!user) return res.status(401).json({ error: _.get(info, 'message', 'no user was found') });
-        if (teranaut.auth.require_email && !user.email_validated) {
-            return res.status(401).json({ error: 'Account has not been activated' });
+        if (err) {
+            next(err);
+            return;
         }
+        if (!user) {
+            res.status(401).json({ error: _.get(info, 'message', 'no user was found') });
+            return;
+        }
+        if (teranaut.auth.require_email && !user.email_validated) {
+            res.status(401).json({ error: 'Account has not been activated' });
+            return;
+        }
+
         req.logIn(user, (errObj) => {
-            if (errObj) return next(errObj);
+            if (errObj) {
+                next(errObj);
+                return;
+            }
 
             userStore.createApiTokenHash(user)
                 .then(hashedUser => userStore.updateToken(hashedUser))

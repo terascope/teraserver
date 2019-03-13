@@ -9,4 +9,3 @@ require('terafoundation')({
     worker,
     config_schema: configSchema
 });
-

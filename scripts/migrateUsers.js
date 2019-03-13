@@ -1,13 +1,13 @@
 'use strict';
 
-const { configSchema } = require('../system_schema');
 const Promise = require('bluebird');
-const parseError = require('error_parser');
-const esApiModule = require('elasticsearch_api');
+const parseError = require('@terascope/error-parser');
+const esApiModule = require('@terascope/elasticsearch-api');
 
 const { argv } = require('yargs')
     .alias('m', 'mongodb')
     .default('m', 'default');
+const { configSchema } = require('../system_schema');
 
 
 require('terafoundation')({
