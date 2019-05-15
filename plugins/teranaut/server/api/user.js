@@ -24,7 +24,8 @@ module.exports = (router, store, logger, teraSearchApi) => {
 
     router.get('/users/:username', (req, res) => {
         const { username } = req.params;
-        store.findByUsername(username, true)
+        store
+            .findByUsername(username, true)
             .then(user => res.json(user))
             .catch((err) => {
                 const errMsg = parseError(err);
@@ -35,7 +36,8 @@ module.exports = (router, store, logger, teraSearchApi) => {
 
     router.delete('/users/:username', (req, res) => {
         const { username } = req.params;
-        store.findByUsername(username)
+        store
+            .findByUsername(username)
             .then(user => store.deleteUser(user))
             .then(() => res.status(204).send({}))
             .catch((err) => {
@@ -47,7 +49,8 @@ module.exports = (router, store, logger, teraSearchApi) => {
 
     router.post('/users', (req, res) => {
         const user = req.body;
-        store.createUser(user)
+        store
+            .createUser(user)
             .then(results => res.status(201).json(results))
             .catch((err) => {
                 const errMsg = parseError(err);
@@ -59,7 +62,8 @@ module.exports = (router, store, logger, teraSearchApi) => {
     router.put('/users/:username', (req, res) => {
         const user = req.body;
 
-        store.updateUser(user)
+        store
+            .updateUser(user)
             .then(results => res.json(results))
             .catch((err) => {
                 const errMsg = parseError(err);
@@ -69,16 +73,39 @@ module.exports = (router, store, logger, teraSearchApi) => {
     });
 
     function requireUser(req, res, next) {
+        if (isV2User(req.user) && !req.v2User) {
+            req.v2User = req.user;
+            if (req.session) {
+                req.session.v2User = req.user;
+            }
+        }
+
         const username = path.parse(req.url).name;
 
-        if (req.user.role === 'admin') {
+        if (req.v2User) {
+            if (['SUPERADMIN', 'ADMIN'].includes(req.v2User.type)) {
+                next();
+            } else if (req.v2User.username === req.params.id || req.v2User.username === username) {
+                next();
+            } else {
+                res.status(403).json({
+                    error: "Access Denied - You don't have permission to this data"
+                });
+            }
+        } else if (req.user.role === 'admin') {
             next();
         } else if (req.user.username === req.params.id || req.user.username === username) {
             // A user can update their own record. but they're not allowed to change their role.
             delete req.body.role;
             next();
         } else {
-            res.status(403).json({ error: 'Access Denied - You don\'t have permission to this data' });
+            res.status(403).json({
+                error: "Access Denied - You don't have permission to this data"
+            });
         }
+    }
+
+    function isV2User(user) {
+        return user.type && user.role_name;
     }
 };

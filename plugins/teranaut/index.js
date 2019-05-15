@@ -4,6 +4,7 @@ const _ = require('lodash');
 const Promise = require('bluebird');
 const { Strategy } = require('passport-local');
 const parseError = require('@terascope/error-parser');
+const { ACLManager } = require('@terascope/data-access');
 const teranautSchema = require('./schema');
 
 let logger;
@@ -13,6 +14,7 @@ let config;
 let passport;
 let teranaut;
 let userStore;
+let aclManager;
 let teraSearchApi;
 
 const api = {
@@ -21,7 +23,11 @@ const api = {
     config: (pluginConfig) => {
         this._config = pluginConfig;
         ({
-            context, logger, passport, server_config: config, server_config: { teranaut }
+            context,
+            logger,
+            passport,
+            server_config: config,
+            server_config: { teranaut }
         } = pluginConfig);
         router = pluginConfig.express.Router();
         teraSearchApi = pluginConfig.search(pluginConfig, 'created');
@@ -31,23 +37,47 @@ const api = {
         .then(() => require('./server/store/users')(context))
         .then((_userStore) => {
             userStore = _userStore;
+        })
+        .then(() => {
+            const { connection = 'default', namespace } = context.sysconfig.data_access;
+            const { client } = context.foundation.getConnection({
+                type: 'elasticsearch',
+                endpoint: connection,
+                cached: true
+            });
 
-            passport.use(new Strategy(((username, password, done) => {
-                if (!username || !password) {
-                    done(null, false);
-                    return;
-                }
+            aclManager = new ACLManager(client, { namespace, logger });
+            return aclManager.initialize();
+        })
+        .then(() => {
+            passport.use(
+                new Strategy((username, password, done) => {
+                    if (!username || !password) {
+                        done(null, false);
+                        return;
+                    }
 
-                userStore.authenticateUser(username, password)
+                    aclManager
+                        .authenticate({ username, password })
+                        .then(user => done(null, user))
+                        .catch(err => done(err));
+                })
+            );
+
+            passport.serializeUser((user, next) => {
+                next(null, user.username);
+            });
+
+            passport.deserializeUser((username, next) => {
+                aclManager
+                    .findUser({ id: username }, false)
                     .then((user) => {
-                        if (!user) return done(null, false);
-                        return done(null, user);
+                        next(null, user);
                     })
-                    .catch(err => done(err));
-            })));
-
-            passport.serializeUser(userStore.serializeUser);
-            passport.deserializeUser(userStore.deserializeUser);
+                    .catch((err) => {
+                        next(err);
+                    });
+            });
         }),
     pre: () => {
         this._config.app.use(passport.initialize());
@@ -119,10 +149,12 @@ function ensureAuthenticated(req, res, next) {
 
     // API auth based on tokens
     if (token) {
-        userStore.findByToken(token)
+        aclManager
+            .authenticate({ token })
             .then((account) => {
                 if (account) {
                     req.user = account;
+                    req.v2User = account;
                     return next();
                 }
                 return res.status(401).json({ error: 'Access Denied' });
@@ -159,19 +191,20 @@ function login(req, res, next) {
                 return;
             }
 
-            userStore.createApiTokenHash(user)
-                .then(hashedUser => userStore.updateToken(hashedUser))
-                .then((hashedUser) => {
+            // do we need to keep support for recreating the token on every login?
+            Promise.resolve()
+                .then(() => {
                     res.json({
-                        token: hashedUser.api_token,
-                        date: hashedUser.updated,
-                        id: hashedUser.id
+                        token: user.api_token,
+                        date: user.updated,
+                        id: user.id
                     });
                 })
                 .catch((lastErr) => {
-                    const errMsg = parseError(lastErr);
-                    logger.error(`error while creating new token and updating user, error:${errMsg}`);
-                    return res.status(401).json({ error: 'error while creating new token and updating user' });
+                    logger.error(lastErr, 'error while creating new token and updating user');
+                    return res
+                        .status(401)
+                        .json({ error: 'error while creating new token and updating user' });
                 });
         });
     })(req, res, next);
