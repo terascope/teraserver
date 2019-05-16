@@ -191,11 +191,11 @@ function login(req, res, next) {
                 return;
             }
 
-            // do we need to keep support for recreating the token on every login?
-            Promise.resolve()
-                .then(() => {
+            aclManager
+                .updateToken({ id: user.id }, false)
+                .then((token) => {
                     res.json({
-                        token: user.api_token,
+                        token,
                         date: user.updated,
                         id: user.id
                     });
