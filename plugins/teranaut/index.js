@@ -154,7 +154,7 @@ function ensureAuthenticated(req, res, next) {
                 .catch((err) => {
                     const errMsg = parseError(err);
                     logger.error(errMsg);
-                    return res.status(503).json({ error: errMsg });
+                    return res.status(503).json({ error: 'Access Denied' });
                 });
         } else {
             aclManager
@@ -169,7 +169,7 @@ function ensureAuthenticated(req, res, next) {
                         return res.status(401).json({ error: 'Access Denied' });
                     }
                     logger.error(err, 'Failure authenticating user');
-                    return res.status(503).json({ error: err.message });
+                    return res.status(503).json({ error: 'Access Denied' });
                 });
         }
     } else {
