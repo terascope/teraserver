@@ -47,6 +47,10 @@ module.exports = (context) => {
     ];
 
     function findByToken(token) {
+        if (! (token.match(/^[a-fA-F0-9_]*$/) && token.length === 40)) {
+            return Promise.reject('Access Denied');
+        }
+
         const query = { index, type, q: `api_token:${token}` };
         return _search(query)
             .then(results => results[0])
