@@ -17,6 +17,14 @@ module.exports = {
         user_model: {
             doc: '',
             default: ''
+        },
+        use_v1_users: {
+            doc: `
+                Toggle users store for /api/v1.
+                When true it will use the existing teranaut users, if false it will use v1 users.
+                Defaults to true for now.
+            `,
+            default: true
         }
     },
     connection: {

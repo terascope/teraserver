@@ -1,5 +1,6 @@
 'use strict';
 
+const _ = require('lodash');
 const Promise = require('bluebird');
 const moment = require('moment');
 const esApi = require('@terascope/elasticsearch-api');
@@ -283,7 +284,7 @@ module.exports = (context) => {
             .then(results => next(null, results[0]))
             .catch((err) => {
                 logger.error(`could not find user, error: ${err}`);
-                next(err);
+                next(_.isError(err) ? err : new Error(err));
             });
     }
 

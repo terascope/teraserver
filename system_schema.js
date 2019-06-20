@@ -77,6 +77,7 @@ function getPluginSchema(plugin) {
 
 function pluginSchema(config) {
     const schemaDict = {};
+
     const { plugins } = config.teraserver;
 
     if (plugins && plugins.names.length > 0) {
@@ -90,6 +91,12 @@ function pluginSchema(config) {
 }
 
 function configSchema(config) {
+    if (!config.teraserver) {
+        // eslint-disable-next-line no-console
+        console.error('No configuration specified, use -c or the TERAFOUNDATION_CONFIG environment');
+        process.exit(1);
+    }
+
     const paritialSchema = pluginSchema(config);
     return _.merge({ teraserver: schema }, paritialSchema);
 }
