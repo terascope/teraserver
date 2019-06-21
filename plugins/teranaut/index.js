@@ -39,7 +39,7 @@ const api = {
             userStore = _userStore;
         })
         .then(() => {
-            const { connection = 'default', namespace } = context.sysconfig.data_access;
+            const { connection = 'default', namespace } = context.sysconfig.data_access || {};
             const { client } = context.foundation.getConnection({
                 type: 'elasticsearch',
                 endpoint: connection,
