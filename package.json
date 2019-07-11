@@ -27,7 +27,7 @@
         "passport": "^0.4.0",
         "passport-local": "~1.0.0",
         "request": "^2.88.0",
-        "terafoundation": "^0.9.0",
+        "terafoundation": "^0.9.1",
         "yargs": "^13.2.4"
     },
     "devDependencies": {
