@@ -11,7 +11,7 @@
         "postinstall": "yarn --cwd ./plugins/teranaut"
     },
     "dependencies": {
-        "@terascope/elasticsearch-api": "^2.0.3",
+        "@terascope/elasticsearch-api": "^2.0.4",
         "@terascope/error-parser": "^1.0.2",
         "bluebird": "^3.5.5",
         "body-parser": "^1.19.0",
