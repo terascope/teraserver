@@ -285,12 +285,12 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
 
-"@terascope/elasticsearch-api@^2.0.4", "@terascope/elasticsearch-api@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@terascope/elasticsearch-api/-/elasticsearch-api-2.0.5.tgz#281667d613e8bf36444aa84cab1f86a84c075a46"
-  integrity sha512-7J4vn4e66/suJuQXsWEFjhCGpSddxRr/Idi+tzibGDt7RgBveKZaXSRrbeSTnCUBqMxC83l0Zbet4/1kKnVi+Q==
+"@terascope/elasticsearch-api@^2.0.5", "@terascope/elasticsearch-api@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@terascope/elasticsearch-api/-/elasticsearch-api-2.1.0.tgz#e89135b514a78576849846690a4d584f0a848a5d"
+  integrity sha512-rxfu06yv1mx7qFrznRchjhIBeIvdq64dEDr5tJT+I/rrTcm5FvoT05fyxBQuW9OMX1CIs8IZpX1Osl8E/YO5yA==
   dependencies:
-    "@terascope/utils" "^0.12.3"
+    "@terascope/utils" "^0.12.4"
     bluebird "^3.5.5"
     lodash "^4.17.11"
 
@@ -301,10 +301,10 @@
   dependencies:
     lodash.get "^4.4.2"
 
-"@terascope/utils@^0.12.2", "@terascope/utils@^0.12.3":
-  version "0.12.3"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.12.3.tgz#876f1b012b3ddb16794dc85a7ce398ebac9ca42c"
-  integrity sha512-0163iUD63NcesMvB4+drzyndoRTNWthAIC34ohz5usRWJ+3KbpfpJMx4l8rSIPziJfiNtaWnyds6znqVC2qQYw==
+"@terascope/utils@^0.12.4":
+  version "0.12.4"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.12.4.tgz#bc849b574c0f7cf9a4163db241dc8b2db92546ac"
+  integrity sha512-iA2/7cGTqkiOP/wyS46iFjTYVbIHpNmJ2hlAfTbUxPQvnU6rP1H2zi5ZK1NRfKBrrp0JvcqxgBQVWReIbt27QA==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
@@ -4583,13 +4583,13 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.3"
 
-terafoundation@^0.9.1:
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.9.1.tgz#80b882348c08dbc90000374c2599a06813ee45da"
-  integrity sha512-brdyrvBwXPMIro9GLCSSHRrbrAArIhiNetv5gzK7/mX+YsMALeVpyTmWmBt2veI5xADHTUA+LfS+QPoB6eGOJg==
+terafoundation@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.10.0.tgz#a86f2ff320f46c88d5bec79cf698845bac91fae8"
+  integrity sha512-m3Ob0IYuUk94ORnSzWWFULY2YtiV5sLm8a7Es1DGjOluaK09oyACH1tiXk0ROK0vmLzJxArKv5g6x5fFIHriYw==
   dependencies:
-    "@terascope/elasticsearch-api" "^2.0.4"
-    "@terascope/utils" "^0.12.2"
+    "@terascope/elasticsearch-api" "^2.1.0"
+    "@terascope/utils" "^0.12.4"
     agentkeepalive "^4.0.2"
     bluebird "^3.5.5"
     bunyan "^1.8.12"
