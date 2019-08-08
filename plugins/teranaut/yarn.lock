@@ -2,22 +2,22 @@
 # yarn lockfile v1
 
 
-"@terascope/data-access@^0.12.2":
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/@terascope/data-access/-/data-access-0.12.2.tgz#c14d90dec8fb5b520099827f14aaea5c033d4188"
-  integrity sha512-w7KuTzZl5M8xrLdS8d+/pRCpEGHZVVPqK6Oi4QN0BsPLFIluevHb1Nil+S0kdl+gD+ofR3q1LftW3Binm2DB7Q==
+"@terascope/data-access@^0.12.7":
+  version "0.12.7"
+  resolved "https://registry.yarnpkg.com/@terascope/data-access/-/data-access-0.12.7.tgz#bae3fe802e236e0ca2c230c384517be6b88a950b"
+  integrity sha512-DVglltoiVKxlSulqCfTsFywcLb5QsrQ75uF7wTqd2sUWI3h5Ex9x1kjzG/ADiojmwBMw5LzMFIfJjc3kbZPROg==
   dependencies:
-    "@terascope/data-types" "^0.4.1"
-    "@terascope/utils" "^0.12.4"
-    elasticsearch-store "^0.10.0"
-    xlucene-evaluator "^0.9.4"
+    "@terascope/data-types" "^0.5.2"
+    "@terascope/utils" "^0.14.1"
+    elasticsearch-store "^0.10.4"
+    xlucene-evaluator "^0.9.7"
 
-"@terascope/data-types@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@terascope/data-types/-/data-types-0.4.1.tgz#d4a75446ad798790d3700095ae86f417bd97132a"
-  integrity sha512-XS298/srd+K8U4AN49Ll54/h3I5gTIR9lPHvgtPSmFj9hl3adFxqCZBp6s9qrFXi/GIC0TKjf/y5q4eLXeEflg==
+"@terascope/data-types@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@terascope/data-types/-/data-types-0.5.2.tgz#4406a6be7ab6b716f2a6376d0561ac3cb5c49e85"
+  integrity sha512-b9D9KwzYn4ujUQiYXGx4XFXUORtACHdt5Y3haGr5MOkvCzeYwQIRo+5q75xjm9YIIj5QCUblFGnKz1Em9OJ/yg==
   dependencies:
-    "@terascope/utils" "^0.12.4"
+    "@terascope/utils" "^0.14.1"
     graphql "^14.3.1"
     lodash.defaultsdeep "^4.6.1"
     lodash.set "^4.3.2"
@@ -30,10 +30,10 @@
   dependencies:
     lodash.get "^4.4.2"
 
-"@terascope/utils@^0.12.2", "@terascope/utils@^0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.12.4.tgz#bc849b574c0f7cf9a4163db241dc8b2db92546ac"
-  integrity sha512-iA2/7cGTqkiOP/wyS46iFjTYVbIHpNmJ2hlAfTbUxPQvnU6rP1H2zi5ZK1NRfKBrrp0JvcqxgBQVWReIbt27QA==
+"@terascope/utils@^0.14.1":
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.14.1.tgz#8b24dcdfca5be2e96bf5edeb0d51be156e661b3f"
+  integrity sha512-8XSrOXCY18AC/EsL+ebC2NFGDinIDcjz1BQWFHoXifaZGCPG3gqkodrz/O0QgF9plkrNVp69oZ4bzbITlNtUeg==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
@@ -193,17 +193,17 @@ decamelize@^1.2.0:
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
-elasticsearch-store@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/elasticsearch-store/-/elasticsearch-store-0.10.0.tgz#120d3f6c3cf042db87f9901f513b44e6b8b4797d"
-  integrity sha512-4kvmbzqAx2osPdzgExxbtp90S0GDBig+bgsw3KD6odGMDI0QXGh2tK5XlnYNcqbuRX/TCwlqPJs/JZ99+eL7pQ==
+elasticsearch-store@^0.10.4:
+  version "0.10.4"
+  resolved "https://registry.yarnpkg.com/elasticsearch-store/-/elasticsearch-store-0.10.4.tgz#fd466906c4b87eb9114f4c41f8f4fc8ce620aaa7"
+  integrity sha512-0I7qhKDtjoSUVeXu+4JRh4XOQDJxoAEzpxm2etBCXGhmCtpp2WEKC79sIWaALQquiRXpZ8nn1onHbaKG4qtKeg==
   dependencies:
-    "@terascope/data-types" "^0.4.1"
-    "@terascope/utils" "^0.12.4"
+    "@terascope/data-types" "^0.5.2"
+    "@terascope/utils" "^0.14.1"
     ajv "^6.10.0"
     nanoid "^2.0.3"
     rambda "^2.11.1"
-    xlucene-evaluator "^0.9.4"
+    xlucene-evaluator "^0.9.7"
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -606,12 +606,12 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
-xlucene-evaluator@^0.9.4:
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/xlucene-evaluator/-/xlucene-evaluator-0.9.4.tgz#48471b087e207c1416cf64dead7a1c7ceeaf100c"
-  integrity sha512-YbzWS3mPa5cjNi9OzHwrsex4/NRGbQjB+6X39QZCBjUNz1VDt8jYSwuxZbtC7kcds5vNorGyHMw8nq046MGWjg==
+xlucene-evaluator@^0.9.7:
+  version "0.9.7"
+  resolved "https://registry.yarnpkg.com/xlucene-evaluator/-/xlucene-evaluator-0.9.7.tgz#e865c885e4d0b45f60eadb9686be7035fdeeae4b"
+  integrity sha512-r8SnpwZivxbxyuXII1RUcowPps19zw7lquhNLMyDgptp1IA3P2LqMSXR8NoaJPT7um522VN9R3ur2s6TDPz4Yw==
   dependencies:
-    "@terascope/utils" "^0.12.2"
+    "@terascope/utils" "^0.14.1"
     "@turf/bbox" "^6.0.1"
     "@turf/bbox-polygon" "^6.0.1"
     "@turf/boolean-point-in-polygon" "^6.0.1"
@@ -623,7 +623,6 @@ xlucene-evaluator@^0.9.4:
     latlon-geohash "^1.1.0"
     lodash "^4.17.11"
     pegjs-backtrace "^0.2.0"
-    rambda "^2.11.1"
 
 y18n@^4.0.0:
   version "4.0.0"
