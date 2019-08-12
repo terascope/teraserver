@@ -44,7 +44,7 @@ function script(context) {
 
     Promise.resolve()
         .then(() => require('../plugins/teranaut/server/store/users')(context))
-        .then(userStore => userStore.searchSettings())
+        .then((userStore) => userStore.searchSettings())
         .then((settings) => {
             ({ index, client } = settings);
             esApi = esApiModule(client, logger);
@@ -52,7 +52,7 @@ function script(context) {
         })
         .then(() => users.find().lean())
         .then(formatRequest)
-        .then(data => esApi.bulkSend(data))
+        .then((data) => esApi.bulkSend(data))
         .then(() => {
             logger.info('migration complete');
             return logger.flush();

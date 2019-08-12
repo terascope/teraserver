@@ -47,13 +47,13 @@ module.exports = (context) => {
     ];
 
     function findByToken(token) {
-        if (! (token.match(/^[a-fA-F0-9_]*$/) && token.length === 40)) {
+        if (!(token.match(/^[a-fA-F0-9_]*$/) && token.length === 40)) {
             return Promise.reject('Access Denied');
         }
 
         const query = { index, type, q: `api_token:${token}` };
         return _search(query)
-            .then(results => results[0])
+            .then((results) => results[0])
             .catch((err) => {
                 logger.error(`could not find user for token: ${token} , error: ${err}`);
                 return Promise.reject(err);
@@ -69,7 +69,7 @@ module.exports = (context) => {
 
     function createUser(user) {
         return _validate(user)
-            .then(validUser => Promise.all([_createdCredentials(validUser), _isUnique(validUser)])
+            .then((validUser) => Promise.all([_createdCredentials(validUser), _isUnique(validUser)])
                 .spread((hashedUser) => {
                     const query = {
                         index, type, id: hashedUser.id, body: hashedUser, refresh: true
@@ -95,8 +95,8 @@ module.exports = (context) => {
                 return;
             }
             _createPasswordHash(newUserData)
-                .then(hashedUser => resolve(hashedUser))
-                .catch(err => reject(parseError(err)));
+                .then((hashedUser) => resolve(hashedUser))
+                .catch((err) => reject(parseError(err)));
         });
     }
 
@@ -128,7 +128,7 @@ module.exports = (context) => {
 
     function updateToken(user) {
         return createApiTokenHash(user)
-            .then(tokenUser => updateUser(tokenUser));
+            .then((tokenUser) => updateUser(tokenUser));
     }
 
     function authenticateUser(username, password) {
@@ -152,7 +152,7 @@ module.exports = (context) => {
         const query = { index, type, q: `username:${username.trim()}` };
         if (sanitize) query._source = fields;
         return _search(query)
-            .then(results => results[0])
+            .then((results) => results[0])
             .catch((err) => {
                 logger.error(`could not find user for username: ${username} , error: ${err}`);
                 return Promise.reject(err);
@@ -176,7 +176,7 @@ module.exports = (context) => {
     function _getSalt(_salt) {
         if (_salt) return Promise.resolve(_salt);
         return crypto.randomBytesAsync(saltLength)
-            .then(buf => buf.toString(encoding));
+            .then((buf) => buf.toString(encoding));
     }
 
     function _createId(user) {
@@ -188,7 +188,7 @@ module.exports = (context) => {
 
     function _createPasswordHash(user, _salt) {
         return _getSalt(_salt)
-            .then(salt => crypto.pbkdf2Async(user.hash, salt, iterations, keyLength, digest)
+            .then((salt) => crypto.pbkdf2Async(user.hash, salt, iterations, keyLength, digest)
                 .then((rawHash) => {
                     user.hash = Buffer.from(rawHash, 'binary').toString(encoding);
                     user.salt = salt;
@@ -285,7 +285,7 @@ module.exports = (context) => {
     function deserializeUser(username, next) {
         const query = { index, type, q: `username:${username}` };
         return _search(query)
-            .then(results => next(null, results[0]))
+            .then((results) => next(null, results[0]))
             .catch((err) => {
                 logger.error(`could not find user, error: ${err}`);
                 next(_.isError(err) ? err : new Error(err));

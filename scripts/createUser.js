@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 'use strict';
 
 const request = require('request');
@@ -34,7 +36,7 @@ const options = {
     body: JSON.stringify(record)
 };
 
-request.post(options, function (error, response) {
+request.post(options, (error, response) => {
     if (error) {
         console.log(error);
     }

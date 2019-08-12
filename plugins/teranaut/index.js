@@ -63,7 +63,7 @@ const api = {
                             if (!user) return done(null, false);
                             return done(null, user);
                         })
-                        .catch(err => done(err));
+                        .catch((err) => done(err));
                 })
             );
 
@@ -202,7 +202,7 @@ function login(req, res, next) {
             if (useV1Users) {
                 userStore
                     .createApiTokenHash(user)
-                    .then(hashedUser => userStore.updateToken(hashedUser))
+                    .then((hashedUser) => userStore.updateToken(hashedUser))
                     .then((hashedUser) => {
                         res.json({
                             token: hashedUser.api_token,

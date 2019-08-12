@@ -25,7 +25,7 @@ module.exports = (router, store, logger, teraSearchApi) => {
     router.get('/users/:username', (req, res) => {
         const { username } = req.params;
         store.findByUsername(username, true)
-            .then(user => res.json(user))
+            .then((user) => res.json(user))
             .catch((err) => {
                 const errMsg = parseError(err);
                 logger.error(errMsg);
@@ -36,7 +36,7 @@ module.exports = (router, store, logger, teraSearchApi) => {
     router.delete('/users/:username', (req, res) => {
         const { username } = req.params;
         store.findByUsername(username)
-            .then(user => store.deleteUser(user))
+            .then((user) => store.deleteUser(user))
             .then(() => res.status(204).send({}))
             .catch((err) => {
                 const errMsg = parseError(err);
@@ -48,7 +48,7 @@ module.exports = (router, store, logger, teraSearchApi) => {
     router.post('/users', (req, res) => {
         const user = req.body;
         store.createUser(user)
-            .then(results => res.status(201).json(results))
+            .then((results) => res.status(201).json(results))
             .catch((err) => {
                 const errMsg = parseError(err);
                 logger.error(errMsg);
@@ -60,7 +60,7 @@ module.exports = (router, store, logger, teraSearchApi) => {
         const user = req.body;
 
         store.updateUser(user)
-            .then(results => res.json(results))
+            .then((results) => res.json(results))
             .catch((err) => {
                 const errMsg = parseError(err);
                 logger.error(errMsg);

@@ -4,9 +4,10 @@
     "private": true,
     "scripts": {
         "start": "node service.js",
-        "lint": "eslint lib/**/*.js plugins/teranaut/*.js plugins/teranaut/server/**/*.js test/**/*.js",
-        "lint:fix": "npm run lint -- --fix",
+        "lint": "eslint --ext .js .",
+        "lint:fix": "yarn lint --fix",
         "test": "jest",
+        "test:watch": "jest --coverage=false --notify --watch --onlyChanged",
         "test:debug": "env DEBUG='*teraslice*' jest --detectOpenHandles --coverage=false --runInBand",
         "postinstall": "yarn --cwd ./plugins/teranaut"
     },
@@ -31,8 +32,8 @@
         "yargs": "^13.3.0"
     },
     "devDependencies": {
-        "eslint": "^5.16.0",
-        "eslint-config-airbnb-base": "^13.2.0",
+        "eslint": "^6.1.0",
+        "eslint-config-airbnb-base": "^14.0.0",
         "eslint-plugin-import": "^2.18.2",
         "jest": "^24.8.0",
         "jest-extended": "^0.11.2"
