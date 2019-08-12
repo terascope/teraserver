@@ -767,7 +767,7 @@ describe('teraserver search module', () => {
             info: '2 results found.',
             total: 2,
             returning: 2,
-            results: data.map(obj => obj._source)
+            results: data.map((obj) => obj._source)
         });
 
         await performSearch({}, getReq(), res, config2);
@@ -777,7 +777,7 @@ describe('teraserver search module', () => {
             info: '2 results found.',
             total: 2,
             returning: 2,
-            results: upperCase(data.map(obj => obj._source))
+            results: upperCase(data.map((obj) => obj._source))
         });
 
         await performSearch({}, getReq(), res, config3);

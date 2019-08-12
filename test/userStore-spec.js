@@ -126,8 +126,8 @@ describe('user store', () => {
     function expectFailure(fn, data) {
         return Promise.resolve()
             .then(() => fn(data))
-            .then(results => Promise.reject(results))
-            .catch(err => Promise.resolve(err));
+            .then((results) => Promise.reject(results))
+            .catch((err) => Promise.resolve(err));
     }
 
     function makeUser(user) {
@@ -186,7 +186,7 @@ describe('user store', () => {
     it('searchSettings can return search configurations', (done) => {
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.searchSettings())
+            .then((api) => api.searchSettings())
             .then((searchConfig) => {
                 expect(searchConfig.client).toBeDefined();
                 expect(typeof searchConfig.client).toEqual('object');
@@ -225,7 +225,7 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.createUser(user))
+            .then((api) => api.createUser(user))
             .then((results) => {
                 const userDoc = indexData.pop();
                 const { body } = userDoc;
@@ -316,9 +316,9 @@ describe('user store', () => {
                 api.createUser(okUser6)
             ]))
             .then(() => {
-                const user1Results = indexData.find(user => user.body.email === 'capitalcase@gmail.com');
-                const user2Results = indexData.find(user => user.body.role === 'admin');
-                const user6Results = indexData.find(user => user.body.anotherkey === 'anotherValue');
+                const user1Results = indexData.find((user) => user.body.email === 'capitalcase@gmail.com');
+                const user2Results = indexData.find((user) => user.body.role === 'admin');
+                const user6Results = indexData.find((user) => user.body.anotherkey === 'anotherValue');
                 expect(user1Results.body.email).toEqual('capitalcase@gmail.com');
                 expect(user2Results.body.role).toEqual('admin');
                 expect(user6Results.body.anotherkey).toEqual('anotherValue');
@@ -327,7 +327,7 @@ describe('user store', () => {
                 clientCount = 1;
                 return api.createUser(userAlreadyExists)
                     .then(fail)
-                    .catch(err => expect(err).toEqual('username is not unique'));
+                    .catch((err) => expect(err).toEqual('username is not unique'));
             })
             .catch(fail)
             .finally(done);
@@ -345,7 +345,7 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.createUser(okUser1)
+            .then((api) => api.createUser(okUser1)
                 .then(() => {
                     user = indexData.pop();
                     searchResults = user;
@@ -366,7 +366,7 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.createUser(okUser1)
+            .then((api) => api.createUser(okUser1)
                 .then(() => {
                     user = indexData.pop();
                     searchResults = user;
@@ -393,7 +393,7 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.createUser(newUser)
+            .then((api) => api.createUser(newUser)
                 .then(() => {
                     user = indexData.pop();
                     searchResults = user;
@@ -417,7 +417,7 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.createUser(newUser)
+            .then((api) => api.createUser(newUser)
                 .then(() => {
                     user = indexData.pop();
                     searchResults = user;
@@ -441,7 +441,7 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.deleteUser(user))
+            .then((api) => api.deleteUser(user))
             .then((bool) => {
                 expect(bool).toEqual(true);
                 expect(deleteQuery).toEqual({
@@ -458,7 +458,7 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.createUser(newUser)
+            .then((api) => api.createUser(newUser)
                 .then(() => {
                     user = indexData.pop();
                     // act like no user was found
@@ -495,7 +495,7 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.serializeUser(newUser, expressStyleCallback))
+            .then((api) => api.serializeUser(newUser, expressStyleCallback))
             .catch(fail)
             .finally(done);
     });
@@ -518,7 +518,7 @@ describe('user store', () => {
 
         Promise.resolve()
             .then(() => createClient())
-            .then(api => api.createUser(newUser)
+            .then((api) => api.createUser(newUser)
                 .then(() => {
                     user = indexData.pop();
                     searchResults = user;

@@ -1,0 +1,12 @@
+logs
+pids
+lib-cov
+coverage
+.nyc_output
+.grunt
+bower_components
+build
+node_modules
+jspm_packages
+typings
+plugins/teranaut/static

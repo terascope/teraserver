@@ -195,7 +195,7 @@ describe('user routes', () => {
 
         Promise.resolve()
             .then(() => makeApiCall(apiFn, req1))
-            .then(results => expect(results.statusCode).toEqual(204))
+            .then((results) => expect(results.statusCode).toEqual(204))
             .then(() => makeApiCall(apiFn, req2)
                 .catch((rejection) => {
                     expect(rejection.statusCode).toEqual(500);
@@ -213,7 +213,7 @@ describe('user routes', () => {
 
         Promise.resolve()
             .then(() => makeApiCall(apiFn, req1))
-            .then(results => expect(results.statusCode).toEqual(201))
+            .then((results) => expect(results.statusCode).toEqual(201))
             .then(() => makeApiCall(apiFn, req2)
                 .catch((rejection) => {
                     expect(rejection.statusCode).toEqual(500);

@@ -26,7 +26,7 @@ function script(context) {
     };
 
     userStore
-        .then(api => api.createUser(user))
+        .then((api) => api.createUser(user))
         .then(() => logger.info('succesfully created admin'))
         .catch(() => logger.error('error creating admin'));
 }
