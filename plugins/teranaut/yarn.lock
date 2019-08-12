@@ -2,13 +2,13 @@
 # yarn lockfile v1
 
 
-"@terascope/data-access@^0.13.0":
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/@terascope/data-access/-/data-access-0.13.0.tgz#2dbfdf38d02a52cf8d1fa631418c6d655e0567df"
-  integrity sha512-O8ScA/vRgx00CPLPMLOO+Gx3FgiL1c+fuRDKKQXVJGzQbjixLQHTRDpyfJnMy1M6GMRknH+CTzyUX7UqQAIe+g==
+"@terascope/data-access@^0.13.1":
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/@terascope/data-access/-/data-access-0.13.1.tgz#bf8719491e58f4639e4aaec7086d24b2df02f5c3"
+  integrity sha512-Sn/vJ5Uxcm5cussROm3AD8PPTl0cjS5Z873mWOC8d2hOaemmRn+Nss7LvHxpFdkm2FgXGIObVFvnjofVTzK9Xw==
   dependencies:
-    "@terascope/data-types" "^0.5.2"
-    "@terascope/utils" "^0.14.1"
+    "@terascope/data-types" "^0.5.3"
+    "@terascope/utils" "^0.15.0"
     elasticsearch-store "^0.11.0"
     xlucene-evaluator "^0.9.7"
 
@@ -16,6 +16,17 @@
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/@terascope/data-types/-/data-types-0.5.2.tgz#4406a6be7ab6b716f2a6376d0561ac3cb5c49e85"
   integrity sha512-b9D9KwzYn4ujUQiYXGx4XFXUORtACHdt5Y3haGr5MOkvCzeYwQIRo+5q75xjm9YIIj5QCUblFGnKz1Em9OJ/yg==
+  dependencies:
+    "@terascope/utils" "^0.14.1"
+    graphql "^14.3.1"
+    lodash.defaultsdeep "^4.6.1"
+    lodash.set "^4.3.2"
+    yargs "^13.2.4"
+
+"@terascope/data-types@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@terascope/data-types/-/data-types-0.5.3.tgz#9e217d374508ea092325be8e37fd491b28704664"
+  integrity sha512-9XBsue3d6kH/slr+h7e0nBNgKAOBXJHA/PpO5abvTNxpFjYnFmv80riNSkh4tp8ZBrfBECVOjhlaX+S5Rs7Dgw==
   dependencies:
     "@terascope/utils" "^0.14.1"
     graphql "^14.3.1"
@@ -34,6 +45,18 @@
   version "0.14.1"
   resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.14.1.tgz#8b24dcdfca5be2e96bf5edeb0d51be156e661b3f"
   integrity sha512-8XSrOXCY18AC/EsL+ebC2NFGDinIDcjz1BQWFHoXifaZGCPG3gqkodrz/O0QgF9plkrNVp69oZ4bzbITlNtUeg==
+  dependencies:
+    debug "^4.1.1"
+    is-plain-object "^3.0.0"
+    kind-of "^6.0.2"
+    lodash.clonedeep "^4.5.0"
+    lodash.get "^4.4.2"
+    lodash.set "^4.3.2"
+
+"@terascope/utils@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.15.0.tgz#909fec5c4dfd9f8f9deb98975f1b7c3d83d99c52"
+  integrity sha512-RJUL8j2LO8b208y0TKZ0MI7WGGlTEu+uWqZiuEztD138/xK0sKOa1k+qxdzT5F9Ju1L2CohQ10rWotOOTcMkfw==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
