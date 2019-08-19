@@ -6,7 +6,7 @@
         "start": "node service.js"
     },
     "dependencies": {
-        "@terascope/data-access": "^0.13.2",
+        "@terascope/data-access": "^0.13.3",
         "@terascope/error-parser": "^1.0.2",
         "bluebird": "^3.5.5",
         "lodash": "^4.17.15",
