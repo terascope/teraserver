@@ -323,7 +323,7 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@terascope/elasticsearch-api@^2.1.0", "@terascope/elasticsearch-api@^2.1.4":
+"@terascope/elasticsearch-api@^2.1.4":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@terascope/elasticsearch-api/-/elasticsearch-api-2.1.4.tgz#7d6c1ee492025a749a41bb88b608581bd11520b6"
   integrity sha512-Eg/Vz3bT7paA0qV+8APrTxOWvFw62RBMtPUT4CDQ7J16e0pxBkMfoAlzKuIbohJdHELgl+qxNLNrhnhgYEPddg==
@@ -339,10 +339,10 @@
   dependencies:
     lodash.get "^4.4.2"
 
-"@terascope/utils@^0.13.0":
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.13.0.tgz#691ab44a0443e870029b33b01cb180f84065ba47"
-  integrity sha512-ITJNOwqd56Mo1+usIFOZXF8Qe0GfLsrVqOsap52LOzWFNIzSc6DF0zJCNtaBQvGPsgGZezsoNZrvWuSZXs0Jfw==
+"@terascope/utils@^0.15.0":
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.15.0.tgz#909fec5c4dfd9f8f9deb98975f1b7c3d83d99c52"
+  integrity sha512-RJUL8j2LO8b208y0TKZ0MI7WGGlTEu+uWqZiuEztD138/xK0sKOa1k+qxdzT5F9Ju1L2CohQ10rWotOOTcMkfw==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
@@ -351,10 +351,10 @@
     lodash.get "^4.4.2"
     lodash.set "^4.3.2"
 
-"@terascope/utils@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.15.0.tgz#909fec5c4dfd9f8f9deb98975f1b7c3d83d99c52"
-  integrity sha512-RJUL8j2LO8b208y0TKZ0MI7WGGlTEu+uWqZiuEztD138/xK0sKOa1k+qxdzT5F9Ju1L2CohQ10rWotOOTcMkfw==
+"@terascope/utils@^0.16.0":
+  version "0.16.0"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.16.0.tgz#0150a0229d207d8d639b0857b5956753b6a6d05d"
+  integrity sha512-C5L6AdjCNN0RZawfj6T4uPkqyvjF26NJerDmGwqB36og7zH8+cB9htWg5YGU4lXPSHIBQTvfwcOuHe3Rqm98Pw==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
@@ -489,15 +489,6 @@ agentkeepalive@^3.4.1:
   resolved "https://registry.yarnpkg.com/agentkeepalive/-/agentkeepalive-3.5.2.tgz#a113924dd3fa24a0bc3b78108c450c2abee00f67"
   integrity sha512-e0L/HNe6qkQ7H19kTlRRqUibEAwDK5AFk6y3PtMsuut2VAH6+Q4xZml1tNDJD7kSAyqmbG/K08K5WEJYtUrSlQ==
   dependencies:
-    humanize-ms "^1.2.1"
-
-agentkeepalive@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/agentkeepalive/-/agentkeepalive-4.0.2.tgz#38a490b779a97bd542d153e5a7da0d1fdef35dd3"
-  integrity sha512-A5gSniD4xMCYtSD4ilUHpQRB9ZbNjtIPittKUv7bA0j0UCwbT3EJBUYLKPJ/dtmaXRYWI2mG4/O90xbi7oahNw==
-  dependencies:
-    debug "^4.1.0"
-    depd "^1.1.2"
     humanize-ms "^1.2.1"
 
 ajv@^6.10.0:
@@ -669,10 +660,10 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-aws-sdk@^2.496.0:
-  version "2.505.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.505.0.tgz#53c5bd451ead1f55b9b275aa1432c9202534705b"
-  integrity sha512-VSPSUl1xt0K+YAjNGbrNOOJ/q6X9GBIeg+vzxBBy4oX9SkZitKVuvIB6uc4fio9XQkYKvCdl8V/vMsQWyIvVgw==
+aws-sdk@^2.512.0:
+  version "2.512.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.512.0.tgz#2480184c37964a224b2db1259aa07231403a09cc"
+  integrity sha512-ioZZ6dTiZyETpJJ3aYy81OS3idnU5n8eyFssvgMXdsX8PRJ3KJZ/dQAdCD/680xDt3ymRNClGvlkPcOLPNlDKQ==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -1249,7 +1240,7 @@ delegates@^1.0.0:
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
 
-depd@1.1.2, depd@^1.1.2, depd@~1.1.2:
+depd@1.1.2, depd@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
   integrity sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak=
@@ -2215,6 +2206,11 @@ invariant@^2.2.4:
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
   dependencies:
     loose-envify "^1.0.0"
+
+ip@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
+  integrity sha1-vd7XARQpCCjAoDnnLvJfWq7ENUo=
 
 ipaddr.js@1.9.0:
   version "1.9.0"
@@ -3344,10 +3340,10 @@ mongoose-legacy-pluralize@1.0.2:
   resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   integrity sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
 
-mongoose@~5.6.0:
-  version "5.6.4"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.6.4.tgz#049ca8ad5ac16a528c23a20301579f7ac92fdb0e"
-  integrity sha512-mwMpa82uGvxSmkwTbxCmXb8/Nn9+2e+X61DiGFV9ZeenTsJKcdjc0QMGwDyDEkLcnYwQ5VrQbiB9548RZbFgVw==
+mongoose@~5.6.9:
+  version "5.6.9"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.6.9.tgz#86bdf258c5348a5c4a6acaf944d7baa73e3d1707"
+  integrity sha512-NRW5UJSmwyJxK+MRHmq+dQKgZqMZCpW1aPkpBZESqrrgF2J15Flo/4K3RYkSSQY7oKhfbgqZTPo+J1snJ3hJ3w==
   dependencies:
     async "2.6.2"
     bson "~1.1.1"
@@ -4785,23 +4781,21 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.3"
 
-terafoundation@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.11.2.tgz#186d15a8843bc1ffb259241c3fc420cf905aeea9"
-  integrity sha512-zBkOva4+cfI9IYa0WYrItTRolGosNfZaglFPeGsyprg+B84rTbQ5sCL5wzG23H/ccEFgWMTVkfmPlwVXeezldw==
+terafoundation@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.12.0.tgz#286facec4adbed80c911b1aa252d8addc65483fd"
+  integrity sha512-PPiVjgDY5nswScUi85GE3uZQ60kFhSv5hMKgZICZWApugiuc/+8/5DAqxEhPYdtfgzlJ3HHbqoh15tHsVAZWOw==
   dependencies:
-    "@terascope/elasticsearch-api" "^2.1.0"
-    "@terascope/utils" "^0.13.0"
-    agentkeepalive "^4.0.2"
-    aws-sdk "^2.496.0"
+    "@terascope/elasticsearch-api" "^2.1.4"
+    "@terascope/utils" "^0.16.0"
+    aws-sdk "^2.512.0"
     bluebird "^3.5.5"
     bunyan "^1.8.12"
     convict "^4.4.1"
     elasticsearch "^15.4.1"
+    ip "^1.1.5"
     js-yaml "^3.13.1"
-    lodash "^4.17.11"
-    moment "^2.24.0"
-    mongoose "~5.6.0"
+    mongoose "~5.6.9"
     node-statsd "0.1.1"
     node-webhdfs "^1.0.2"
     redis "^2.8.0"
