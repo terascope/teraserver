@@ -351,10 +351,10 @@
     lodash.get "^4.4.2"
     lodash.set "^4.3.2"
 
-"@terascope/utils@^0.16.0":
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.16.0.tgz#0150a0229d207d8d639b0857b5956753b6a6d05d"
-  integrity sha512-C5L6AdjCNN0RZawfj6T4uPkqyvjF26NJerDmGwqB36og7zH8+cB9htWg5YGU4lXPSHIBQTvfwcOuHe3Rqm98Pw==
+"@terascope/utils@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.16.1.tgz#cd68c760e9c5d6fff4c199d2c614be42c3d6991b"
+  integrity sha512-DNbeD5I0vZ+tLFZRTKE4LyJGQRwrFMczJwlKLJihhK9N/3maToAvqjcOqnJgaKbSGrp4e9zb3sxCmVoRl1YDeQ==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
@@ -4781,13 +4781,13 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.3"
 
-terafoundation@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.12.0.tgz#286facec4adbed80c911b1aa252d8addc65483fd"
-  integrity sha512-PPiVjgDY5nswScUi85GE3uZQ60kFhSv5hMKgZICZWApugiuc/+8/5DAqxEhPYdtfgzlJ3HHbqoh15tHsVAZWOw==
+terafoundation@^0.12.1:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.12.1.tgz#de573fc2c1b1e8aea05485b6b6f477860ee070e3"
+  integrity sha512-1J4qLT3iUPPbcKsNkDJF9CrcdPT/Lk5mMY7EdEdnLSiea/BRT2FyG1nPWd7h+3msQFkze0hXKsiLrshq88iQGQ==
   dependencies:
     "@terascope/elasticsearch-api" "^2.1.4"
-    "@terascope/utils" "^0.16.0"
+    "@terascope/utils" "^0.16.1"
     aws-sdk "^2.512.0"
     bluebird "^3.5.5"
     bunyan "^1.8.12"
