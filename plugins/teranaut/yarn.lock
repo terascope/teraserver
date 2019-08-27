@@ -2,22 +2,22 @@
 # yarn lockfile v1
 
 
-"@terascope/data-access@^0.13.3":
-  version "0.13.3"
-  resolved "https://registry.yarnpkg.com/@terascope/data-access/-/data-access-0.13.3.tgz#1f078cf46a6db9c63bec96667d342d0e996d5184"
-  integrity sha512-aR/ax+fxcJn9Ma5yNO3Pv3IOLeCyVP2n09v1RsWO9kt9UqU2zocPeQNs+gkdr8q4l3R1RFeFN0NYOeAXB7r7Ow==
+"@terascope/data-access@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@terascope/data-access/-/data-access-0.14.0.tgz#b22dda4e110787f0a379c7f8bf0f9874818b7740"
+  integrity sha512-S1eT/JseIIe2n/x8p1VfvB4WZafdeOGvMKoY//u32BvdvIO0zDakstEFyh+RXz9mVT7z5LpbDK6bsiHW8zCBAA==
   dependencies:
-    "@terascope/data-types" "^0.5.4"
-    "@terascope/utils" "^0.16.0"
-    elasticsearch-store "^0.11.1"
-    xlucene-evaluator "^0.9.7"
+    "@terascope/data-types" "^0.5.6"
+    "@terascope/utils" "^0.16.1"
+    elasticsearch-store "^0.11.2"
+    xlucene-evaluator "^0.10.0"
 
-"@terascope/data-types@^0.5.3", "@terascope/data-types@^0.5.4":
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/@terascope/data-types/-/data-types-0.5.4.tgz#b29bf7063f9a57c9d8d7659cd721cc104f66196e"
-  integrity sha512-XUY9VHkio03gObC4+f+YFmTbVidZwZkYkjMp++L+OqqWho6MgiD8ebYl+Vra1ARnT3+3AD+ACkB1CD1fc7CSZw==
+"@terascope/data-types@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/@terascope/data-types/-/data-types-0.5.6.tgz#33a22716c2a52ed0679466f5b38b3dd7065cd35a"
+  integrity sha512-hVzNFk+9/teeROiTsMkD/fzoqzxpnlg4/PRhmUsmoxe5L+X41YxDNSTV1Pu5VbsiU8oRj4gF18hzXNs2D+zMNw==
   dependencies:
-    "@terascope/utils" "^0.16.0"
+    "@terascope/utils" "^0.16.1"
     graphql "^14.3.1"
     lodash.defaultsdeep "^4.6.1"
     lodash.set "^4.3.2"
@@ -30,34 +30,10 @@
   dependencies:
     lodash.get "^4.4.2"
 
-"@terascope/utils@^0.14.1":
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.14.1.tgz#8b24dcdfca5be2e96bf5edeb0d51be156e661b3f"
-  integrity sha512-8XSrOXCY18AC/EsL+ebC2NFGDinIDcjz1BQWFHoXifaZGCPG3gqkodrz/O0QgF9plkrNVp69oZ4bzbITlNtUeg==
-  dependencies:
-    debug "^4.1.1"
-    is-plain-object "^3.0.0"
-    kind-of "^6.0.2"
-    lodash.clonedeep "^4.5.0"
-    lodash.get "^4.4.2"
-    lodash.set "^4.3.2"
-
-"@terascope/utils@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.15.0.tgz#909fec5c4dfd9f8f9deb98975f1b7c3d83d99c52"
-  integrity sha512-RJUL8j2LO8b208y0TKZ0MI7WGGlTEu+uWqZiuEztD138/xK0sKOa1k+qxdzT5F9Ju1L2CohQ10rWotOOTcMkfw==
-  dependencies:
-    debug "^4.1.1"
-    is-plain-object "^3.0.0"
-    kind-of "^6.0.2"
-    lodash.clonedeep "^4.5.0"
-    lodash.get "^4.4.2"
-    lodash.set "^4.3.2"
-
-"@terascope/utils@^0.16.0":
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.16.0.tgz#0150a0229d207d8d639b0857b5956753b6a6d05d"
-  integrity sha512-C5L6AdjCNN0RZawfj6T4uPkqyvjF26NJerDmGwqB36og7zH8+cB9htWg5YGU4lXPSHIBQTvfwcOuHe3Rqm98Pw==
+"@terascope/utils@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.16.1.tgz#cd68c760e9c5d6fff4c199d2c614be42c3d6991b"
+  integrity sha512-DNbeD5I0vZ+tLFZRTKE4LyJGQRwrFMczJwlKLJihhK9N/3maToAvqjcOqnJgaKbSGrp4e9zb3sxCmVoRl1YDeQ==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
@@ -217,17 +193,17 @@ decamelize@^1.2.0:
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
-elasticsearch-store@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/elasticsearch-store/-/elasticsearch-store-0.11.1.tgz#8a5830c77af9e3573dd40fba305c68493ace86e7"
-  integrity sha512-DszXRHSzHusrtgpgjYyUV7wj51aRBU/SvtsAIEeUBm8z2aktRsndNAUpa8EGGKj9fndINYnajtQqeEmaaQSXXQ==
+elasticsearch-store@^0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/elasticsearch-store/-/elasticsearch-store-0.11.2.tgz#82ffc9140e355b7550d2ea3cc6de65e3ba0246e0"
+  integrity sha512-REqUBi0SJvOOEds0GPVgwKvmaArcQedubyVDiiq/VMtpN+TNez/K3Jbq4Zw/2DcJiemtDrkcvB/xEWYHQc7DHg==
   dependencies:
-    "@terascope/data-types" "^0.5.3"
-    "@terascope/utils" "^0.15.0"
+    "@terascope/data-types" "^0.5.6"
+    "@terascope/utils" "^0.16.1"
     ajv "^6.10.0"
     nanoid "^2.0.3"
-    rambda "^2.14.4"
-    xlucene-evaluator "^0.9.7"
+    rambda "^3.0.0"
+    xlucene-evaluator "^0.10.0"
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -534,10 +510,10 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-rambda@^2.14.4:
-  version "2.14.5"
-  resolved "https://registry.yarnpkg.com/rambda/-/rambda-2.14.5.tgz#906cdd9b45c25883e45f4fdba15d984c79620c08"
-  integrity sha512-vYoUQ9bmWfKh6UvxIojk5/x91NcarecpiK+bJndyHg6KPzgtuMLmQ05jWMiRDLDblps1znByuhc6DbGtEuOqZw==
+rambda@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/rambda/-/rambda-3.0.1.tgz#d35c6eba5f101510ecf98fc444164c411be6e6a3"
+  integrity sha512-wwH5lCnWHriTYAmyj12gmiVu7AaFZOanBp/iXsyTR8meZ9kaLOrwfSSwAx3dUK6Lk++0z5zh0MHV/HdSvw7gzQ==
 
 require-directory@^2.1.1:
   version "2.1.1"
@@ -630,12 +606,12 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
-xlucene-evaluator@^0.9.7:
-  version "0.9.7"
-  resolved "https://registry.yarnpkg.com/xlucene-evaluator/-/xlucene-evaluator-0.9.7.tgz#e865c885e4d0b45f60eadb9686be7035fdeeae4b"
-  integrity sha512-r8SnpwZivxbxyuXII1RUcowPps19zw7lquhNLMyDgptp1IA3P2LqMSXR8NoaJPT7um522VN9R3ur2s6TDPz4Yw==
+xlucene-evaluator@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/xlucene-evaluator/-/xlucene-evaluator-0.10.0.tgz#eaa35b630459c26a69f2654125766f75a9aefe86"
+  integrity sha512-Y9RMDdnFoSftVr6gTrUi7PVqXYC37+RL5YuACP+oO1rzp8yunEwyRK6an8cZjMAOLe/T8WR26gzJs6N0VOIOyQ==
   dependencies:
-    "@terascope/utils" "^0.14.1"
+    "@terascope/utils" "^0.16.1"
     "@turf/bbox" "^6.0.1"
     "@turf/bbox-polygon" "^6.0.1"
     "@turf/boolean-point-in-polygon" "^6.0.1"
