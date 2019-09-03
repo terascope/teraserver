@@ -2,15 +2,15 @@
 # yarn lockfile v1
 
 
-"@terascope/data-access@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@terascope/data-access/-/data-access-0.14.0.tgz#b22dda4e110787f0a379c7f8bf0f9874818b7740"
-  integrity sha512-S1eT/JseIIe2n/x8p1VfvB4WZafdeOGvMKoY//u32BvdvIO0zDakstEFyh+RXz9mVT7z5LpbDK6bsiHW8zCBAA==
+"@terascope/data-access@^0.14.1":
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/@terascope/data-access/-/data-access-0.14.1.tgz#6c631507f52f652e9fbf4111bd5f5194ae95db8e"
+  integrity sha512-Ol5vkXKPaCEeVgSPu+Fm3bdtH0OZ32sjFjuYJxPDtp1uX4u2YGYN1f3sE+JdlJA0qPjzIS1IQzbStGDlto4t5w==
   dependencies:
     "@terascope/data-types" "^0.5.6"
     "@terascope/utils" "^0.16.1"
-    elasticsearch-store "^0.11.2"
-    xlucene-evaluator "^0.10.0"
+    elasticsearch-store "^0.11.3"
+    xlucene-evaluator "^0.10.1"
 
 "@terascope/data-types@^0.5.6":
   version "0.5.6"
@@ -193,17 +193,17 @@ decamelize@^1.2.0:
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
   integrity sha1-9lNNFRSCabIDUue+4m9QH5oZEpA=
 
-elasticsearch-store@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/elasticsearch-store/-/elasticsearch-store-0.11.2.tgz#82ffc9140e355b7550d2ea3cc6de65e3ba0246e0"
-  integrity sha512-REqUBi0SJvOOEds0GPVgwKvmaArcQedubyVDiiq/VMtpN+TNez/K3Jbq4Zw/2DcJiemtDrkcvB/xEWYHQc7DHg==
+elasticsearch-store@^0.11.3:
+  version "0.11.3"
+  resolved "https://registry.yarnpkg.com/elasticsearch-store/-/elasticsearch-store-0.11.3.tgz#d6035e6a6a59491c73c6fdf7d5fffc227da29a17"
+  integrity sha512-LNgt/R3dcDtVX/Yn4g3QkBhDmjmulZMcPVDg67U4bpduHmzv3JvK/iRKZwYsePb11u/3sXukktu/myTplE6D/g==
   dependencies:
     "@terascope/data-types" "^0.5.6"
     "@terascope/utils" "^0.16.1"
     ajv "^6.10.0"
     nanoid "^2.0.3"
     rambda "^3.0.0"
-    xlucene-evaluator "^0.10.0"
+    xlucene-evaluator "^0.10.1"
 
 emoji-regex@^7.0.1:
   version "7.0.3"
@@ -606,10 +606,10 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
 
-xlucene-evaluator@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/xlucene-evaluator/-/xlucene-evaluator-0.10.0.tgz#eaa35b630459c26a69f2654125766f75a9aefe86"
-  integrity sha512-Y9RMDdnFoSftVr6gTrUi7PVqXYC37+RL5YuACP+oO1rzp8yunEwyRK6an8cZjMAOLe/T8WR26gzJs6N0VOIOyQ==
+xlucene-evaluator@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/xlucene-evaluator/-/xlucene-evaluator-0.10.1.tgz#6bd7b3226bf225ad98f24dba04ee26b52b89a254"
+  integrity sha512-K1EdSQIVo+iyOS1+dRtPWNd9NR2YZXcdrQJHLNlgmVZohE3e4ukRUxpb/GgMqqDO2FumbFx2fgHA/vBmNQ8y9g==
   dependencies:
     "@terascope/utils" "^0.16.1"
     "@turf/bbox" "^6.0.1"
