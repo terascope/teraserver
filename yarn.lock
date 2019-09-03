@@ -346,10 +346,10 @@
   dependencies:
     lodash.get "^4.4.2"
 
-"@terascope/eslint-config@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@terascope/eslint-config/-/eslint-config-0.1.1.tgz#98db5a886163b64e123c80aa9d5837051d4fff65"
-  integrity sha512-u9Lqi7U+Bs7JRzt7CmW+2sA7kt7G9+w75eEjibVkdn9A818qjvPItEl7tN/CKV0wD6hJ+m2cDvcAaoz8i7ozTw==
+"@terascope/eslint-config@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@terascope/eslint-config/-/eslint-config-0.1.2.tgz#6ea32ac35957a72c4c87b4683ec80935e044e8e2"
+  integrity sha512-yQG7zZ+U5mSCgUYxKPoDiGXrCxfkw6zjMONhIIRv62SYsccGF1RrsxvLrNjT5/s8iVJdVu8b2WpMaSrSoi3d0w==
   dependencies:
     "@typescript-eslint/eslint-plugin" "^2.0.0"
     "@typescript-eslint/parser" "^2.0.0"
