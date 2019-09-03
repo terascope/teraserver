@@ -1,6 +1,8 @@
+# set the dist to bionic
+dist: bionic
 language: node_js
 node_js:
-    - "10"
+  - '10.16'
 after_success:
     - yarn lint
     - bash <(curl -s https://codecov.io/bash)
