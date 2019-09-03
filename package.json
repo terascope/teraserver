@@ -29,7 +29,7 @@
         "passport-local": "~1.0.0",
         "request": "^2.88.0",
         "terafoundation": "^0.12.1",
-        "yargs": "^13.3.0"
+        "yargs": "^14.0.0"
     },
     "devDependencies": {
         "@terascope/eslint-config": "^0.1.2",
