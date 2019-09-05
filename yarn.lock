@@ -330,12 +330,12 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@terascope/elasticsearch-api@^2.1.4":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@terascope/elasticsearch-api/-/elasticsearch-api-2.1.4.tgz#7d6c1ee492025a749a41bb88b608581bd11520b6"
-  integrity sha512-Eg/Vz3bT7paA0qV+8APrTxOWvFw62RBMtPUT4CDQ7J16e0pxBkMfoAlzKuIbohJdHELgl+qxNLNrhnhgYEPddg==
+"@terascope/elasticsearch-api@^2.1.4", "@terascope/elasticsearch-api@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@terascope/elasticsearch-api/-/elasticsearch-api-2.1.5.tgz#897c5098287bd73544c4859e40e8fe30f06b7cb1"
+  integrity sha512-FTqpk0bgrxuHerQz+a9oO2XHUyw/z83d/44h2dh1poLjOZJ0Vf0MLV455o/96QGYoA38NWHXgTvb7Df1roZtag==
   dependencies:
-    "@terascope/utils" "^0.15.0"
+    "@terascope/utils" "^0.17.1"
     bluebird "^3.5.5"
     lodash "^4.17.11"
 
@@ -360,10 +360,10 @@
     eslint-plugin-react "^7.14.3"
     eslint-plugin-react-hooks "^1.7.0"
 
-"@terascope/utils@^0.15.0":
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.15.0.tgz#909fec5c4dfd9f8f9deb98975f1b7c3d83d99c52"
-  integrity sha512-RJUL8j2LO8b208y0TKZ0MI7WGGlTEu+uWqZiuEztD138/xK0sKOa1k+qxdzT5F9Ju1L2CohQ10rWotOOTcMkfw==
+"@terascope/utils@^0.16.1":
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.16.1.tgz#cd68c760e9c5d6fff4c199d2c614be42c3d6991b"
+  integrity sha512-DNbeD5I0vZ+tLFZRTKE4LyJGQRwrFMczJwlKLJihhK9N/3maToAvqjcOqnJgaKbSGrp4e9zb3sxCmVoRl1YDeQ==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
@@ -372,10 +372,10 @@
     lodash.get "^4.4.2"
     lodash.set "^4.3.2"
 
-"@terascope/utils@^0.16.1":
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.16.1.tgz#cd68c760e9c5d6fff4c199d2c614be42c3d6991b"
-  integrity sha512-DNbeD5I0vZ+tLFZRTKE4LyJGQRwrFMczJwlKLJihhK9N/3maToAvqjcOqnJgaKbSGrp4e9zb3sxCmVoRl1YDeQ==
+"@terascope/utils@^0.17.1":
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.17.1.tgz#ae1aacd13a2279c48851d5f7fa1b43a6f2bd34ad"
+  integrity sha512-q76TA7Q2Ol3Kv3opaCc9Th2RtFWEBUcALfS4oaT8mFEZjKMsG/AXAUY0pmqTw8aGAfpCr4+mxptZdWPmGYHwzg==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
