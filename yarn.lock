@@ -372,10 +372,10 @@
     lodash.get "^4.4.2"
     lodash.set "^4.3.2"
 
-"@terascope/utils@^0.16.1":
-  version "0.16.1"
-  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.16.1.tgz#cd68c760e9c5d6fff4c199d2c614be42c3d6991b"
-  integrity sha512-DNbeD5I0vZ+tLFZRTKE4LyJGQRwrFMczJwlKLJihhK9N/3maToAvqjcOqnJgaKbSGrp4e9zb3sxCmVoRl1YDeQ==
+"@terascope/utils@^0.17.1":
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/@terascope/utils/-/utils-0.17.1.tgz#ae1aacd13a2279c48851d5f7fa1b43a6f2bd34ad"
+  integrity sha512-q76TA7Q2Ol3Kv3opaCc9Th2RtFWEBUcALfS4oaT8mFEZjKMsG/AXAUY0pmqTw8aGAfpCr4+mxptZdWPmGYHwzg==
   dependencies:
     debug "^4.1.1"
     is-plain-object "^3.0.0"
@@ -737,10 +737,10 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-aws-sdk@^2.512.0:
-  version "2.512.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.512.0.tgz#2480184c37964a224b2db1259aa07231403a09cc"
-  integrity sha512-ioZZ6dTiZyETpJJ3aYy81OS3idnU5n8eyFssvgMXdsX8PRJ3KJZ/dQAdCD/680xDt3ymRNClGvlkPcOLPNlDKQ==
+aws-sdk@^2.513.0:
+  version "2.523.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.523.0.tgz#7467f6a41a284f61103c9d2a91eb43537ce5f166"
+  integrity sha512-x6Bam0TSG5wnn1QaBUj+Cg4Tde+xyHe35V/G58bXyhwybhrTl2ffBBFeMnO1jvmHa9aEN9p3FV2jn43e2vouZg==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -4975,14 +4975,13 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.3"
 
-terafoundation@^0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.12.1.tgz#de573fc2c1b1e8aea05485b6b6f477860ee070e3"
-  integrity sha512-1J4qLT3iUPPbcKsNkDJF9CrcdPT/Lk5mMY7EdEdnLSiea/BRT2FyG1nPWd7h+3msQFkze0hXKsiLrshq88iQGQ==
+terafoundation@^0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/terafoundation/-/terafoundation-0.12.2.tgz#4cd4a29e89bbfca3ec4f1cf4ded04bb27d816673"
+  integrity sha512-pkh1fJ4YeZfDWy/eUMDW1zE2qggVtkkHNcbKOnQRthzdrnzd5f6w/w0mXvT/ckMvdAFPKujnYVV8Xe8AN33pmA==
   dependencies:
-    "@terascope/elasticsearch-api" "^2.1.4"
-    "@terascope/utils" "^0.16.1"
-    aws-sdk "^2.512.0"
+    "@terascope/utils" "^0.17.1"
+    aws-sdk "^2.513.0"
     bluebird "^3.5.5"
     bunyan "^1.8.12"
     convict "^4.4.1"
@@ -4994,7 +4993,7 @@ terafoundation@^0.12.1:
     node-webhdfs "^1.0.2"
     redis "^2.8.0"
     shortid "^2.2.14"
-    yargs "^13.2.4"
+    yargs "^14.0.0"
 
 test-exclude@^5.2.3:
   version "5.2.3"
@@ -5435,7 +5434,7 @@ yargs-parser@^13.1.1:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs@^13.2.4, yargs@^13.3.0:
+yargs@^13.3.0:
   version "13.3.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-13.3.0.tgz#4c657a55e07e5f2cf947f8a366567c04a0dedc83"
   integrity sha512-2eehun/8ALW8TLoIl7MVaRUrg+yCnenu8B4kBlRxj3GJGDKU1Og7sMXPNm1BYyM1DOJmTZ4YeN/Nwxv+8XJsUA==
